@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="22.979" height="22.985" viewBox="0 0 22.979 22.985">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff9902"/>
+      <stop offset="1" stop-color="#ff3b14"/>
+    </linearGradient>
+  </defs>
+  <g id="Icon_ionic-md-photos"  transform="translate(-3.375 -3.375)">
+    <path id="Path_238"  d="M22.819,24.96V10.234A2.365,2.365,0,0,0,20.46,7.875H5.734a2.365,2.365,0,0,0-2.359,2.359V24.966a2.365,2.365,0,0,0,2.359,2.359H20.466A2.372,2.372,0,0,0,22.819,24.96ZM9.413,18.481l2.5,3.535,3.684-5.3,4.861,7.071H5.734Z" transform="translate(0 -0.965)" fill="url(#linear-gradient)"/>
+    <path id="Path_239"  d="M24.96,3.375H10.234A2.365,2.365,0,0,0,7.875,5.734v.293H22.309a2.365,2.365,0,0,1,2.359,2.359V22.819h.293a2.365,2.365,0,0,0,2.359-2.359V5.734A2.365,2.365,0,0,0,24.96,3.375Z" transform="translate(-0.965)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

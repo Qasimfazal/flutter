@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20.329" height="20.329" viewBox="0 0 20.329 20.329">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff9902"/>
+      <stop offset="1" stop-color="#ff3b14"/>
+    </linearGradient>
+  </defs>
+  <path id="Icon_material-free-breakfast"  d="M24.07,4.5H6V15.794a4.516,4.516,0,0,0,4.517,4.517h6.776a4.516,4.516,0,0,0,4.517-4.517V12.406H24.07a2.258,2.258,0,0,0,2.259-2.259V6.759A2.251,2.251,0,0,0,24.07,4.5Zm0,5.647H21.811V6.759H24.07ZM6,22.57H24.07v2.259H6Z" transform="translate(-6 -4.5)" fill="url(#linear-gradient)"/>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="26" height="18.2" viewBox="0 0 26 18.2">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff9902"/>
+      <stop offset="1" stop-color="#ff3b14"/>
+    </linearGradient>
+  </defs>
+  <path id="Icon_awesome-wifi"  d="M25.793,7.242a18.889,18.889,0,0,0-25.587,0,.646.646,0,0,0-.014.934l1.391,1.38a.66.66,0,0,0,.91.015,15.586,15.586,0,0,1,21.013,0,.66.66,0,0,0,.91-.015l1.391-1.38a.646.646,0,0,0-.015-.934ZM13,15.25a2.6,2.6,0,1,0,2.6,2.6A2.6,2.6,0,0,0,13,15.25Zm8.234-3.4a12.472,12.472,0,0,0-16.467,0,.642.642,0,0,0-.023.94l1.4,1.381a.663.663,0,0,0,.9.032,9.15,9.15,0,0,1,11.923,0,.663.663,0,0,0,.9-.032l1.4-1.381A.642.642,0,0,0,21.234,11.854Z" transform="translate(0 -2.25)" fill="url(#linear-gradient)"/>
+</svg>

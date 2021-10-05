@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="19.915" height="24" viewBox="0 0 19.915 24">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff9902"/>
+      <stop offset="1" stop-color="#ff3b14"/>
+    </linearGradient>
+  </defs>
+  <path id="Icon_map-laundry"  d="M4.32,5.826V23.055A1.672,1.672,0,0,0,5.729,24.72H22.692a1.794,1.794,0,0,0,1.543-1.665V5.826ZM14.257,19.5a5.332,5.332,0,0,1-5.418-5.241,5.332,5.332,0,0,1,5.418-5.241,5.332,5.332,0,0,1,5.418,5.241A5.331,5.331,0,0,1,14.257,19.5ZM22.692.72H5.729A1.321,1.321,0,0,0,4.32,2V4.805H24.235V2A1.447,1.447,0,0,0,22.692.72ZM10.958,3.784H5.341V1.741h5.617Zm9.777-.143a1.135,1.135,0,0,1-1.153-1.117,1.154,1.154,0,0,1,2.308,0A1.137,1.137,0,0,1,20.735,3.641Z" transform="translate(-4.32 -0.72)" fill="url(#linear-gradient)"/>
+</svg>

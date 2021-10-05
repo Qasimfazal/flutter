@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25.411" height="20.329" viewBox="0 0 25.411 20.329">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff9902"/>
+      <stop offset="1" stop-color="#ff3b14"/>
+    </linearGradient>
+  </defs>
+  <path id="Icon_awesome-tv"  d="M23.5,0H1.906A1.906,1.906,0,0,0,0,1.906V14.611a1.906,1.906,0,0,0,1.906,1.906h9.732v1.271H5.285a1.271,1.271,0,0,0,0,2.541H20.531a1.271,1.271,0,1,0,0-2.541H14.178V16.517H23.5a1.906,1.906,0,0,0,1.906-1.906V1.906A1.906,1.906,0,0,0,23.5,0ZM22.87,13.976H2.541V2.541H22.87Z" fill="url(#linear-gradient)"/>
+</svg>
