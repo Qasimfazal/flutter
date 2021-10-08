@@ -35,7 +35,10 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
                   Colors.black.withOpacity(0.60), BlendMode.darken),
               child: Image.asset(
                 "assets/img_2.png",
-                fit: BoxFit.scaleDown,
+                // fit: BoxFit.scaleDown,
+                fit: BoxFit.cover,
+                height: 150,
+                width: double.infinity,
               )),
           Container(
             margin: EdgeInsets.only(left: 10, top: 15, right: 15),
@@ -328,9 +331,14 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
           ],
         ),
       ),
-      InkWell(
+
+    ],);
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      bottomNavigationBar: InkWell(
         onTap: () {
-          Util.open(context, HotelScreen());
+          Util.popBack(context);
         },
         child: Container(
           height: 55,
@@ -346,10 +354,6 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
           ),
         ),
       ),
-    ],);
-
-    return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: body,
       ),

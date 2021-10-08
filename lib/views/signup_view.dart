@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sould_food_guide/util/Util.dart';
+import 'package:sould_food_guide/views/main_view.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -90,14 +91,19 @@ class _SignupScreenState extends State<SignupScreen> {
             decoration: Util.getFormDecoration("Password"),
           ),
         ),
-        Container(
-          height: 55,
-          margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 15),
-          decoration: Util.getPrimaryButtonDecoration(),
-          child: Center(
-            child: Text(
-              "sign up",
-              style: TextStyle(color: Colors.white, fontSize: 18),
+        InkWell(
+          onTap: (){
+            Util.open(context, MainScreen());
+          },
+          child: Container(
+            height: 55,
+            margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 15),
+            decoration: Util.getPrimaryButtonDecoration(),
+            child: Center(
+              child: Text(
+                "sign up",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
             ),
           ),
         ),

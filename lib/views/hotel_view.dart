@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sould_food_guide/util/Util.dart';
 import 'package:sould_food_guide/views/hotel_detail_view.dart';
+import 'package:sould_food_guide/views/search_hotels_view.dart';
 
 class HotelScreen extends StatefulWidget {
   @override
@@ -15,31 +16,36 @@ class _HotelScreenState extends State<HotelScreen> {
     final body = ListView(
       primary: true,
       scrollDirection: Axis.vertical,
-
       children: [
         Stack(
-
-
           children: [
             ColorFiltered(
-              colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.60), BlendMode.darken),
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.60), BlendMode.darken),
               child: Image.asset(
                 "assets/img_2.png",
                 fit: BoxFit.cover,
                 height: 120,
-
                 width: double.infinity,
               ),
             ),
-
-
             Container(
-
-              margin: EdgeInsets.only(left: 10,top: 25),
+              margin: EdgeInsets.only(left: 10, top: 25),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-
                 children: [
+                  InkWell(
+                    onTap: () {
+                      Util.popBack(context);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      child: SvgPicture.asset(
+                        "assets/ic_back.svg",
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                   Container(
                       margin: EdgeInsets.only(bottom: 5),
                       child: Text(
@@ -53,7 +59,6 @@ class _HotelScreenState extends State<HotelScreen> {
                         fontSize: 12,
                         fontWeight: FontWeight.w400),
                   ),
-
                 ],
               ),
             ),
@@ -61,38 +66,52 @@ class _HotelScreenState extends State<HotelScreen> {
         ),
         // getHorizontalList("Exclusive places"),
         Container(
-          margin: EdgeInsets.only(top:10),
+          margin: EdgeInsets.only(top: 10),
           child: ListView.builder(
-            primary: false,
+              primary: false,
               shrinkWrap: true,
               itemCount: 5,
               physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context,index){
-            return getHorizontalList("Exclusive places");
-          }),
+              itemBuilder: (context, index) {
+                return getHorizontalList("Exclusive places");
+              }),
         ),
 
-        InkWell(
-          onTap: () {
-            // Util.open(context, MainScreen());
-          },
-          child: Container(
-            height: 55,
-            margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 15),
-            decoration: Util.getPrimaryButtonDecoration(),
-            child: Center(
-              child: Text(
-                "short & filters",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-            ),
-          ),
-        ),
-
+        // InkWell(
+        //   onTap: () {
+        //     // Util.open(context, MainScreen());
+        //   },
+        //   child: Container(
+        //     height: 55,
+        //     margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 15),
+        //     decoration: Util.getPrimaryButtonDecoration(),
+        //     child: Center(
+        //       child: Text(
+        //         "short & filters",
+        //         style: TextStyle(color: Colors.white, fontSize: 18),
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     );
     return Scaffold(
       backgroundColor: Colors.white,
+      bottomNavigationBar: InkWell(
+        onTap: () {
+          Util.open(context, SearchHotelScreen());
+        },
+        child: Container(
+          height: 50,
+          decoration: Util.getSecondaryButtonDecoration(),
+          child: Center(
+            child: Text(
+              "short & filters",
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
+          ),
+        ),
+      ),
       body: SafeArea(child: body),
     );
   }
@@ -104,66 +123,63 @@ class _HotelScreenState extends State<HotelScreen> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           InkWell(
-            onTap: (){
+            onTap: () {
               Util.open(context, HotelDetailScreen());
             },
             child: Container(
-              height: 200,
+              height: 180,
               child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemCount: 4,
-                  itemBuilder: (context, index) =>Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width*0.7,
-                          child: ClipRRect(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(25)),
-                            child: Image.asset(
-                              "assets/img_4.png",
-                              height: 150,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-
-
-                        Row(
-
+                  itemBuilder: (context, index) => Container(
+                    width: MediaQuery.of(context).size.width * 0.7,
+                        margin: EdgeInsets.only(right: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Thailand Packages",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 9,
-                                  color: Colors.black),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.7,
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                                child: Image.asset(
+                                  "assets/img_13.png",
+                                  height: 140,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Thailand Packages",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 9,
+                                      color: Colors.black),
+                                ),
+                                Text(
+                                  "\$456.00",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 9,
+                                      color: Color(0XFFFF8106)),
+                                ),
+                              ],
                             ),
                             Text(
-                              "\$456.00",
+                              "3 Days Nights",
                               style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 9,
-                                  color: Color(0XFFFF8106)),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 8,
+                                  color: Color(0XFF828282)),
                             ),
                           ],
                         ),
-                        Text(
-                          "3 Days Nights",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 8,
-                              color: Color(0XFF828282)),
-                        ),
-
-                      ],
-                    ),
-                  )),
+                      )),
             ),
           )
         ],

@@ -108,7 +108,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             rating: 5,
                             itemBuilder: (context, index) => GradientIcon(
                                 Icons.star,
-                                25.0,
+                                15.0,
                                 LinearGradient(
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,

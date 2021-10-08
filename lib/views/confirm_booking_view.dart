@@ -133,6 +133,7 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
         ),
         Container(
           width: double.infinity,
+          height: MediaQuery.of(context).size.height,
           color: Color(0XFFF5F5F5),
           child: ListView(
             shrinkWrap: true,

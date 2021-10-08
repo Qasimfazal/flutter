@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sould_food_guide/util/Util.dart';
+import 'package:sould_food_guide/views/events_view.dart';
+import 'package:sould_food_guide/views/hotel_detail_view.dart';
+import 'package:sould_food_guide/views/hotel_view.dart';
+import 'package:sould_food_guide/views/restuarants_view.dart';
 import 'package:sould_food_guide/views/search_flights_view.dart';
 import 'package:sould_food_guide/views/search_hotels_view.dart';
 
@@ -109,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   InkWell(
                     onTap: (){
-                      Util.open(context, SearchHotelScreen());
+                      Util.open(context, HotelScreen());
                     },
                     child: Container(
                       width: 75,
@@ -138,18 +142,23 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Column(
                 children: [
-                  Container(
-                    width: 75,
-                    height: 69,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      elevation: 2,
-                      color: Colors.white,
-                      child: SvgPicture.asset(
-                        "assets/ic_restaurant.svg",
-                        fit: BoxFit.scaleDown,
+                  InkWell(
+                    onTap: (){
+                      Util.open(context, RestaurantsScreen());
+                    },
+                    child: Container(
+                      width: 75,
+                      height: 69,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        elevation: 2,
+                        color: Colors.white,
+                        child: SvgPicture.asset(
+                          "assets/ic_restaurant.svg",
+                          fit: BoxFit.scaleDown,
+                        ),
                       ),
                     ),
                   ),
@@ -164,18 +173,23 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Column(
                 children: [
-                  Container(
-                    width: 75,
-                    height: 69,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      elevation: 2,
-                      color: Colors.white,
-                      child: SvgPicture.asset(
-                        "assets/ic_event.svg",
-                        fit: BoxFit.scaleDown,
+                  InkWell(
+                    onTap: (){
+                      Util.open(context, EventsScreen());
+                    },
+                    child: Container(
+                      width: 75,
+                      height: 69,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        elevation: 2,
+                        color: Colors.white,
+                        child: SvgPicture.asset(
+                          "assets/ic_event.svg",
+                          fit: BoxFit.scaleDown,
+                        ),
                       ),
                     ),
                   ),
@@ -220,51 +234,60 @@ class _HomeScreenState extends State<HomeScreen> {
             style: TextStyle(color: Colors.black, fontSize: 18),
           ),
           Container(
-            height: 220,
+            height: 190,
             child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
                 itemCount: 4,
-                itemBuilder: (context, index) => Container(
-                      margin: EdgeInsets.only(right: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            child: ClipRRect(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
-                              child: Image.asset(
-                                "assets/img_4.png",
-                                height: 170,
-                                fit: BoxFit.cover,
+                itemBuilder: (context, index) => InkWell(
+                  onTap: (){
+                    Util.open(context, HotelDetailScreen());
+                  },
+                  child: Container(
+                        margin: EdgeInsets.only(right: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                                child: Image.asset(
+                                  "assets/img_4.png",
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width * 0.7,
+                                  height: 140,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            "Thailand Packages",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 9,
-                                color: Colors.black),
-                          ),
-                          Text(
-                            "3 Days Nights",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 8,
-                                color: Color(0XFF828282)),
-                          ),
-                          Text(
-                            "\$456.00",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 9,
-                                color: Color(0XFFFF8106)),
-                          ),
-                        ],
+                            Text(
+                              "Thailand Packages",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 9,
+                                  color: Colors.black),
+                            ),
+                            Text(
+                              "3 Days Nights",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 8,
+                                  color: Color(0XFF828282)),
+                            ),
+                            Text(
+                              "\$456.00",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 9,
+                                  color: Color(0XFFFF8106)),
+                            ),
+                          ],
+                        ),
                       ),
-                    )),
+                )),
           )
         ],
       ),

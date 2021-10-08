@@ -10,24 +10,34 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Util {
-  static getPrimaryButtonDecoration(){
+  static getPrimaryButtonDecoration() {
     return BoxDecoration(
-        gradient:getPrimaryBtnGradient(),
+        gradient: getPrimaryBtnGradient(),
         borderRadius: BorderRadius.all(Radius.circular(30)));
   }
-  static getSecondaryButtonDecoration(){
+
+  static getSecondaryButtonDecoration() {
     return BoxDecoration(
-        gradient:getPrimaryBtnGradient(),
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(29),topRight: Radius.circular(29)
-        )
-    );
+        gradient: getPrimaryBtnGradient(),
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(29), topRight: Radius.circular(29)));
   }
-  static getPrimaryBtnGradient(){
+
+  static getPrimaryBtnGradient() {
     return LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
         colors: [Color(0XFFFF9902), Color(0XFFFF3B14)]);
   }
+
+  static getPrimaryGradientText() {
+    return LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0XFFFF9902), Color(0XFFFF3B14)])
+        .createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0));
+  }
+
   static getBack(context) {
     return InkWell(
         onTap: () {
@@ -55,10 +65,10 @@ class Util {
 
   static getFormDecoration(String label) {
     return InputDecoration(
-contentPadding:EdgeInsets.all(15),
+      contentPadding: EdgeInsets.all(15),
       hintText: label,
-      hintStyle: TextStyle(color: Color(0XFF9E9E9E),fontWeight: FontWeight.w400,fontSize: 12),
-
+      hintStyle: TextStyle(
+          color: Color(0XFF9E9E9E), fontWeight: FontWeight.w400, fontSize: 12),
       border: OutlineInputBorder(
           borderSide: BorderSide(color: Color(0XFFF1F1F1), width: 1),
           borderRadius: BorderRadius.all(Radius.circular(25))),

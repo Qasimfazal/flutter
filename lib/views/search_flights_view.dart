@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:sould_food_guide/util/Util.dart';
+import 'package:sould_food_guide/views/flight_result_view.dart';
 import 'package:sould_food_guide/views/main_view.dart';
 
 class SearchFlightsScreen extends StatefulWidget {
@@ -136,6 +137,7 @@ class _SearchFlightsScreenState extends State<SearchFlightsScreen>
                 color: Color(0XFF8F8F8F),
               ),
               Container(
+                height: 40,
                 margin: EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
                     boxShadow: [
@@ -150,9 +152,13 @@ class _SearchFlightsScreenState extends State<SearchFlightsScreen>
                   controller: tabController,
                   indicatorSize: TabBarIndicatorSize.tab,
                   unselectedLabelColor: Colors.black,
+
+                  labelPadding: EdgeInsets.only(left: 0, right: 0),
                   indicator: BubbleTabIndicator(
                     indicatorHeight: 40.0,
-                    indicatorColor: Color(0XFFFF3B14),
+                    padding:  EdgeInsets.only(left: 0, right: 0),
+                    insets:EdgeInsets.only(left: 0, right: 0),
+                    // indicatorColor: Color(0XFFFF3B14),
                     tabBarIndicatorSize: TabBarIndicatorSize.tab,
                     // Other flags
                     // indicatorRadius: 1,
@@ -401,7 +407,7 @@ class _SearchFlightsScreenState extends State<SearchFlightsScreen>
                         ),
                         InkWell(
                           onTap: () {
-                            Util.open(context, MainScreen());
+                            Util.open(context, FlightResultScreen());
                           },
                           child: Container(
                             height: 55,

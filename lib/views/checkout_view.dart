@@ -284,26 +284,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             ],
           ),
         ),
-        InkWell(
-          onTap: () {
-            // Util.open(context, CheckoutScreen());
-          },
-          child: Container(
-            height: 55,
-            margin: EdgeInsets.only(left: 15, right: 15, top: 40, bottom: 15),
-            decoration: Util.getPrimaryButtonDecoration(),
-            child: Center(
-              child: Text(
-                "pay \$175.00",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
-            ),
-          ),
-        ),
+
       ],
     );
     return Scaffold(
       backgroundColor: Colors.white,
+      bottomNavigationBar: InkWell(
+        onTap: () {
+          // Util.open(context, CheckoutScreen());
+        },
+        child: Container(
+          height: 55,
+          margin: EdgeInsets.only(left: 15, right: 15, top: 40, bottom: 15),
+          decoration: Util.getPrimaryButtonDecoration(),
+          child: Center(
+            child: Text(
+              "pay \$175.00",
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: body,
       ),
