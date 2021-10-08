@@ -86,6 +86,7 @@ class _FlightResultScreenState extends State<FlightResultScreen> {
                   "\$ 185.50",
                   style: TextStyle(
                     color: Colors.black,
+                    fontWeight: FontWeight.w600,
                     fontSize: 17,
                   ),
                 ),
@@ -278,8 +279,8 @@ class _FlightResultScreenState extends State<FlightResultScreen> {
           decoration: Util.getSecondaryButtonDecoration(),
           child: Center(
             child: Text(
-              "short & filters",
-              style: TextStyle(color: Colors.white, fontSize: 18),
+              "short & filters".toUpperCase(),
+              style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600, fontSize: 16),
             ),
           ),
         ),

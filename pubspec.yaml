@@ -73,6 +73,11 @@ flutter:
         - asset: fonts/poppins_medium.ttf
         - asset: fonts/poppins_regular.ttf
         - asset: fonts/poppins_semibold.ttf
+
+    - family: Bebas
+      fonts:
+        - asset: fonts/bebas_regular.ttf
+
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

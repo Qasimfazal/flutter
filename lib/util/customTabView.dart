@@ -106,7 +106,7 @@ class _CustomTabsState extends State<CustomTabView>
           child: TabBar(
             indicatorSize: TabBarIndicatorSize.label,
             isScrollable: true,
-            labelPadding: EdgeInsets.only(left: 0, right: 0),
+            labelPadding: EdgeInsets.only(left: 1, right: 10),
 
             controller: controller,
             labelColor: Color(0xff000000),
@@ -114,7 +114,7 @@ class _CustomTabsState extends State<CustomTabView>
             indicator: UnderlineTabIndicator(
                 borderSide: BorderSide(
                   color: Color(0xffF4AE00),
-                  width: 1,
+                  width: 2,
                 ),
                 // insets: EdgeInsets.symmetric(
                 //

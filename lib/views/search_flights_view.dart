@@ -1,9 +1,8 @@
+import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'package:sould_food_guide/util/Util.dart';
 import 'package:sould_food_guide/views/flight_result_view.dart';
-import 'package:sould_food_guide/views/main_view.dart';
 
 class SearchFlightsScreen extends StatefulWidget {
   @override
@@ -40,7 +39,7 @@ class _SearchFlightsScreenState extends State<SearchFlightsScreen>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InkWell(
-                onTap: (){
+                onTap: () {
                   Util.popBack(context);
                 },
                 child: Container(
@@ -152,12 +151,15 @@ class _SearchFlightsScreenState extends State<SearchFlightsScreen>
                   controller: tabController,
                   indicatorSize: TabBarIndicatorSize.tab,
                   unselectedLabelColor: Colors.black,
-
+                  labelStyle: TextStyle(
+                      fontWeight: FontWeight.w600, fontSize: 13, color: Colors.black),
+                  unselectedLabelStyle: TextStyle(
+                      fontWeight: FontWeight.w600, fontSize: 13, color: Colors.black),
                   labelPadding: EdgeInsets.only(left: 0, right: 0),
                   indicator: BubbleTabIndicator(
                     indicatorHeight: 40.0,
-                    padding:  EdgeInsets.only(left: 0, right: 0),
-                    insets:EdgeInsets.only(left: 0, right: 0),
+                    padding: EdgeInsets.only(left: 0, right: 0),
+                    insets: EdgeInsets.only(left: 0, right: 0),
                     // indicatorColor: Color(0XFFFF3B14),
                     tabBarIndicatorSize: TabBarIndicatorSize.tab,
                     // Other flags
@@ -166,12 +168,12 @@ class _SearchFlightsScreenState extends State<SearchFlightsScreen>
                     // padding: EdgeInsets.all(10)
                   ),
                   tabs: [
-                    Tab(text: "round trip"),
+                    Tab(text: "round trip".toUpperCase()),
                     Tab(
-                      text: "One Way",
+                      text: "One Way".toUpperCase(),
                     ),
                     Tab(
-                      text: "multi city",
+                      text: "multi city".toUpperCase(),
                     )
                   ],
                 ),
@@ -384,11 +386,11 @@ class _SearchFlightsScreenState extends State<SearchFlightsScreen>
                               Row(
                                 children: [
                                   Text(
-                                    "Economy",
+                                    "Economy ".toUpperCase(),
                                     style: TextStyle(
-                                        fontSize: 25,
+                                        fontSize: 20,
                                         color: Colors.black,
-                                        fontWeight: FontWeight.w500),
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(bottom: 10),
@@ -416,9 +418,9 @@ class _SearchFlightsScreenState extends State<SearchFlightsScreen>
                             decoration: Util.getPrimaryButtonDecoration(),
                             child: Center(
                               child: Text(
-                                "show result",
-                                style:
-                                    TextStyle(color: Colors.white, fontSize: 18),
+                                "show result".toUpperCase(),
+                                style: TextStyle(
+                                    color: Colors.white, fontWeight:FontWeight.w600,fontSize: 16),
                               ),
                             ),
                           ),

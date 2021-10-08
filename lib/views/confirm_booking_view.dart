@@ -17,9 +17,9 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
         Container(
           margin: EdgeInsets.only(left: 15, right: 15),
           child: Text(
-            "Confirm booking",
+            "Confirm booking".toUpperCase(),
             style: TextStyle(
-                fontSize: 25, color: Colors.black, fontWeight: FontWeight.w400),
+                fontSize: 25, color: Colors.black, fontWeight: FontWeight.w600),
           ),
         ),
         Container(
@@ -142,11 +142,11 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
               Container(
                 margin: EdgeInsets.only(left: 15, right: 15, top: 20),
                 child: Text(
-                  "Payment info",
+                  "Payment info".toUpperCase(),
                   style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 23,
                       color: Colors.black,
-                      fontWeight: FontWeight.w400),
+                      fontWeight: FontWeight.w600),
                 ),
               ),
               Container(
@@ -253,8 +253,8 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                   decoration: Util.getPrimaryButtonDecoration(),
                   child: Center(
                     child: Text(
-                      "continue to pay",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      "continue to pay".toUpperCase(),
+                      style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),

@@ -17,9 +17,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         Container(
           margin: EdgeInsets.only(left: 15, right: 15),
           child: Text(
-            "Forgot password",
+            "Forgot password".toUpperCase(),
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black),
+                fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
           ),
         ),
         Container(
@@ -37,7 +37,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           margin: EdgeInsets.only(left: 15, right: 15, top: 15),
           child: TextField(
             keyboardType: TextInputType.emailAddress,
-            decoration: Util.getFormDecoration("Email Address"),
+            decoration: Util.getFormDecoration("Enter Email Address"),
           ),
         ),
         InkWell(
@@ -50,8 +50,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             decoration: Util.getPrimaryButtonDecoration(),
             child: Center(
               child: Text(
-                "continue",
-                style: TextStyle(color: Colors.white, fontSize: 18),
+                "continue".toUpperCase(),
+                style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
           ),

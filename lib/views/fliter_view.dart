@@ -20,11 +20,11 @@ class _FilterScreenState extends State<FilterScreen> {
         Container(
             margin: EdgeInsets.only(left: 15),
             child: Text(
-              "SHORT & FILTER",
+              "SHORT & FILTERS".toUpperCase(),
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
-                  fontWeight: FontWeight.w400),
+                  fontWeight: FontWeight.w600),
             )),
         Container(
             margin: EdgeInsets.only(left: 15, top: 15),
@@ -32,8 +32,8 @@ class _FilterScreenState extends State<FilterScreen> {
               "SHORT BY",
               style: TextStyle(
                   color: Colors.black,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600),
             )),
         Container(
           margin: EdgeInsets.only(left: 15, right: 15),
@@ -54,10 +54,10 @@ class _FilterScreenState extends State<FilterScreen> {
                     border: Border.all(color: Color(0XFFF1F1F1), width: 1),
                     borderRadius: BorderRadius.all(Radius.circular(25))),
                 child: Center(
-                  child: Text("Price",
+                  child: Text("Price".toUpperCase(),
                       style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
                           foreground: Paint()
                             ..shader = Util.getPrimaryGradientText())),
                 ),
@@ -76,10 +76,10 @@ class _FilterScreenState extends State<FilterScreen> {
                     border: Border.all(color: Color(0XFFF1F1F1), width: 1),
                     borderRadius: BorderRadius.all(Radius.circular(25))),
                 child: Center(
-                  child: Text("Dept. time",
+                  child: Text("Dept. time".toUpperCase(),
                       style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
                           foreground: Paint()
                             ..shader = Util.getPrimaryGradientText())),
                 ),
@@ -98,10 +98,10 @@ class _FilterScreenState extends State<FilterScreen> {
                     border: Border.all(color: Color(0XFFF1F1F1), width: 1),
                     borderRadius: BorderRadius.all(Radius.circular(25))),
                 child: Center(
-                  child: Text("Arrv. Time",
+                  child: Text("Arrv. Time".toUpperCase(),
                       style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
                           foreground: Paint()
                             ..shader = Util.getPrimaryGradientText())),
                 ),
@@ -112,8 +112,8 @@ class _FilterScreenState extends State<FilterScreen> {
         Container(
           margin: EdgeInsets.only(left: 15, top: 15),
           child: Text(
-            "RANGE TO",
-            style: TextStyle(color: Colors.black, fontSize: 18),
+            "RANGE TO".toUpperCase(),
+            style: TextStyle(color: Colors.black, fontSize: 16,fontWeight: FontWeight.w600),
           ),
         ),
         Container(
@@ -165,8 +165,8 @@ class _FilterScreenState extends State<FilterScreen> {
         Container(
           margin: EdgeInsets.only(left: 15, top: 15),
           child: Text(
-            "DEPARTURE TIME",
-            style: TextStyle(color: Colors.black, fontSize: 18),
+            "DEPARTURE TIME".toUpperCase(),
+            style: TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.w600),
           ),
         ),
         Container(
@@ -192,24 +192,32 @@ class _FilterScreenState extends State<FilterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SvgPicture.asset("assets/ic_night.svg"),
-                      Text(
-                        "Mind Night",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontSize: 16),
-                      )
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "  Mind Night".toUpperCase(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                                fontSize: 14),
+                          ),
+                          Text(
+                            "00:00 - 04:59",
+                            style: TextStyle(
+                                color: Color(0XFF828282),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400),
+                          )
+                        ],
+                      ),
+
                     ],
                   ),
-                  Text(
-                    "00:00 - 04:59",
-                    style: TextStyle(
-                        color: Color(0XFF828282),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400),
-                  )
+
                 ],
               ),
             ),
@@ -223,8 +231,8 @@ class _FilterScreenState extends State<FilterScreen> {
         Container(
           margin: EdgeInsets.only(left: 15, top: 15),
           child: Text(
-            "ARRIVAL TIME",
-            style: TextStyle(color: Colors.black, fontSize: 18),
+            "ARRIVAL TIME".toUpperCase(),
+            style: TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.w600),
           ),
         ),
         Container(
@@ -251,24 +259,31 @@ class _FilterScreenState extends State<FilterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SvgPicture.asset("assets/ic_night.svg"),
-                      Text(
-                        "Mind Night",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black,
-                            fontSize: 16),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "  Mind Night".toUpperCase(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black,
+                                fontSize: 14),
+                          ),
+                          Text(
+                            "00:00 - 04:59",
+                            style: TextStyle(
+                                color: Color(0XFF828282),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400),
+                          )
+                        ],
                       )
                     ],
                   ),
-                  Text(
-                    "00:00 - 04:59",
-                    style: TextStyle(
-                        color: Color(0XFF828282),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400),
-                  )
+
                 ],
               ),
             ),

@@ -34,14 +34,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 10),
+              margin: EdgeInsets.only(left: 15),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                       margin: EdgeInsets.only(bottom: 15, top: 8),
                       child: Text(
-                        "Hey Sam, \nWhere you wanna go?",
-                        style: TextStyle(color: Colors.white, fontSize: 28),
+                        "Hey Sam, \nWhere you wanna go?".toUpperCase(),
+                        style: TextStyle(color: Colors.white, fontWeight:FontWeight.w600,fontSize: 24),
                       )),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -74,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         Container(
-          margin: EdgeInsets.only(left: 15, right: 15, top: 20),
+          margin: EdgeInsets.only(left: 15, right: 15, top: 20,bottom: 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -212,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
             itemCount: 5,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return getHorizontalList("Exclusive places");
+              return getHorizontalList("Exclusive places".toUpperCase());
             }),
       ],
     );
@@ -231,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             "$title",
-            style: TextStyle(color: Colors.black, fontSize: 18),
+            style: TextStyle(color: Colors.black, fontSize: 15,fontWeight: FontWeight.w600),
           ),
           Container(
             height: 190,
@@ -249,6 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
+                              margin: EdgeInsets.only(bottom: 3),
                               child: ClipRRect(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(25)),
@@ -266,8 +268,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(
                               "Thailand Packages",
                               style: TextStyle(
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 9,
+
                                   color: Colors.black),
                             ),
                             Text(
@@ -280,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(
                               "\$456.00",
                               style: TextStyle(
-                                  fontWeight: FontWeight.w500,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 9,
                                   color: Color(0XFFFF8106)),
                             ),

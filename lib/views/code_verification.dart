@@ -18,9 +18,9 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
         Container(
           margin: EdgeInsets.only(left: 15, right: 15),
           child: Text(
-            "confirmation code",
+            "confirmation code".toUpperCase(),
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black),
+                fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
           ),
         ),
         Container(
@@ -51,8 +51,8 @@ Util.open(context, ResetPasswordScreen());
             decoration: Util.getPrimaryButtonDecoration(),
             child: Center(
               child: Text(
-                "confirmation code",
-                style: TextStyle(color: Colors.white, fontSize: 18),
+                "confirmation code".toUpperCase(),
+                style: TextStyle(color: Colors.white, fontWeight:FontWeight.w600,fontSize: 16),
               ),
             ),
           ),

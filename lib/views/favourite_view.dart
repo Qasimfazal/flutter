@@ -20,37 +20,40 @@ class _FavouriteScreenState extends State<FavouriteScreen>
   @override
   Widget build(BuildContext context) {
     final body = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: EdgeInsets.only(left: 15),
+          margin: EdgeInsets.only(left: 15,top: 10),
           child: Text(
-            "favrourite",
+            "favrourite".toUpperCase(),
             style: TextStyle(
-                color: Colors.black, fontSize: 20, fontWeight: FontWeight.w400),
+                color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600),
           ),
         ),
         Container(
           child: TabBar(
+            indicatorSize:TabBarIndicatorSize.label ,
+            isScrollable: true,
             labelStyle: TextStyle(
-                fontWeight: FontWeight.w400, fontSize: 15, color: Colors.black),
+                fontWeight: FontWeight.w600, fontSize: 15, color: Colors.black),
             unselectedLabelStyle: TextStyle(
-                fontWeight: FontWeight.w400, fontSize: 15, color: Colors.black),
+                fontWeight: FontWeight.w600, fontSize: 15, color: Colors.black),
             controller: tabController,
             indicatorColor: Color(0XFFFF9902),
             unselectedLabelColor: Colors.black,
             labelColor: Colors.black,
             tabs: [
               Tab(
-                text: "flights",
+                text: "flights".toUpperCase(),
               ),
               Tab(
-                text: "hotels",
+                text: "hotels".toUpperCase(),
               ),
               Tab(
-                text: "restaurants",
+                text: "restaurants".toUpperCase(),
               ),
               Tab(
-                text: "events",
+                text: "events".toUpperCase(),
               ),
             ],
           ),

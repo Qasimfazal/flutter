@@ -17,9 +17,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         Container(
           margin: EdgeInsets.only(left: 15, right: 15),
           child: Text(
-            "Reset Password",
+            "Reset Password".toUpperCase(),
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black),
+                fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
           ),
         ),
         Container(
@@ -60,8 +60,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             decoration: Util.getPrimaryButtonDecoration(),
             child: Center(
               child: Text(
-                "reset password",
-                style: TextStyle(color: Colors.white, fontSize: 18),
+                "reset password".toUpperCase(),
+                style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.w600),
               ),
             ),
           ),

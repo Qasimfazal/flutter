@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:sould_food_guide/util/Util.dart';
+import 'package:sould_food_guide/views/fliter_view.dart';
 import 'package:sould_food_guide/views/hotel_detail_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sould_food_guide/views/restuarant_detail_view.dart';
 class RestaurantsScreen extends StatefulWidget {
   @override
   _RestaurantsScreenState createState() => _RestaurantsScreenState();
@@ -129,7 +131,7 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
       backgroundColor: Colors.white,
       bottomNavigationBar: InkWell(
         onTap: () {
-          // Util.open(context, ConfirmBookingScreen());
+          Util.open(context, FilterScreen());
         },
         child: Container(
           height: 50,
@@ -156,72 +158,77 @@ class _RestaurantsScreenState extends State<RestaurantsScreen> {
             scrollDirection: Axis.horizontal,
             itemCount: 4,
             itemBuilder: (context, index) =>
-                Container(
-                  width: MediaQuery.of(context).size.width*0.7,
-                  margin: EdgeInsets.only(right: 10),
+                InkWell(
+                  onTap: (){
+                    Util.open(context, RestaurantDetailScreen());
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width*0.7,
+                    margin: EdgeInsets.only(right: 10),
 
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.7,
-                        height: 150,
-                        margin: EdgeInsets.only(bottom: 5),
-                        child: ClipRRect(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(25)),
-                          child: Image.asset(
-                            "assets/img_9.png",
-                            height: 150,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Restaurants Name",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14,
-                                color: Colors.black),
-                          ),
-                          Container(
-                            height: 22,
-                            width: 54,
-                            decoration: Util.getPrimaryButtonDecoration(),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.star,
-                                  size: 11,
-                                  color: Colors.white,
-                                ),
-                                Text(
-                                  "4.7",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width * 0.7,
+                          height: 150,
+                          margin: EdgeInsets.only(bottom: 5),
+                          child: ClipRRect(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(25)),
+                            child: Image.asset(
+                              "assets/img_9.png",
+                              height: 150,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                        ],
-                      ),
-                      Text(
-                        "Manhattan, New York",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: Color(0XFF828282)),
-                      ),
-                    ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Restaurants Name",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  color: Colors.black),
+                            ),
+                            Container(
+                              height: 22,
+                              width: 54,
+                              decoration: Util.getPrimaryButtonDecoration(),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.star,
+                                    size: 11,
+                                    color: Colors.white,
+                                  ),
+                                  Text(
+                                    "4.7",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          "Manhattan, New York",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12,
+                              color: Color(0XFF828282)),
+                        ),
+                      ],
+                    ),
                   ),
                 )),
       ),

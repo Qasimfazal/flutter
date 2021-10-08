@@ -17,9 +17,9 @@ class _SignupScreenState extends State<SignupScreen> {
         Container(
           margin: EdgeInsets.only(left: 15, right: 15),
           child: Text(
-            "Create Account",
+            "Create Account".toUpperCase(),
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black),
+                fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
           ),
         ),
         Container(
@@ -101,8 +101,8 @@ class _SignupScreenState extends State<SignupScreen> {
             decoration: Util.getPrimaryButtonDecoration(),
             child: Center(
               child: Text(
-                "sign up",
-                style: TextStyle(color: Colors.white, fontSize: 18),
+                "sign up".toUpperCase(),
+                style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
           ),

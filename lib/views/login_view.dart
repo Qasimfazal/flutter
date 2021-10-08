@@ -16,13 +16,13 @@ class _LoginScreenState extends State<LoginScreen> {
     final body = ListView(
       shrinkWrap: true,
       children: [
-        Util.getBack(context),
+        // Util.getBack(context),
         Container(
           margin: EdgeInsets.only(left: 15, right: 15),
           child: Text(
-            "welcome to soul food guid",
+            "welcome to soul food guid".toUpperCase(),
             style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black),
+                fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
           ),
         ),
         Container(
@@ -62,8 +62,8 @@ class _LoginScreenState extends State<LoginScreen> {
             decoration: Util.getPrimaryButtonDecoration(),
             child: Center(
               child: Text(
-                "login now",
-                style: TextStyle(color: Colors.white, fontSize: 18),
+                "login now".toUpperCase(),
+                style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600, fontSize: 16),
               ),
             ),
           ),
@@ -117,8 +117,8 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               SvgPicture.asset("assets/ic_fb.svg"),
               Text(
-                " Login With Facebook",
-                style: TextStyle(color: Colors.white),
+                " | LOGIN WITH FACEBOOK",
+                style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600),
               ),
             ],
           ),
@@ -134,8 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               SvgPicture.asset("assets/ic_google.svg"),
               Text(
-                " Login With Google+",
-                style: TextStyle(color: Colors.white),
+                " | Login With Google+".toUpperCase(),
+                style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600),
               ),
             ],
           ),
