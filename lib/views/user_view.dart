@@ -176,28 +176,28 @@ Util.open(context, SupportScreen());
             ),
           ),
         ),
-        InkWell(
-          onTap: (){
-            Util.open(context, LanguageScreen());
-          },
-          child: Container(
-            margin: EdgeInsets.only(left: 15, right: 15, bottom: 25),
-            child: Row(
-              children: [
-                Container(
-                    margin: EdgeInsets.only(right: 10),
-                    child: SvgPicture.asset("assets/ic_language.svg")),
-                Text(
-                  "Change Language",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black,
-                      fontSize: 16),
-                ),
-              ],
-            ),
-          ),
-        ),
+        // InkWell(
+        //   onTap: (){
+        //     Util.open(context, LanguageScreen());
+        //   },
+        //   child: Container(
+        //     margin: EdgeInsets.only(left: 15, right: 15, bottom: 25),
+        //     child: Row(
+        //       children: [
+        //         Container(
+        //             margin: EdgeInsets.only(right: 10),
+        //             child: SvgPicture.asset("assets/ic_language.svg")),
+        //         Text(
+        //           "Change Language",
+        //           style: TextStyle(
+        //               fontWeight: FontWeight.w600,
+        //               color: Colors.black,
+        //               fontSize: 16),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
         Container(
           margin: EdgeInsets.only(left: 15, right: 15, bottom: 25),
           child: Row(
