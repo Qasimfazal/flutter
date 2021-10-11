@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:sould_food_guide/util/Util.dart';
 import 'package:sould_food_guide/views/checkout_view.dart';
 
-class ConfirmBookingScreen extends StatefulWidget {
+class FlightConfirmBookingScreen extends StatefulWidget {
   @override
-  _ConfirmBookingScreenState createState() => _ConfirmBookingScreenState();
+  _FlightConfirmBookingScreenState createState() =>
+      _FlightConfirmBookingScreenState();
 }
 
-class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
+class _FlightConfirmBookingScreenState
+    extends State<FlightConfirmBookingScreen> {
   @override
   Widget build(BuildContext context) {
     final body = ListView(
@@ -23,9 +25,48 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
           ),
         ),
         Container(
+          margin: EdgeInsets.only(left: 10, right: 10),
+          child: Row(
+            children: [
+              Container(
+                width: 54,
+                margin: EdgeInsets.only(right: 10),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0XFFF5F5F5),
+                ),
+                height: 54,
+                child: Center(
+                  child: Image.asset("assets/img_5.png",
+                      fit: BoxFit.scaleDown, width: 36, height: 14),
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "American Airlines",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        color: Colors.black),
+                  ),
+                  Text(
+                    "AA-1264",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 11,
+                        color: Color(0XFF828282)),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Container(
           margin: EdgeInsets.only(left: 15, right: 15, top: 20),
           child: Text(
-            "Address",
+            "Departure From",
             style: TextStyle(
                 fontSize: 14,
                 color: Color(0XFF828282),
@@ -38,25 +79,47 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
             right: 15,
           ),
           child: Text(
-            "City Park, Manhattan",
+            "HOU - HOUSTON, USA",
             style: TextStyle(
                 fontSize: 18, color: Colors.black, fontWeight: FontWeight.w600),
           ),
         ),
         Container(
           margin: EdgeInsets.only(left: 15, right: 15, top: 20),
+          child: Text(
+            "Arrival",
+            style: TextStyle(
+                fontSize: 14,
+                color: Color(0XFF828282),
+                fontWeight: FontWeight.w400),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(
+            left: 15,
+            right: 15,
+          ),
+          child: Text(
+            "MHK - Houston, USA",
+            style: TextStyle(
+                fontSize: 18, color: Colors.black, fontWeight: FontWeight.w600),
+          ),
+        ),
+
+        Container(
+          margin: EdgeInsets.only(left: 15, right: 15, top: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Check-In",
+                "Departure",
                 style: TextStyle(
                     fontSize: 14,
                     color: Color(0XFF828282),
                     fontWeight: FontWeight.w400),
               ),
               Text(
-                "Check-Out",
+                "Arrival",
                 style: TextStyle(
                     fontSize: 14,
                     color: Color(0XFF828282),
@@ -110,7 +173,7 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(left: 15, right: 15,bottom: 10),
+          margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -216,10 +279,10 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 15,bottom: 5),
+                margin: EdgeInsets.only(top: 15, bottom: 5),
                 height: 2,
-                  width: double.infinity,
-                  color: Color(0XFFE5E5E5),
+                width: double.infinity,
+                color: Color(0XFFE5E5E5),
               ),
               Container(
                 margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -249,12 +312,16 @@ class _ConfirmBookingScreenState extends State<ConfirmBookingScreen> {
                 },
                 child: Container(
                   height: 55,
-                  margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 15),
+                  margin:
+                      EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 15),
                   decoration: Util.getPrimaryButtonDecoration(),
                   child: Center(
                     child: Text(
                       "continue to pay".toUpperCase(),
-                      style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),

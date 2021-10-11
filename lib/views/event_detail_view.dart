@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sould_food_guide/util/Util.dart';
-import 'package:sould_food_guide/views/confirm_booking_view.dart';
+import 'package:sould_food_guide/views/hotel_confirm_booking_view.dart';
 
 class EventDetailScreen extends StatefulWidget {
   @override
@@ -379,7 +379,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
       backgroundColor: Colors.white,
       bottomNavigationBar: InkWell(
         onTap: () {
-          Util.open(context, ConfirmBookingScreen());
+          Util.open(context, HotelConfirmBookingScreen());
         },
         child: Container(
           height: 50,

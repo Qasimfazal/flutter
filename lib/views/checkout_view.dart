@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sould_food_guide/util/Util.dart';
+import 'package:sould_food_guide/views/hotel_booked_view.dart';
 
 class CheckoutScreen extends StatefulWidget {
   @override
@@ -291,7 +292,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       backgroundColor: Colors.white,
       bottomNavigationBar: InkWell(
         onTap: () {
-          // Util.open(context, CheckoutScreen());
+          Util.open(context, HotelRoomBookedScreen());
+
         },
         child: Container(
           height: 55,
