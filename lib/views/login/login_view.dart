@@ -11,8 +11,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
   @override
   Widget build(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("My amazing message! O.o")));
     final body = ListView(
       shrinkWrap: true,
       children: [

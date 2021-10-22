@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sould_food_guide/util/Util.dart';
-import 'package:sould_food_guide/views/login_view.dart';
+import 'package:sould_food_guide/views/login/login_view.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
