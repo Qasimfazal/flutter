@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sould_food_guide/app/app.dart';
+import 'package:sould_food_guide/app/app_routes.dart';
 import 'package:sould_food_guide/util/Util.dart';
 import 'package:sould_food_guide/views/about_view.dart';
-import 'package:sould_food_guide/views/langauge_view.dart';
 import 'package:sould_food_guide/views/review_view.dart';
 import 'package:sould_food_guide/views/support_view.dart';
 import 'package:sould_food_guide/views/terms_view.dart';
@@ -88,8 +89,8 @@ class _UserScreenState extends State<UserScreen> {
           height: 20,
         ),
         InkWell(
-          onTap: (){
-Util.open(context, SupportScreen());
+          onTap: () {
+            Util.open(context, SupportScreen());
           },
           child: Container(
             margin: EdgeInsets.only(left: 15, right: 15, bottom: 25),
@@ -110,7 +111,7 @@ Util.open(context, SupportScreen());
           ),
         ),
         InkWell(
-          onTap: (){
+          onTap: () {
             Util.open(context, AboutScreen());
           },
           child: Container(
@@ -132,9 +133,8 @@ Util.open(context, SupportScreen());
           ),
         ),
         InkWell(
-          onTap: (){
+          onTap: () {
             Util.open(context, TermsScreen());
-
           },
           child: Container(
             margin: EdgeInsets.only(left: 15, right: 15, bottom: 25),
@@ -154,10 +154,10 @@ Util.open(context, SupportScreen());
             ),
           ),
         ),
-        InkWell(onTap: (){
-          Util.open(context, ReviewScreen());
-        },
-
+        InkWell(
+          onTap: () {
+            Util.open(context, ReviewScreen());
+          },
           child: Container(
             margin: EdgeInsets.only(left: 15, right: 15, bottom: 25),
             child: Row(
@@ -230,6 +230,30 @@ Util.open(context, SupportScreen());
                     fontSize: 16),
               ),
             ],
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(left: 15, right: 15, bottom: 25),
+          child: InkWell(
+            onTap: () {
+              App().getAppPreferences().removeUserToken();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, AppRoutes.APP_ROUTE_LOGIN, (route) => false);
+            },
+            child: Row(
+              children: [
+                Container(
+                    margin: EdgeInsets.only(right: 10),
+                    child: SvgPicture.asset("assets/ic_logout.svg")),
+                Text(
+                  "LogOut",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                      fontSize: 16),
+                ),
+              ],
+            ),
           ),
         ),
       ],

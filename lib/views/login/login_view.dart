@@ -1,9 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sould_food_guide/util/Util.dart';
 import 'package:sould_food_guide/views/forgot_password_view.dart';
 import 'package:sould_food_guide/views/main_view.dart';
-import 'package:sould_food_guide/views/signup_view.dart';
+import 'package:sould_food_guide/views/signup/signup_view.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../../app/app.dart';
+import '../../app/app_routes.dart';
+import '../../util/ToastUtil.dart';
+import 'login_viewmodel.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -11,16 +20,74 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  LoginViewModel _loginViewModel;
+  StreamController _loginController;
+  bool _showLoader = false;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
+    _loginController = new StreamController<bool>.broadcast();
+    _loginController.sink.add(false);
+    _loginViewModel = new LoginViewModel(App());
+    observeViewModel();
+  }
+  void observeViewModel() {
+    _loginViewModel
+        .getUserRepository()
+        .getRepositoryResponse()
+        .listen((response) {
+      // print("response code " + response.code.toString());
+
+      if (mounted)
+        setState(() {
+          _showLoader = false;
+        });
+      if (response.code == null) {
+        if (response.success) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, AppRoutes.APP_MAIN_SCREEN, (route) => false);
+        } else {
+          ToastUtil.showToast(context, response.msg,
+              toastGravity: ToastGravity.CENTER);
+        }
+      } else {
+        ToastUtil.showToast(context, response.msg);
+      }
+
+
+      // print(response);
+    });
+  }
+
+  void callLoginApi() {
+    if (emailController.text.trim().isEmpty) {
+      ToastUtil.showToast(context, "Email can't be blank.");
+      return;
+    }
+    if (passwordController.text.trim().isEmpty) {
+      ToastUtil.showToast(context, "Password can't be blank.");
+      return;
+    }
+    if (mounted)
+      setState(() {
+        _showLoader = true;
+      });
+
+    _loginViewModel.login(emailController.text.trim(), passwordController.text);
+  }
   @override
   Widget build(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("My amazing message! O.o")));
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("My amazing message! O.o")));
     final body = ListView(
       shrinkWrap: true,
       children: [
         // Util.getBack(context),
         Container(
-          margin: EdgeInsets.only(left: 15, right: 15),
+          margin: EdgeInsets.only(left: 15, right: 15,top:20),
           child: Text(
             "welcome to soul food guid".toUpperCase(),
             style: TextStyle(
@@ -41,6 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 40,
           margin: EdgeInsets.only(left: 15, right: 15, top: 15),
           child: TextField(
+            controller: emailController,
             keyboardType: TextInputType.emailAddress,
             decoration: Util.getFormDecoration("Email Address"),
           ),
@@ -49,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
           height: 40,
           margin: EdgeInsets.only(left: 15, right: 15, top: 15),
           child: TextField(
+            controller: passwordController,
             keyboardType: TextInputType.visiblePassword,
             obscureText: true,
             decoration: Util.getFormDecoration("Password"),
@@ -56,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         InkWell(
           onTap: () {
-            Util.open(context, MainScreen());
+            callLoginApi();
           },
           child: Container(
             height: 55,
@@ -170,7 +239,17 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SafeArea(child: body),
+      body: ModalProgressHUD(
+          inAsyncCall: _showLoader,
+          child: SafeArea(child: body)),
     );
+  }
+
+  @override
+  void dispose() {
+    print("login dispose");
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 }

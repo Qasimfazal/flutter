@@ -2,19 +2,28 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:async/async.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
-import 'package:path/path.dart';
-import 'package:sould_food_guide/network/Network.dart';
-import 'package:sould_food_guide/repository/resource.dart';
+import 'package:sould_food_guide/model/repoResponse_model.dart';
 
 /// Network Util Class -> A utility class for handling network operations
 class NetworkUtil {
   //----------------------------------------------------------- Singleton-Instance ------------------------------------------------------------------
   // Singleton Instance
   static NetworkUtil _instance = new NetworkUtil.internal();
+
+  http.Client _client = new http.Client();
+
+  // http.Client get client => _client;
+  //
+  // set client(http.Client value) {
+  //   _client = value;
+  // }
+
+  close() {
+    _client.close();
+    _client = new http.Client();
+  }
 
   /// NetworkUtil Private Constructor -> NetworkUtil
   /// @param -> _
@@ -32,210 +41,260 @@ class NetworkUtil {
 
   //------------------------------------------------------------- Methods -----------------------------------------------------------------------------
   /// Get Method -> Future<dynamic>
-  /// @param -> @required url -> String
+  /// @param ->  url -> String
   /// @usage -> Make HTTP-GET request to specified URL and returns the response in JSON format
-  Future<dynamic> get({@required String url, Map headers}) => Network.getDio()
-          .get(
-        url,
-      )
-          .then((response) {
-        // On response received
-        // Get response status code
-        final int statusCode = response.statusCode;
-        print("__________API_________________"); // Error occurred
-        print("request : ${response.requestOptions}"); // Error occurred
-        print("headers : ${response.headers}"); // Error occurred
-        print("statusCode : ${response.statusCode}"); // Error occurred
-        print("__________API END_________________");
 
-        // Check response status code for error condition
-        if (statusCode < 200 || statusCode > 400 || json == null) {
-          // Error occurred
-          print("statusCode : ${response.data}"); // Error occurred
+  Future<RepositoryResponse> get({String url, Map headers}) async {
+    RepositoryResponse repositoryResponse = new RepositoryResponse();
+    repositoryResponse.success = false;
+    repositoryResponse.data = null;
 
-          throw new Exception("Error while fetching data");
-        } else {
-          // No error occurred
-          // Get response body
-//          final String res = response.data;
-//          // Convert response body to JSON object
-//          var data = _decoder.convert(res);
-//          print("Response Result $data");
+    print('******* Get request *********');
+    print('******* Get request URL *********');
+    print(url);
+    print('******* Get request headers *********');
+    print(headers.toString());
 
-          return response.data;
-        }
-      });
+    try {
+      var response = await _client.get(Uri.parse(url), headers: headers);
+      final String res = response.body;
+      var data = _decoder.convert(res);
 
-  /// Post Method -> Future<dynamic>
-  /// @param -> @required url -> String
-  ///        -> headers -> Map
-  ///        -> body -> dynamic
-  ///        -> encoding -> dynamic
-  ///  @usage -> Make HTTP-POST request to specified URL and returns the response in JSON format
-  Future<Resource<dynamic>> post(
-          {@required String url, Map headers, FormData formData, encoding}) =>
-      Network.getDio()
-          .post(
-        url,
-        data: formData,
-        options: Options(
-            followRedirects: false,
-            validateStatus: (status) {
-              return status < 500;
-            }),
-      ) // Make HTTP-POST request
-          .then((response) {
-        // On response received
-        // Get response status code
-        final int statusCode = response.statusCode;
-
-        print("__________API_________________"); // Error occurred
-        print("Error request : ${response.requestOptions}"); // Error occurred
-        print("Error headers : ${response.headers}"); // Error occurred
-        print("Error statusCode : ${response.statusCode}"); // Error occurred
-        print("Error statusBody: ${response.data}"); // Error occurred
-        print("__________API END_________________");
-        // Check response status code for error condition
-        
-        if (statusCode < 200 || statusCode > 400 || json == null) {
-          if (statusCode == 403) {
-//            var res = response.data;
-//            var data = _decoder.convert(res);
-            /* if(data["status"] == null || data["status"] != 200){
-            throw new Exception(data["message"]);
-          }*/
-            return response.data;
-          } else
-            throw new Exception("Error while fetching data");
-        } else {
-          // No error occurred
-          // Get response body
-          var res = response.data;
-          print(" ${res}"); // Error occurred
-
-          //var data = _decoder.convert(res);
-          /* if(data["status"] == null || data["status"] != 200){
-            throw new Exception(data["message"]);
-          }*/
-          return res;
-        }
-      }
-      
-      );
-
-  /// Put Method -> Future<dynamic>
-  /// @param -> @required url -> String
-  ///        -> headers -> Map
-  ///        -> body -> dynamic
-  ///        -> encoding -> dynamic
-  ///  @usage -> Make HTTP-POST request to specified URL and returns the response in JSON format
-  Future<dynamic> put({@required String url, Map headers, body, encoding}) =>
-      http
-          .put(Uri.parse(url),
-              body: body,
-              headers: headers,
-              encoding: encoding) // Make HTTP-POST request
-          .then((http.Response response) {
-        // On response received
-        // Get response status code
-        final int statusCode = response.statusCode;
-
-        print("Error request : ${response.request}"); // Error occurred
-        print("Error headers : ${response.headers}"); // Error occurred
-        print("Error statusCode : ${response.statusCode}"); // Error occurred
-        print("Error body : ${response.body}"); // Error occurred
-        // Check response status code for error condition
-        if (statusCode < 200 || statusCode > 400 || json == null) {
-          throw new Exception("Error while fetching data");
-        } else {
-          // No error occurred
-          // Get response body
-          final String res = response.body;
-          var data = _decoder.convert(res);
-          print("Response $data");
-          if (data["status"] == null || data["status"] != 200) {
-            throw new Exception(data["message"]);
-          }
-          return data;
-        }
-      });
-
-  Future<dynamic> uploadImage(
-      String url, File imageFile, imageKey, String deviceId, String key) async {
-    var stream =
-        new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
-    // get file length
-    var length = await imageFile.length(); //imageFile is your image file
-
-    // string to uri
-    var uri = Uri.parse(url);
-
-    // create multipart request
-    var request = new http.MultipartRequest("POST", uri);
-
-    // multipart that takes file
-    var multipartFileSign = new http.MultipartFile(imageKey, stream, length,
-        filename: basename(imageFile.path));
-
-    // add file to multipart
-    request.files.add(multipartFileSign);
-
-    //adding params
-    request.fields[key] = deviceId;
-    // request.fields['lastName'] = 'efg';
-
-    // send
-    var response = await request.send();
-
-    print("response ${response.statusCode}");
-
-    final int statusCode = response.statusCode;
-
-    print("Error request : ${response.request}"); // Error occurred
-    print("Error headers : ${response.headers}"); // Error occurred
-    print("Error statusCode : ${response.statusCode}"); // Error occurred
-    // Check response status code for error condition
-    if (statusCode < 200 || statusCode > 400 || json == null) {
-      throw new Exception("Error while fetching data");
-    } else {
-      response.stream.transform(utf8.decoder).listen((value) {
-        print(" response value$value");
-        final String res = value;
-        return res;
-      });
+      print("Response $data}");
+      repositoryResponse.msg = data["message"];
+      repositoryResponse.success = data["success"];
+      repositoryResponse.data = data;
+      return repositoryResponse;
+    } on SocketException {
+      print("********Socket Exception ");
+      repositoryResponse.code = 1;
+      repositoryResponse.msg =
+          "No Internet Available.\nPlease check your internet connection & Try Again!";
+      return repositoryResponse;
+    } on FormatException {
+      print("********Format Exception ");
+      repositoryResponse.code = 2;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } on HttpException {
+      print("********Http Exception ");
+      repositoryResponse.code = 3;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } catch (e) {
+      print("********Unknown Exception ${e.toString()}");
+      repositoryResponse.code = 4;
+      repositoryResponse.msg =
+          "Something went wrong, Our team has been notified";
+      return repositoryResponse;
     }
   }
 
-  Future<dynamic> callImagesAPI(FormData formData, String url) async {
-    var apiResponse;
+  /// Post Method -> Future<dynamic>
+  /// @param ->  url -> String
+  ///        -> headers -> Map
+  ///        -> body -> dynamic
+  ///        -> encoding -> dynamic
+  ///  @usage -> Make HTTP-POST request to specified URL and returns the response in JSON format
 
-    await Dio()
-        .post(
-      url,
-      data: formData,
-      options: Options(
-          followRedirects: false,
-          validateStatus: (status) {
-            return status < 500;
-          }),
-    )
-        .then((response) {
-      final int statusCode = response.statusCode;
+  Future<RepositoryResponse> post(
+      {String url, Map headers, body, encoding}) async {
+    Dio dio = Dio();
+    RepositoryResponse repositoryResponse = new RepositoryResponse();
+    repositoryResponse.success = false;
+    repositoryResponse.data = null;
 
-      print("Error request : ${response.requestOptions}"); // Error occurred
-      print("Error headers : ${response.headers}"); // Error occurred
-      print("Error statusCode : ${response.statusCode}"); // Error occurred
-      print("Error body : ${response.data}"); // Error occurred
-      // Check response status code for error condition
-      if (statusCode < 200 || statusCode > 400 || json == null) {
-        throw new Exception("Error while fetching data");
+    print('******* Post request *********');
+    try {
+      var response = await _client.post(Uri.parse(url),
+          body: body, headers: headers, encoding: encoding);
+      //var response = await http.post(url,body: body,headers: headers,encoding: encoding);
+      final String res = response.body;
+      var data = _decoder.convert(res);
+
+      print("Response $data}");
+      repositoryResponse.msg = data["message"];
+
+      repositoryResponse.success = data["success"];
+      repositoryResponse.data = data["data"];
+
+      return repositoryResponse;
+    } on SocketException {
+      print("********Socket Exception ");
+      repositoryResponse.code = 1;
+      repositoryResponse.msg =
+          "No Internet Available.\nPlease check your internet connection & Try Again!";
+      return repositoryResponse;
+    } on FormatException {
+      print("********Format Exception ");
+      repositoryResponse.code = 2;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } on HttpException {
+      print("********Http Exception ");
+      repositoryResponse.code = 3;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } catch (e) {
+      print("********Unknown Exception ${e.toString()}");
+      repositoryResponse.code = 4;
+      repositoryResponse.msg =
+          "Something went wrong, Our team has been notified";
+      return repositoryResponse;
+    }
+  }
+
+  Future<RepositoryResponse> postHotel(
+      {String url, Map headers, body, encoding}) async {
+    Dio dio = Dio();
+    RepositoryResponse repositoryResponse = new RepositoryResponse();
+    repositoryResponse.success = false;
+    repositoryResponse.data = null;
+
+    print('******* Post request *********');
+    print('******* url $url');
+    print('******* body ' + body.toString());
+    print('******* headers ' + headers.toString());
+    // var res;
+    try {
+      var response = await _client.post(Uri.parse(url),
+          body: jsonEncode(body), headers: headers, encoding: encoding);
+      //var response = await http.post(url,body: body,headers: headers,encoding: encoding);
+
+      final String res = response.body;
+
+      var data = _decoder.convert(res);
+
+      print("Response $data}");
+      if (response.statusCode >= 200 && response.statusCode <= 299) {
+        repositoryResponse.msg = "Hotels fetched successfully.";
+
+        repositoryResponse.success = true;
+        repositoryResponse.data = data;
       } else {
-        // No error occurred
-        // Get response body
-        apiResponse = response.data;
+        print("statusCode " + response.statusCode.toString());
+        repositoryResponse.success = false;
+        repositoryResponse.data = data;
       }
-    });
 
-    return apiResponse;
+      return repositoryResponse;
+    } on SocketException {
+      print("********Socket Exception ");
+      repositoryResponse.code = 1;
+      repositoryResponse.msg =
+          "No Internet Available.\nPlease check your internet connection & Try Again!";
+      return repositoryResponse;
+    } on FormatException {
+      print("********Format Exception ");
+      repositoryResponse.code = 2;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } on HttpException {
+      print("********Http Exception ");
+      repositoryResponse.code = 3;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } catch (e) {
+      print("********Unknown Exception ${e.toString()}");
+      repositoryResponse.code = 4;
+      repositoryResponse.msg =
+          "Something went wrong, Our team has been notified";
+      return repositoryResponse;
+    }
+  }
+
+  /// Put Method -> Future<dynamic>
+  /// @param ->  url -> String
+  ///        -> headers -> Map
+  ///        -> body -> dynamic
+  ///        -> encoding -> dynamic
+  ///  @usage -> Make HTTP-POST request to specified URL and returns the response in JSON format
+
+  Future<RepositoryResponse> put(
+      {String url, Map headers, body, encoding}) async {
+    RepositoryResponse repositoryResponse = new RepositoryResponse();
+    repositoryResponse.success = false;
+    repositoryResponse.data = null;
+
+    print('******* Put request *********');
+    try {
+      var response = await _client.put(Uri.parse(url),
+          headers: headers, body: body, encoding: encoding);
+      final String res = response.body;
+      var data = _decoder.convert(res);
+
+      print("Response $data}");
+      repositoryResponse.msg = data["message"];
+      repositoryResponse.success = data["success"];
+      repositoryResponse.data = data;
+      return repositoryResponse;
+    } on SocketException {
+      print("********Socket Exception ");
+      repositoryResponse.code = 1;
+      repositoryResponse.msg =
+          "No Internet Available.\nPlease check your internet connection & Try Again!";
+      return repositoryResponse;
+    } on FormatException {
+      print("********Format Exception ");
+      repositoryResponse.code = 2;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } on HttpException {
+      print("********Http Exception ");
+      repositoryResponse.code = 3;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } catch (e) {
+      print("********Unknown Exception ${e.toString()}");
+      repositoryResponse.code = 4;
+      repositoryResponse.msg =
+          "Something went wrong, Our team has been notified";
+      return repositoryResponse;
+    }
+  }
+
+  /// Delete Method -> Future<dynamic>
+  /// @param ->  url -> String
+  /// @usage -> Make HTTP-DELETE request to specified URL and returns the response in JSON format
+
+  Future<RepositoryResponse> delete({String url, Map headers}) async {
+    RepositoryResponse repositoryResponse = new RepositoryResponse();
+    repositoryResponse.success = false;
+    repositoryResponse.data = null;
+
+    print('******* Delete request *********');
+    try {
+      var response = await _client.delete(Uri.parse(url), headers: headers);
+      final String res = response.body;
+      var data = _decoder.convert(res);
+
+      print("Response $data}");
+      repositoryResponse.msg = data["message"];
+      repositoryResponse.success = data["success"];
+      repositoryResponse.data = data;
+      return repositoryResponse;
+    } on SocketException {
+      print("********Socket Exception ");
+      repositoryResponse.code = 1;
+      repositoryResponse.msg =
+          "No Internet Available.\nPlease check your internet connection & Try Again!";
+      return repositoryResponse;
+    } on FormatException {
+      print("********Format Exception ");
+      repositoryResponse.code = 2;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } on HttpException {
+      print("********Http Exception ");
+      repositoryResponse.code = 3;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } catch (e) {
+      print("********Unknown Exception ${e.toString()}");
+      repositoryResponse.code = 4;
+      repositoryResponse.msg =
+          "Something went wrong, Our team has been notified";
+      return repositoryResponse;
+    }
   }
 }

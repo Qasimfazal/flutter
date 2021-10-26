@@ -1,28 +1,47 @@
 import 'dart:async';
-import 'package:meta/meta.dart';
-import 'package:sould_food_guide/model/LoginResponse.dart';
+
+import 'package:sould_food_guide/model/repoResponse_model.dart';
 import 'package:sould_food_guide/network/nao/network_nao.dart';
 import 'package:sould_food_guide/preference/app_preferences.dart';
 
 class UserRepository {
   AppPreferences _appPreferences;
-  var _repositoryResponse = StreamController<LoginResponse>.broadcast();
+  var _repositoryResponse = StreamController<RepositoryResponse>.broadcast();
 
-  factory UserRepository({@required AppPreferences appPreferences}) =>
+  factory UserRepository({AppPreferences appPreferences}) =>
       UserRepository._internal(appPreferences);
 
   UserRepository._internal(this._appPreferences);
-  void login(String email, String password){
-    LoginResponse loginResponse = new LoginResponse();
-    loginResponse.success= false;
-    NetworkNAO.login(email, password).then((data){
-      loginResponse.fromJson(data);
-      print("success " + loginResponse.success.toString());
-      _repositoryResponse.add(loginResponse);
 
-    });
+  Future<void> login(String email, String password) async {
+    RepositoryResponse repositoryResponse = new RepositoryResponse();
+    repositoryResponse.success = false;
+
+    RepositoryResponse response = await NetworkNAO.login(email, password);
+    if (response.success) {
+      _appPreferences.setUserToken(userToken: response.data["token"]);
+      // _appPreferences.setUserData(
+      //     data: jsonEncode(User.fromJson(response.data["user"])));
+
+      _repositoryResponse.add(response);
+    } else {
+      _repositoryResponse.add(response);
+    }
   }
-  Stream<LoginResponse> getRepositoryResponse() {
+
+  Future<void> signUp(
+      String name, String email, String password, String phone) async {
+    RepositoryResponse repositoryResponse = new RepositoryResponse();
+    repositoryResponse.success = false;
+    RepositoryResponse response =
+        await NetworkNAO.signUp(name, email, password, phone);
+    if (response.success)
+      _repositoryResponse.add(response);
+    else
+      _repositoryResponse.add(response);
+  }
+
+  Stream<RepositoryResponse> getRepositoryResponse() {
     return _repositoryResponse.stream;
   }
 }

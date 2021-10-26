@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:meta/meta.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sould_food_guide/model/User.dart';
 
 class AppPreferences {
   //------------------------------------------------------------- Preference Constants ------------------------------------------------------------
@@ -35,7 +35,7 @@ class AppPreferences {
   // NullPointerException for _preference variable, as it isn't yet initialized.
   // We need to 'await' _isPreferenceReady value for only once when preferences are first time requested in application lifecycle because in further
   // future requests, preference instance is already ready as we are using Singleton-Instance.
-  Future _isPreferenceInstanceReady;
+  Future<SharedPreferences> _isPreferenceInstanceReady;
 
   // Private variable for SharedPreferences
   SharedPreferences _preferences;
@@ -57,64 +57,22 @@ class AppPreferences {
 
   //------------------------------------------------------- Getter Methods -----------------------------------------------------------
   // GETTER for isPreferenceReady future
-  Future get isPreferenceReady => _isPreferenceInstanceReady;
+  Future<SharedPreferences> get isPreferenceReady => _isPreferenceInstanceReady;
 
   //--------------------------------------------------- Public Preference Methods -------------------------------------------------------------
-
-  void setCurrentApp({@required int appId}) => _setPreference(
-      prefName: PREF_CURRENT_APP,
-      prefValue: appId,
-      prefType: PREF_TYPE_INTEGER);
-
-  /// Get Logged-In Method -> Future<bool>
-  /// @param -> _
-  /// @usage -> Get value of IS_LOGGED_IN from preferences
-  Future<int> getCurrentApp() async =>
-      await _getPreference(prefName: PREF_CURRENT_APP) ??
-          null; // Check value for NULL. If NULL provide default value as FALSE.
-
-  void removeCurrentApp() => _removeValue(PREF_CURRENT_APP);
-
-  /// Get Logged-In Method -> Future<bool>
-  /// @param -> _
-  /// @usage -> Get value of IS_LOGGED_IN from preferences
-  Future<bool> isVisitedOnBoarding() async =>
-      await _getPreference(prefName: PREF_LANGUAGE_SELECTED) ??
-          false; // Check value for NULL. If NULL provide default value as FALSE.
-
-  void setVisitedOnBoarding({@required bool  status}) => _setPreference(
-      prefName: PREF_LANGUAGE_SELECTED,
-      prefValue: status,
-      prefType: PREF_TYPE_BOOL);
 
   void _removeValue(String key) {
     //Remove String
     _preferences.remove(key);
   }
 
-  void setDeviceId({@required String deviceId}) => _setPreference(
-      prefName: PREF_DEVICE_ID,
-      prefValue: deviceId,
-      prefType: PREF_TYPE_STRING);
-
-  Future<String> getDeviceId() async =>
-      await _getPreference(prefName: PREF_DEVICE_ID) ??
-          null; // Check value for NULL. If NULL provide default value as FALSE.
-
-
-  void setData({@required String data}) => _setPreference(
-      prefName: PREF_USER_DATA, prefValue: data, prefType: PREF_TYPE_STRING);
-
   //--------------------------------------------------- Private Preference Methods ----------------------------------------------------
   /// Set Preference Method -> void
-  /// @param -> @required prefName -> String
-  ///        -> @required prefValue -> dynamic
-  ///        -> @required prefType -> String
+  /// @param ->  prefName -> String
+  ///        ->  prefValue -> dynamic
+  ///        ->  prefType -> String
   /// @usage -> This is a generalized method to set preferences with required Preference-Name(Key) with Preference-Value(Value) and Preference-Value's data-type.
-  void _setPreference(
-      {@required String prefName,
-        @required dynamic prefValue,
-        @required String prefType}) {
+  void _setPreference({String prefName, dynamic prefValue, String prefType}) {
     // Make switch for Preference Type i.e. Preference-Value's data-type
     switch (prefType) {
     // prefType is bool
@@ -143,9 +101,10 @@ class AppPreferences {
         }
     }
   }
+
   /// @param ->
   /// @usage -> Set value of USER_TOKEN in preferences
-  void setUserToken({@required String userToken}) => _setPreference(
+  void setUserToken({String userToken}) => _setPreference(
       prefName: PREF_USER_TOKEN,
       prefValue: userToken,
       prefType: PREF_TYPE_STRING);
@@ -155,33 +114,41 @@ class AppPreferences {
   /// @param -> _
   /// @usage -> Get value of USER_TOKEN from preferences
   Future<String> getUserToken() async =>
-      await _getPreference(prefName: PREF_USER_TOKEN) ?? null; // Check value for NULL. If NULL provide default value as FALSE.
+      await _getPreference(prefName: PREF_USER_TOKEN) ??
+          null; // Check value for NULL. If NULL provide default value as FALSE.
+
+  void setUserData({String data}) => _setPreference(
+      prefName: PREF_USER_DATA, prefValue: data, prefType: PREF_TYPE_STRING);
+
+  Future<User> getUserData() async {
+    if (_preferences.getString(PREF_USER_DATA) == null) return null;
+
+    Map userMap = jsonDecode(_preferences.getString(PREF_USER_DATA));
+    var customer = User.fromJson(userMap);
+
+    return customer;
+  }
+
+  void removeUser() => _removeValue(PREF_USER_DATA);
 
   /// Get Preference Method -> Future<dynamic>
-  /// @param -> @required prefName -> String
+  /// @param ->  prefName -> String
   /// @usage -> Returns Preference-Value for given Preference-Name
-  Future<dynamic> _getPreference({@required prefName}) async =>
+  Future<dynamic> _getPreference({String prefName}) async =>
       _preferences.get(prefName);
-  //
-  // Future<User> getUserData() async {
-  //   if (_preferences.getString(PREF_USER_DATA) == null) return null;
-  //
-  //   Map userMap = jsonDecode(_preferences.getString(PREF_USER_DATA));
-  //   var customer = User.fromJson(userMap);
-  //
-  //   return customer;
-  // }
-  void setStep1Data({@required String data}) => _setPreference(
-      prefName: PREF_STEP1_DATA, prefValue: data, prefType: PREF_TYPE_STRING);
+//
 
-  // Future<AllUploadedDataResponse> getStep1Data() async {
-  //   if (_preferences.getString(PREF_STEP1_DATA) == null) return null;
-  //
-  //   Map userMap = jsonDecode(_preferences.getString(PREF_STEP1_DATA));
-  //   var step1Data = AllUploadedDataResponse.fromJson(userMap);
-  //
-  //   return step1Data;
-  // }
+// void setStep1Data({ String data}) => _setPreference(
+//     prefName: PREF_STEP1_DATA, prefValue: data, prefType: PREF_TYPE_STRING);
+
+// Future<AllUploadedDataResponse> getStep1Data() async {
+//   if (_preferences.getString(PREF_STEP1_DATA) == null) return null;
+//
+//   Map userMap = jsonDecode(_preferences.getString(PREF_STEP1_DATA));
+//   var step1Data = AllUploadedDataResponse.fromJson(userMap);
+//
+//   return step1Data;
+// }
 
 //  /// @p
 }

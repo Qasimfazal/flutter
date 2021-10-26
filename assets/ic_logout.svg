@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24.961" height="21.841" viewBox="0 0 24.961 21.841">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ff9902"/>
+      <stop offset="1" stop-color="#ff3b14"/>
+    </linearGradient>
+  </defs>
+
+    <path id="Icon_open-account-logout"  d="M9.36,0V3.12H21.841v15.6H9.36v3.12h15.6V0ZM6.24,6.24,0,10.921,6.24,15.6v-3.12H18.721V9.36H6.24Z" fill="url(#linear-gradient)"/>
+
+
+</svg>

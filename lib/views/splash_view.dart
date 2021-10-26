@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sould_food_guide/util/Util.dart';
-import 'package:sould_food_guide/views/login/login_view.dart';
+import 'package:sould_food_guide/app/app.dart';
+import 'package:sould_food_guide/app/app_routes.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -12,18 +12,14 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(const Duration(seconds: 5), () {
-      Util.navigate(context, LoginScreen());
-      // Navigator.of(context).pushAndRemoveUntil(
-      //   // the new route
-      //   MaterialPageRoute(
-      //     builder: (BuildContext context) => OptionScreen(),
-      //   ),
-      //   // this function should return true when we're done removing routes
-      //   // but because we want to remove all other screens, we make it
-      //   // always return false
-      //       (Route route) => false,
-      // );
+    Future.delayed(const Duration(seconds: 5), () async {
+      await App().getAppPreferences().isPreferenceReady;
+      await App().getAppPreferences().getUserToken().then((token) {
+        Navigator.pushNamedAndRemoveUntil(
+            context,
+            token == null ? AppRoutes.APP_ROUTE_LOGIN : AppRoutes.APP_MAIN_SCREEN,
+            (route) => false);
+      });
     });
   }
 

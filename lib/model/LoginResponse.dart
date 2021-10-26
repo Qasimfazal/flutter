@@ -28,20 +28,19 @@ class LoginResponse {
 }
 class Data{
   String apiToken;
-  User user;
+  String name;
 
-  Data({this.apiToken, this.user});
+  Data({this.apiToken, this.name});
   Data.fromJson(Map<String, dynamic> json) {
-    apiToken = json['api_token'];
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+    apiToken = json['token'];
+    name  = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['api_token'] = this.apiToken;
-    if (this.user != null) {
-      data['user'] = this.user.toJson();
-    }
+    data['token'] = this.apiToken;
+    data["name"] = this.name;
+
     return data;
   }
 }

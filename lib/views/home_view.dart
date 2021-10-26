@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sould_food_guide/app/app_routes.dart';
 import 'package:sould_food_guide/util/Util.dart';
 import 'package:sould_food_guide/views/events_view.dart';
 import 'package:sould_food_guide/views/hotel_detail_view.dart';
-import 'package:sould_food_guide/views/hotel_view.dart';
+import 'package:sould_food_guide/views/hotels/hotel_view.dart';
 import 'package:sould_food_guide/views/restuarants_view.dart';
 import 'package:sould_food_guide/views/search_flights_view.dart';
 import 'package:sould_food_guide/views/search_hotels_view.dart';
@@ -114,7 +115,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   InkWell(
                     onTap: (){
-                      Util.open(context, HotelScreen());
+                      // Util.open(context, SearchHotelScreen());
+                      Navigator.pushNamed(context, AppRoutes.APP_HOTEL_FILTER);
                     },
                     child: Container(
                       width: 75,

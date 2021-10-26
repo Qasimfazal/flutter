@@ -1,7 +1,11 @@
 class NetworkEndpoints {
 
-  static const String BASE_URL = "https://soulfood.thesupportonline.net/api";
+  static const String BASE_URL = "https://soulfood.thesupportonline.net/api/";
+  static const String HOTELS = "https://api.test.hotelbeds.com/hotel-api/1.0/hotels";
+  static const String HOTEL_CONTENT = "https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels";
+
   static const String API_LOGIN = BASE_URL+"login";
+  static const String API_SIGN_UP = BASE_URL+"register";
   static const String IS_NUTRIONT_CORRECT= BASE_URL+"api/add-product/step2b";
   static const String IS_INGRIDENT_CORRECT= BASE_URL+"api/add-product/step3b";
   static const String STEP1 = BASE_URL+"api/add-product/step1";
