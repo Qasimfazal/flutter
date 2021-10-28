@@ -1,4 +1,4 @@
-import 'package:sould_food_guide/model/hotels/Hotel.dart';
+import 'package:sould_food_guide/model/hotels/availability/Hotel.dart';
 
 class Hotels {
   List<Hotel> hotels;

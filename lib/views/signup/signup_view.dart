@@ -62,9 +62,9 @@ class _SignupScreenState extends State<SignupScreen> {
     });
   }
 
-  void callLoginApi() {
+  void callSignUpApi() {
     if (nameController.text.trim().isEmpty) {
-      ToastUtil.showToast(context, "Name can't be blank.");
+      ToastUtil.showToast(context, "Full Name can't be blank.");
       return;
     }
     if (emailController.text.trim().isEmpty) {
@@ -180,7 +180,8 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
         InkWell(
           onTap: () {
-            Util.open(context, MainScreen());
+            // Util.open(context, MainScreen());
+            callSignUpApi();
           },
           child: Container(
             height: 55,

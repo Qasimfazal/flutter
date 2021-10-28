@@ -48,7 +48,19 @@ class NetworkNAO {
   // "unit": "km"
   // }
   // }
-  static Future<RepositoryResponse> getHotels(
+  static Future<RepositoryResponse> getHotels(String codes, String signature) =>
+      NetworkUtil().getHotel(
+          url: NetworkEndpoints.HOTEL_CONTENT + "?codes=" + codes,
+          headers: <String, String>{
+            'Api-key': NetworkConfig.HOTEL_API_KEY,
+            'X-Signature': signature,
+            'Content-Type': "application/json",
+            // 'Accept': "application/json",
+          }).then((RepositoryResponse response) {
+        return response;
+      });
+
+  static Future<RepositoryResponse> getHotelsAvailability(
           String checkIn,
           String checkout,
           int rooms,
@@ -57,7 +69,8 @@ class NetworkNAO {
           double latitude,
           double longitude,
           int radius,
-          String unit,String signature) =>
+          String unit,
+          String signature) =>
       NetworkUtil()
           .postHotel(url: NetworkEndpoints.HOTELS, headers: <String, String>{
         'Api-key': NetworkConfig.HOTEL_API_KEY,

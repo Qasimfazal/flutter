@@ -1,5 +1,5 @@
-import 'package:sould_food_guide/model/hotels/CreditCards.dart';
-import 'package:sould_food_guide/model/hotels/Rooms.dart';
+import 'package:sould_food_guide/model/hotels/availability/CreditCards.dart';
+import 'package:sould_food_guide/model/hotels/availability/Rooms.dart';
 
 class Hotel {
   int code;

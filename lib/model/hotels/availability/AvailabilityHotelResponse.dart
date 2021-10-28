@@ -1,19 +1,23 @@
-import 'package:sould_food_guide/model/hotels/AuditData.dart';
-import 'package:sould_food_guide/model/hotels/Error.dart';
-import 'package:sould_food_guide/model/hotels/Hotels.dart';
+import 'package:sould_food_guide/model/hotels/availability/AuditData.dart';
+import 'package:sould_food_guide/model/hotels/availability/Error.dart';
+import 'package:sould_food_guide/model/hotels/availability/Hotels.dart';
 
-class HotelResponse {
+class AvailabilityHotelResponse {
   AuditData auditData;
   Hotels hotels;
   Error error;
+  String errorMsg;
 
-  HotelResponse({this.auditData, this.hotels});
+  AvailabilityHotelResponse({this.auditData, this.hotels});
 
-  HotelResponse.fromJson(Map<String, dynamic> json) {
+  AvailabilityHotelResponse.fromJson(Map<String, dynamic> json) {
     auditData = json['auditData'] != null
         ? new AuditData.fromJson(json['auditData'])
         : null;
-    error = json['error'] != null ? new Error.fromJson(json['error']) : null;
+    if (json['error'] is String) {
+      errorMsg = json['error'];
+    } else
+      error = json['error'] != null ? new Error.fromJson(json['error']) : null;
 
     hotels =
         json['hotels'] != null ? new Hotels.fromJson(json['hotels']) : null;
@@ -29,7 +33,8 @@ class HotelResponse {
     }
     if (this.error != null) {
       data['error'] = this.error.toJson();
-    }
+    } else
+      data['error'] = this.errorMsg;
     return data;
   }
 }

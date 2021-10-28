@@ -1,5 +1,6 @@
 class NetworkEndpoints {
 
+  static const String BASE_HOTEL_IMAGE ="http://photos.hotelbeds.com/giata/original/";
   static const String BASE_URL = "https://soulfood.thesupportonline.net/api/";
   static const String HOTELS = "https://api.test.hotelbeds.com/hotel-api/1.0/hotels";
   static const String HOTEL_CONTENT = "https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels";

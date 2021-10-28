@@ -1,4 +1,6 @@
-import 'package:sould_food_guide/model/hotels/Rates.dart';
+
+
+import 'package:sould_food_guide/model/hotels/availability/Rates.dart';
 
 class Rooms {
   String code;

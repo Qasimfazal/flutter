@@ -1,6 +1,7 @@
-import 'package:sould_food_guide/model/hotels/CancellationPolicies.dart';
-import 'package:sould_food_guide/model/hotels/Offers.dart';
-import 'package:sould_food_guide/model/hotels/Promotions.dart';
+import 'package:sould_food_guide/model/hotels/availability/CancellationPolicies.dart';
+import 'package:sould_food_guide/model/hotels/availability/Offers.dart';
+import 'package:sould_food_guide/model/hotels/availability/Promotions.dart';
+
 
 class Rates {
   String rateKey;

@@ -5,11 +5,25 @@
 // import 'package:flutter/material.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 //
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sould_food_guide/network/network_config.dart';
+import 'package:sould_food_guide/network/network_endpoints.dart';
 
 class Util {
+  static getSignature() {
+    int time = (DateTime.now().millisecondsSinceEpoch / 1000).floor();
+    var assemble = (NetworkConfig.HOTEL_API_KEY +
+        NetworkConfig.HOTEL_SECRET +
+        time.toString());
+    var encoded = utf8.encode(assemble);
+    return sha256.convert(encoded);
+  }
+
   static getPrimaryButtonDecoration() {
     return BoxDecoration(
         gradient: getPrimaryBtnGradient(),
@@ -61,6 +75,22 @@ class Util {
         border: OutlineInputBorder(
             borderSide: const BorderSide(color: Color(0xffF1F1F1), width: 1.0),
             borderRadius: BorderRadius.all(Radius.circular(0.0))));
+  }
+  static getDecorationForFilter(String hint) {
+    return InputDecoration(
+        hintText: '$hint',
+        hintStyle: TextStyle(color: Color(0xFF9E9E9E)),
+        enabledBorder:InputBorder.none,
+        contentPadding: EdgeInsets.only(bottom: 15),
+
+        // OutlineInputBorder(
+        //     borderSide: BorderSide(color: Color(0xffF1F1F1), width: 1.0),
+        //     borderRadius: BorderRadius.all(Radius.circular(0.0))),
+         border:InputBorder.none,
+        // border:OutlineInputBorder(
+        //     borderSide: const BorderSide(color: Color(0xffF1F1F1), width: 0.5),
+        //     borderRadius: BorderRadius.all(Radius.circular(0.0)))
+    );
   }
 
   static getFormDecoration(String label) {
@@ -201,6 +231,12 @@ class Util {
         // <-- Use this
         centerTitle: true,
         titleSpacing: 0);
+  }
+
+  static getHotelImagePath(String path) {
+    var photo = NetworkEndpoints.BASE_HOTEL_IMAGE + path;
+    print("photo $photo");
+    return photo;
   }
 //
 //   static getProductSearchInput(BuildContext context) {

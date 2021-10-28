@@ -1,19 +1,51 @@
 import 'dart:async';
 
+import 'package:sould_food_guide/model/hotels/availability/AvailabilityHotelResponse.dart';
+import 'package:sould_food_guide/model/hotels/content/ContentHotelResponse.dart';
 import 'package:sould_food_guide/model/repoResponse_model.dart';
 import 'package:sould_food_guide/network/nao/network_nao.dart';
 import 'package:sould_food_guide/preference/app_preferences.dart';
+import 'package:sould_food_guide/util/Util.dart';
+// import 'package:rxdart/rxdart.dart';
 
 class HotelRepository {
   AppPreferences _appPreferences;
-  var _repositoryResponse = StreamController<RepositoryResponse>.broadcast();
+
+  // var _availabilityResponse = StreamController<RepositoryResponse>.broadcast();
+  // var _hotelResponse = StreamController<RepositoryResponse>.broadcast();
+  StreamController<RepositoryResponse> _repositoryResponse = StreamController.broadcast();
 
   factory HotelRepository({AppPreferences appPreferences}) =>
       HotelRepository._internal(appPreferences);
 
   HotelRepository._internal(this._appPreferences);
 
-  Future<void> getHotels(
+  Future<void> getHotels(String codes, String signature) async {
+    RepositoryResponse response = await NetworkNAO.getHotels(codes, signature);
+    try{
+      ContentHotelResponse contentHotelResponse = ContentHotelResponse.fromJson(response.data);
+      if (response.success) {
+
+        response.data = contentHotelResponse;
+        _repositoryResponse.add(response);
+      } else {
+        _repositoryResponse.add(response);
+      }
+    }catch(e,stacktrace){
+print(stacktrace.toString());
+      print("e "+ e.toString());
+      ContentHotelResponse contentHotelResponse = ContentHotelResponse();
+      contentHotelResponse.errorMsg = e.toString();
+      response.data = contentHotelResponse;
+      response.success= false;
+      response.msg= e.toString();
+      _repositoryResponse.add(response);
+    }
+
+
+  }
+
+  Future<void> getHotelsAvailability(
       String checkIn,
       String checkOut,
       int rooms,
@@ -22,12 +54,9 @@ class HotelRepository {
       double latitude,
       double longitude,
       int radius,
-      String unit,String signature) async {
-    RepositoryResponse repositoryResponse = new RepositoryResponse();
-    repositoryResponse.success = false;
-
-    RepositoryResponse response = await NetworkNAO.getHotels(
-checkIn,
+      String unit) async {
+    RepositoryResponse response = await NetworkNAO.getHotelsAvailability(
+        checkIn,
         checkOut,
         rooms,
         adults,
@@ -35,14 +64,16 @@ checkIn,
         latitude,
         longitude,
         radius,
-        unit,signature);
+        unit,
+        Util.getSignature().toString());
+    print("getHotelsAvailability response returned");
     // RepositoryResponse response = await NetworkNAO.login(email, password);
+    response.data = AvailabilityHotelResponse.fromJson(response.data);
     if (response.success) {
 
 
       _repositoryResponse.add(response);
     } else {
-
       _repositoryResponse.add(response);
     }
   }

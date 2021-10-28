@@ -1,13 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 
-// import 'package:crypto/crypto.dart';
-import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sould_food_guide/app/app_routes.dart';
-import 'package:sould_food_guide/network/network_config.dart';
+import 'package:sould_food_guide/core/public_service.dart';
 import 'package:sould_food_guide/util/Util.dart';
+import 'package:provider/provider.dart';
 
 class SearchHotelScreen extends StatefulWidget {
   @override
@@ -16,8 +14,12 @@ class SearchHotelScreen extends StatefulWidget {
 
 class _SearchHotelScreenState extends State<SearchHotelScreen>
     with SingleTickerProviderStateMixin {
+  // PublicService _publicService;
   StreamController checkInController;
   StreamController checkOutController;
+  TextEditingController adultControlller = TextEditingController();
+  TextEditingController childrenControlller = TextEditingController();
+  TextEditingController infatsControlller = TextEditingController();
   final List<String> MONTHS = [
     "Jan",
     "Feb",
@@ -52,6 +54,9 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
+    adultControlller.text = "01";
+    childrenControlller.text = "0";
+    infatsControlller.text = "0";
     tabController = new TabController(length: 3, vsync: this, initialIndex: 0);
     checkOutDate = selectedDate.add(Duration(days: 1));
     checkInController = new StreamController<DateTime>.broadcast();
@@ -61,6 +66,8 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
 
   @override
   Widget build(BuildContext context) {
+    // _publicService = context.watch();
+
     final body = ListView(
       // crossAxisAlignment: CrossAxisAlignment.start,
       // mainAxisAlignment: MainAxisAlignment.start,
@@ -275,17 +282,23 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 30,
-                    height: 30,
+                    width: MediaQuery.of(context).size.width *0.08,
+                    // height:50,
+                    height:MediaQuery.of(context).size.width *0.14,
+
                     child: TextField(
-                      maxLines: 1,
+                      controller: adultControlller,
+                      textAlignVertical: TextAlignVertical.center,
+                      keyboardType: TextInputType.number,
                       style: TextStyle(
-                          fontSize: 25,
+                          // fontSize: 25,
+                          fontSize: MediaQuery.of(context).size.width *0.075,
                           color: Colors.black,
                           fontWeight: FontWeight.w500),
-                      decoration: InputDecoration(),
+                      decoration: Util.getDecorationForFilter("01"),
                     ),
                   ),
                   Container(
@@ -301,13 +314,24 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
                 ],
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "02",
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500),
+                  Container(
+                    width: MediaQuery.of(context).size.width *0.08,
+                    // height:50,
+                    height:MediaQuery.of(context).size.width *0.14,
+
+                    child: TextField(
+                      controller: childrenControlller,
+                      textAlignVertical: TextAlignVertical.center,
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(
+                        // fontSize: 25,
+                          fontSize: MediaQuery.of(context).size.width *0.075,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500),
+                      decoration: Util.getDecorationForFilter("01"),
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
@@ -322,18 +346,29 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
                 ],
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "02",
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500),
+                  Container(
+                    width: MediaQuery.of(context).size.width *0.08,
+                    // height:50,
+                    height:MediaQuery.of(context).size.width *0.14,
+
+                    child: TextField(
+                      controller: infatsControlller,
+                      textAlignVertical: TextAlignVertical.center,
+                      keyboardType: TextInputType.number,
+                      style: TextStyle(
+                        // fontSize: 25,
+                          fontSize: MediaQuery.of(context).size.width *0.075,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500),
+                      decoration: Util.getDecorationForFilter("01"),
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: 10),
                     child: Text(
-                      "Infrat",
+                      "Infat",
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
@@ -389,11 +424,12 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
 
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: true,
       bottomNavigationBar: InkWell(
         onTap: () {
           // Util.popBack(context);
 
-          Navigator.pushReplacementNamed(context, AppRoutes.APP_HOTELS);
+          Navigator.pushNamed(context, AppRoutes.APP_HOTELS);
         },
         child: Container(
           height: 55,
