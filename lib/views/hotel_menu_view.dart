@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:sould_food_guide/util/Util.dart';
-import 'package:sould_food_guide/views/fliter_view.dart';
-import 'package:sould_food_guide/views/hotel_detail_view.dart';
 import 'package:sould_food_guide/views/search_hotels_view.dart';
 
 class HotelMenuScreen extends StatefulWidget {
@@ -99,21 +97,19 @@ class _HotelMenuScreenState extends State<HotelMenuScreen> {
             scrollDirection: Axis.horizontal,
             itemCount: 4,
             itemBuilder: (context, index) => InkWell(
-              onTap: (){
-                Util.open(context, HotelDetailScreen());
-              },
-              child: Container(
-                width: MediaQuery.of(context).size.width*0.7,
-                margin: EdgeInsets.only(right: 10),
+                  onTap: () {
+                    // Util.open(context, HotelDetailScreen());
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    margin: EdgeInsets.only(right: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width * 0.7,
-
                           child: ClipRRect(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25)),
+                            borderRadius: BorderRadius.all(Radius.circular(25)),
                             child: Image.asset(
                               "assets/img_13.png",
                               height: 150,
@@ -131,7 +127,6 @@ class _HotelMenuScreenState extends State<HotelMenuScreen> {
                                   fontSize: 9,
                                   color: Colors.black),
                             ),
-
                             Text(
                               "\$456.00",
                               style: TextStyle(
@@ -151,7 +146,7 @@ class _HotelMenuScreenState extends State<HotelMenuScreen> {
                       ],
                     ),
                   ),
-            )),
+                )),
       ),
     );
   }

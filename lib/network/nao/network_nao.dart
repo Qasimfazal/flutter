@@ -60,6 +60,22 @@ class NetworkNAO {
         return response;
       });
 
+  static Future<RepositoryResponse> getHotelDetail(
+      String code, String signature) =>
+    NetworkUtil().getHotel(
+        url: NetworkEndpoints.HOTEL_DETAIL_CONTENT
+            .replaceFirst("{hotelCode}", code),
+        headers: <String, String>{
+          'Api-key': NetworkConfig.HOTEL_API_KEY,
+          'X-Signature': signature,
+          'Content-Type': "application/json",
+          // 'Accept': "application/json",
+        }).then((RepositoryResponse response)  {
+          return response;
+
+    });
+
+
   static Future<RepositoryResponse> getHotelsAvailability(
           String checkIn,
           String checkout,

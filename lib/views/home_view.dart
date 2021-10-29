@@ -244,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: 4,
                 itemBuilder: (context, index) => InkWell(
                   onTap: (){
-                    Util.open(context, HotelDetailScreen());
+                    // Util.open(context, HotelDetailScreen());
                   },
                   child: Container(
                         margin: EdgeInsets.only(right: 10),

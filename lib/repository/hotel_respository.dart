@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:sould_food_guide/model/hotels/availability/AvailabilityHotelResponse.dart';
 import 'package:sould_food_guide/model/hotels/content/ContentHotelResponse.dart';
+import 'package:sould_food_guide/model/hotels/detail/HotelDetailResponse.dart';
 import 'package:sould_food_guide/model/repoResponse_model.dart';
 import 'package:sould_food_guide/network/nao/network_nao.dart';
 import 'package:sould_food_guide/preference/app_preferences.dart';
@@ -13,36 +14,59 @@ class HotelRepository {
 
   // var _availabilityResponse = StreamController<RepositoryResponse>.broadcast();
   // var _hotelResponse = StreamController<RepositoryResponse>.broadcast();
-  StreamController<RepositoryResponse> _repositoryResponse = StreamController.broadcast();
+  StreamController<RepositoryResponse> _repositoryResponse =
+      StreamController.broadcast();
 
   factory HotelRepository({AppPreferences appPreferences}) =>
       HotelRepository._internal(appPreferences);
 
   HotelRepository._internal(this._appPreferences);
 
+  Future<void> getHotelDetail(String code, String signature) async {
+    RepositoryResponse response =
+        await NetworkNAO.getHotelDetail(code, signature);
+    try {
+      HotelDetailResponse hotelDetailResponse =
+          HotelDetailResponse.fromJson(response.data);
+      if (response.success) {
+        response.data = hotelDetailResponse;
+        _repositoryResponse.add(response);
+      } else {
+        _repositoryResponse.add(response);
+      }
+    } catch (e, stacktrace) {
+      print(stacktrace.toString());
+      print("e " + e.toString());
+      HotelDetailResponse hotelDetailResponse = HotelDetailResponse();
+      hotelDetailResponse.errorMsg = e.toString();
+      response.data = hotelDetailResponse;
+      response.success = false;
+      response.msg = e.toString();
+      _repositoryResponse.add(response);
+    }
+  }
+
   Future<void> getHotels(String codes, String signature) async {
     RepositoryResponse response = await NetworkNAO.getHotels(codes, signature);
-    try{
-      ContentHotelResponse contentHotelResponse = ContentHotelResponse.fromJson(response.data);
+    try {
+      ContentHotelResponse contentHotelResponse =
+          ContentHotelResponse.fromJson(response.data);
       if (response.success) {
-
         response.data = contentHotelResponse;
         _repositoryResponse.add(response);
       } else {
         _repositoryResponse.add(response);
       }
-    }catch(e,stacktrace){
-print(stacktrace.toString());
-      print("e "+ e.toString());
+    } catch (e, stacktrace) {
+      print(stacktrace.toString());
+      print("e " + e.toString());
       ContentHotelResponse contentHotelResponse = ContentHotelResponse();
       contentHotelResponse.errorMsg = e.toString();
       response.data = contentHotelResponse;
-      response.success= false;
-      response.msg= e.toString();
+      response.success = false;
+      response.msg = e.toString();
       _repositoryResponse.add(response);
     }
-
-
   }
 
   Future<void> getHotelsAvailability(
@@ -70,8 +94,6 @@ print(stacktrace.toString());
     // RepositoryResponse response = await NetworkNAO.login(email, password);
     response.data = AvailabilityHotelResponse.fromJson(response.data);
     if (response.success) {
-
-
       _repositoryResponse.add(response);
     } else {
       _repositoryResponse.add(response);

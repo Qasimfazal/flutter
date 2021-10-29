@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sould_food_guide/app/app.dart';
+import 'package:sould_food_guide/app/app_routes.dart';
 import 'package:sould_food_guide/model/hotels/availability/AvailabilityHotelResponse.dart';
 import 'package:sould_food_guide/model/hotels/availability/Hotel.dart';
 import 'package:sould_food_guide/model/hotels/content/ContentHotelResponse.dart';
@@ -32,7 +33,7 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
 
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
 
-  RepositoryResponse _response;
+    RepositoryResponse _response;
 
   int count = 0;
 
@@ -111,7 +112,8 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
             _response = repositoryResponse;
             _hotelController.sink.add(true);
           }
-        } else if (response.data is ContentHotelResponse) {
+        }
+        else if (response.data is ContentHotelResponse) {
           ContentHotelResponse contentHotelResponse = response.data;
           if (response.success) {
             _response = response;
@@ -132,6 +134,7 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
             _hotelController.sink.add(true);
           }
         }
+
       } else {
         if (mounted) ToastUtil.showToast(context, response.msg);
       }
@@ -173,12 +176,10 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
               );
             } else {
               List<Hotels> hotels = hotelResponse.hotels;
-              // print("hotel list ${hotels.join(",")}");
+              print("hotel length ${hotels.length}");
               hotels.forEach((Hotels hotel) {
                 try {
-                  var hotelFound = availableHotelList.firstWhere(
-                      (Hotel availableHotel) =>
-                          availableHotel.code == hotel.code);
+                  var hotelFound = availableHotelList.firstWhere((Hotel availableHotel) => availableHotel.code == hotel.code);
                   availabilityHotels[hotelFound.code.toString()] = hotelFound;
                 } catch (e) {}
               });
@@ -245,75 +246,88 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           var hotel = hotels[index];
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin:
-                                EdgeInsets.only(right: 10, left: 10, bottom: 5),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(25)),
-                                    child: (hotel.images != null &&
-                                            hotel.images.isNotEmpty)
-                                        ? FadeInImage.assetNetwork(
-                                            placeholder:
-                                                "assets/placeholder.png",
-                                            image: Util.getHotelImagePath(
-                                                hotel.images[0].path),
-                                            height: 140,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.asset(
-                                            "assets/placeholder.png",
-                                            height: 140,
-                                            fit: BoxFit.cover,
-                                          ),
-                                    //     Image.asset(
-                                    //   "assets/img_13.png",
-                                    //   height: 140,
-                                    //   fit: BoxFit.cover,
-                                    // ),
+                          return InkWell(
+                            onTap: (){
+                              print("ontap hote click");
+                              Navigator.pushNamed(context, AppRoutes.APP_HOTEL_DETAIL,arguments: {"contentHotel":hotel,"availableHotel":availabilityHotels[hotel.code.toString()]});
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width,
+                              margin:
+                                  EdgeInsets.only(right: 10, left: 10, bottom: 5),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(25)),
+                                      child: (hotel.images != null &&
+                                              hotel.images.isNotEmpty)
+                                          ? FadeInImage.assetNetwork(
+                                              placeholder:
+                                                  "assets/placeholder.png",
+                                              imageErrorBuilder:(context,error,stacktrace){
+                                                return Image.asset(
+                                                  "assets/placeholder.png",
+                                                  height: 140,
+                                                  fit: BoxFit.cover,
+                                                );
+                                              } ,
+                                              image: Util.getHotelImagePath(
+                                                  hotel.images[0].path),
+                                              height: 140,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Image.asset(
+                                              "assets/placeholder.png",
+                                              height: 140,
+                                              fit: BoxFit.cover,
+                                            ),
+                                      //     Image.asset(
+                                      //   "assets/img_13.png",
+                                      //   height: 140,
+                                      //   fit: BoxFit.cover,
+                                      // ),
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  hotel.name.content,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 9,
-                                      color: Colors.black),
-                                ),
-                                // Row(
-                                //   mainAxisAlignment:
-                                //       MainAxisAlignment.spaceBetween,
-                                //   children: [
-                                //     Text(
-                                //       "Thailand Package",
-                                //       style: TextStyle(
-                                //           fontWeight: FontWeight.w500,
-                                //           fontSize: 9,
-                                //           color: Colors.black),
-                                //     ),
-                                //     Text(
-                                //       "\$456.00",
-                                //       style: TextStyle(
-                                //           fontWeight: FontWeight.w500,
-                                //           fontSize: 9,
-                                //           color: Color(0XFFFF8106)),
-                                //     ),
-                                //   ],
-                                // ),
-                                // Text(
-                                //   "3 Days Nights",
-                                //   style: TextStyle(
-                                //       fontWeight: FontWeight.w400,
-                                //       fontSize: 8,
-                                //       color: Color(0XFF828282)),
-                                // ),
-                              ],
+                                  Text(
+                                    hotel.name.content,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 9,
+                                        color: Colors.black),
+                                  ),
+                                  // Row(
+                                  //   mainAxisAlignment:
+                                  //       MainAxisAlignment.spaceBetween,
+                                  //   children: [
+                                  //     Text(
+                                  //       "Thailand Package",
+                                  //       style: TextStyle(
+                                  //           fontWeight: FontWeight.w500,
+                                  //           fontSize: 9,
+                                  //           color: Colors.black),
+                                  //     ),
+                                  //     Text(
+                                  //       "\$456.00",
+                                  //       style: TextStyle(
+                                  //           fontWeight: FontWeight.w500,
+                                  //           fontSize: 9,
+                                  //           color: Color(0XFFFF8106)),
+                                  //     ),
+                                  //   ],
+                                  // ),
+                                  // Text(
+                                  //   "3 Days Nights",
+                                  //   style: TextStyle(
+                                  //       fontWeight: FontWeight.w400,
+                                  //       fontSize: 8,
+                                  //       color: Color(0XFF828282)),
+                                  // ),
+                                ],
+                              ),
                             ),
                           );
                           // return getHorizontalList("Exclusive places");
@@ -412,7 +426,7 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
         children: [
           InkWell(
             onTap: () {
-              Util.open(context, HotelDetailScreen());
+              // Util.open(context, HotelDetailScreen());
             },
             child: Container(
               height: 180,

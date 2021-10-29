@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sould_food_guide/views/hotel_detail_view.dart';
+import 'package:sould_food_guide/views/hotel_images.dart';
 import 'package:sould_food_guide/views/hotels/hotel_view.dart';
 import 'package:sould_food_guide/views/search_hotels_view.dart';
 import 'package:sould_food_guide/views/splash_view.dart';
@@ -14,6 +16,8 @@ class AppRoutes {
   static const String APP_MAIN_SCREEN = "/main";
   static const String APP_HOTEL_FILTER = "/hotel_filter";
   static const String APP_HOTELS = "/hotels";
+  static const String APP_HOTEL_DETAIL = "/hotel_detail";
+  static const String APP_HOTEL_PHOTOS = "/hotel_images";
 
   //--------------------------------------------------------------- Methods --------------------------------------------------------------------------
 
@@ -62,6 +66,20 @@ class AppRoutes {
           return MaterialPageRoute<void>(
             settings: routeSettings,
             builder: (BuildContext context) => HotelScreen(),
+          );
+        }
+        case APP_HOTEL_DETAIL :
+        {
+          return MaterialPageRoute<void>(
+            settings: routeSettings,
+            builder: (BuildContext context) => HotelDetailScreen(routeSettings.arguments),
+          );
+        }
+        case APP_HOTEL_PHOTOS :
+        {
+          return MaterialPageRoute<void>(
+            settings: routeSettings,
+            builder: (BuildContext context) => HotelImages(routeSettings.arguments),
           );
         }
 

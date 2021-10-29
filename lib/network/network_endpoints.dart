@@ -1,9 +1,11 @@
 class NetworkEndpoints {
 
-  static const String BASE_HOTEL_IMAGE ="http://photos.hotelbeds.com/giata/original/";
+  // static const String BASE_HOTEL_IMAGE ="http://photos.hotelbeds.com/giata/original/";
+  static const String BASE_HOTEL_IMAGE ="http://photos.hotelbeds.com/giata/bigger/";
   static const String BASE_URL = "https://soulfood.thesupportonline.net/api/";
   static const String HOTELS = "https://api.test.hotelbeds.com/hotel-api/1.0/hotels";
   static const String HOTEL_CONTENT = "https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels";
+  static const String HOTEL_DETAIL_CONTENT = "https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels/{hotelCode}/details?language=ENG";
 
   static const String API_LOGIN = BASE_URL+"login";
   static const String API_SIGN_UP = BASE_URL+"register";
