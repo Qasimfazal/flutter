@@ -61,20 +61,18 @@ class NetworkNAO {
       });
 
   static Future<RepositoryResponse> getHotelDetail(
-      String code, String signature) =>
-    NetworkUtil().getHotel(
-        url: NetworkEndpoints.HOTEL_DETAIL_CONTENT
-            .replaceFirst("{hotelCode}", code),
-        headers: <String, String>{
-          'Api-key': NetworkConfig.HOTEL_API_KEY,
-          'X-Signature': signature,
-          'Content-Type': "application/json",
-          // 'Accept': "application/json",
-        }).then((RepositoryResponse response)  {
-          return response;
-
-    });
-
+          String code, String signature) =>
+      NetworkUtil().getHotel(
+          url: NetworkEndpoints.HOTEL_DETAIL_CONTENT
+              .replaceFirst("{hotelCode}", code),
+          headers: <String, String>{
+            'Api-key': NetworkConfig.HOTEL_API_KEY,
+            'X-Signature': signature,
+            'Content-Type': "application/json",
+            // 'Accept': "application/json",
+          }).then((RepositoryResponse response) {
+        return response;
+      });
 
   static Future<RepositoryResponse> getHotelsAvailability(
           String checkIn,
@@ -95,9 +93,7 @@ class NetworkNAO {
         // 'Accept': "application/json",
       }, body: {
         'stay': {'checkIn': checkIn, 'checkOut': checkout},
-        'occupancies': [
-          {'rooms': rooms, 'adults': adults, 'children': children}
-        ],
+        'occupancies': [{'rooms': rooms, 'adults': adults, 'children': children}],
         'geolocation': {
           'latitude': latitude,
           'longitude': longitude,

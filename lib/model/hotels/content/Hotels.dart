@@ -19,7 +19,7 @@ class Hotels {
   Name city;
   String email;
   List<Phones> phones;
-  List<Rooms> rooms;
+  // List<Rooms> rooms;
   List<Facilities> facilities;
   List<Issues> issues;
   List<Images> images;
@@ -48,7 +48,7 @@ class Hotels {
       this.city,
       this.email,
       this.phones,
-      this.rooms,
+      // this.rooms,
       this.facilities,
       this.issues,
       this.images,
@@ -92,12 +92,12 @@ class Hotels {
         phones.add(new Phones.fromJson(v));
       });
     }
-    if (json['rooms'] != null) {
-      rooms = new List<Rooms>();
-      json['rooms'].forEach((v) {
-        rooms.add(new Rooms.fromJson(v));
-      });
-    }
+    // if (json['rooms'] != null) {
+    //   rooms = new List<Rooms>();
+    //   json['rooms'].forEach((v) {
+    //     rooms.add(new Rooms.fromJson(v));
+    //   });
+    // }
     if (json['facilities'] != null) {
       facilities = new List<Facilities>();
       json['facilities'].forEach((v) {
@@ -157,9 +157,9 @@ class Hotels {
     if (this.phones != null) {
       data['phones'] = this.phones.map((v) => v.toJson()).toList();
     }
-    if (this.rooms != null) {
-      data['rooms'] = this.rooms.map((v) => v.toJson()).toList();
-    }
+    // if (this.rooms != null) {
+    //   data['rooms'] = this.rooms.map((v) => v.toJson()).toList();
+    // }
     if (this.facilities != null) {
       data['facilities'] = this.facilities.map((v) => v.toJson()).toList();
     }
@@ -256,77 +256,77 @@ class Phones {
   }
 }
 
-class Rooms {
-  String roomCode;
-  bool isParentRoom;
-  int minPax;
-  int maxPax;
-  int maxAdults;
-  int maxChildren;
-  int minAdults;
-  String roomType;
-  String characteristicCode;
-  List<RoomFacilities> roomFacilities;
-  List<RoomStays> roomStays;
-
-  Rooms(
-      {this.roomCode,
-      this.isParentRoom,
-      this.minPax,
-      this.maxPax,
-      this.maxAdults,
-      this.maxChildren,
-      this.minAdults,
-      this.roomType,
-      this.characteristicCode,
-      this.roomFacilities,
-      this.roomStays});
-
-  Rooms.fromJson(Map<String, dynamic> json) {
-    roomCode = json['roomCode'];
-    isParentRoom = json['isParentRoom'];
-    minPax = json['minPax'];
-    maxPax = json['maxPax'];
-    maxAdults = json['maxAdults'];
-    maxChildren = json['maxChildren'];
-    minAdults = json['minAdults'];
-    roomType = json['roomType'];
-    characteristicCode = json['characteristicCode'];
-    if (json['roomFacilities'] != null) {
-      roomFacilities = new List<RoomFacilities>();
-      json['roomFacilities'].forEach((v) {
-        roomFacilities.add(new RoomFacilities.fromJson(v));
-      });
-    }
-    if (json['roomStays'] != null) {
-      roomStays = new List<RoomStays>();
-      json['roomStays'].forEach((v) {
-        roomStays.add(new RoomStays.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['roomCode'] = this.roomCode;
-    data['isParentRoom'] = this.isParentRoom;
-    data['minPax'] = this.minPax;
-    data['maxPax'] = this.maxPax;
-    data['maxAdults'] = this.maxAdults;
-    data['maxChildren'] = this.maxChildren;
-    data['minAdults'] = this.minAdults;
-    data['roomType'] = this.roomType;
-    data['characteristicCode'] = this.characteristicCode;
-    if (this.roomFacilities != null) {
-      data['roomFacilities'] =
-          this.roomFacilities.map((v) => v.toJson()).toList();
-    }
-    if (this.roomStays != null) {
-      data['roomStays'] = this.roomStays.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
+// class Rooms {
+//   String roomCode;
+//   bool isParentRoom;
+//   int minPax;
+//   int maxPax;
+//   int maxAdults;
+//   int maxChildren;
+//   int minAdults;
+//   String roomType;
+//   String characteristicCode;
+//   List<RoomFacilities> roomFacilities;
+//   List<RoomStays> roomStays;
+//
+//   Rooms(
+//       {this.roomCode,
+//       this.isParentRoom,
+//       this.minPax,
+//       this.maxPax,
+//       this.maxAdults,
+//       this.maxChildren,
+//       this.minAdults,
+//       this.roomType,
+//       this.characteristicCode,
+//       this.roomFacilities,
+//       this.roomStays});
+//
+//   Rooms.fromJson(Map<String, dynamic> json) {
+//     roomCode = json['roomCode'];
+//     isParentRoom = json['isParentRoom'];
+//     minPax = json['minPax'];
+//     maxPax = json['maxPax'];
+//     maxAdults = json['maxAdults'];
+//     maxChildren = json['maxChildren'];
+//     minAdults = json['minAdults'];
+//     roomType = json['roomType'];
+//     characteristicCode = json['characteristicCode'];
+//     if (json['roomFacilities'] != null) {
+//       roomFacilities = new List<RoomFacilities>();
+//       json['roomFacilities'].forEach((v) {
+//         roomFacilities.add(new RoomFacilities.fromJson(v));
+//       });
+//     }
+//     if (json['roomStays'] != null) {
+//       roomStays = new List<RoomStays>();
+//       json['roomStays'].forEach((v) {
+//         roomStays.add(new RoomStays.fromJson(v));
+//       });
+//     }
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['roomCode'] = this.roomCode;
+//     data['isParentRoom'] = this.isParentRoom;
+//     data['minPax'] = this.minPax;
+//     data['maxPax'] = this.maxPax;
+//     data['maxAdults'] = this.maxAdults;
+//     data['maxChildren'] = this.maxChildren;
+//     data['minAdults'] = this.minAdults;
+//     data['roomType'] = this.roomType;
+//     data['characteristicCode'] = this.characteristicCode;
+//     if (this.roomFacilities != null) {
+//       data['roomFacilities'] =
+//           this.roomFacilities.map((v) => v.toJson()).toList();
+//     }
+//     if (this.roomStays != null) {
+//       data['roomStays'] = this.roomStays.map((v) => v.toJson()).toList();
+//     }
+//     return data;
+//   }
+// }
 
 class RoomFacilities {
   int facilityCode;

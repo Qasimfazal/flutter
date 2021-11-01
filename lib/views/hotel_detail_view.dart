@@ -1,11 +1,14 @@
 import 'dart:async';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sould_food_guide/app/app.dart';
 import 'package:sould_food_guide/app/app_routes.dart';
 import 'package:sould_food_guide/model/hotels/availability/Hotel.dart';
+import 'package:sould_food_guide/model/hotels/availability/Rates.dart';
+import 'package:sould_food_guide/model/hotels/availability/Rooms.dart';
 import 'package:sould_food_guide/model/hotels/content/Hotels.dart';
 import 'package:sould_food_guide/model/hotels/detail/HotelDetailResponse.dart';
 import 'package:sould_food_guide/model/repoResponse_model.dart';
@@ -25,6 +28,9 @@ class HotelDetailScreen extends StatefulWidget {
 
 class _HotelDetailScreenState extends State<HotelDetailScreen>
     with WidgetsBindingObserver {
+  // Group Value for Radio Button.
+  String id="1";
+
   HotelViewModel _hoteViewModel;
 
   // StreamController _availabilityController;
@@ -49,6 +55,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
     if (widget.arguments != null) {
       contentHotel = widget.arguments["contentHotel"];
       availableHotel = widget.arguments["availableHotel"];
+
     }
     _hoteViewModel.getHotelRepository().getHotelDetail(
         contentHotel.code.toString(), Util.getSignature().toString());
@@ -99,53 +106,58 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
                 Stack(
                   children: [
                     (contentHotel.images != null &&
-                            contentHotel.images.isNotEmpty)
+                        contentHotel.images.isNotEmpty)
                         ? CarouselSlider(
-                            options: CarouselOptions(
-                              height: 250,
+                      options: CarouselOptions(
+                        height: 250,
 
-                              viewportFraction: 1.0,
-                              enlargeCenterPage: false,
+                        viewportFraction: 1.0,
+                        enlargeCenterPage: false,
 
-                              // autoPlay: false,
-                            ),
-                            items: contentHotel.images
-                                .map(
-                                  (image) => ColorFiltered(
-                                      colorFilter: ColorFilter.mode(
-                                          Colors.black.withOpacity(0.15),
-                                          BlendMode.darken),
-                                      child: FadeInImage.assetNetwork(
-                                        placeholder: "assets/placeholder.png",
-                                        imageErrorBuilder:
-                                            (context, error, stacktrace) {
-                                          return Image.asset(
-                                            "assets/placeholder.png",
-                                            fit: BoxFit.cover,
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                          );
-                                        },
-                                        image:
-                                            Util.getHotelImagePath(image.path),
-                                        fit: BoxFit.cover,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                      )),
-                                )
-                                .toList(),
-                          )
+                        // autoPlay: false,
+                      ),
+                      items: contentHotel.images
+                          .map(
+                            (image) =>
+                            ColorFiltered(
+                                colorFilter: ColorFilter.mode(
+                                    Colors.black.withOpacity(0.15),
+                                    BlendMode.darken),
+                                child: FadeInImage.assetNetwork(
+                                  placeholder: "assets/placeholder.png",
+                                  imageErrorBuilder:
+                                      (context, error, stacktrace) {
+                                    return Image.asset(
+                                      "assets/placeholder.png",
+                                      fit: BoxFit.cover,
+                                      width: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .width,
+                                    );
+                                  },
+                                  image:
+                                  Util.getHotelImagePath(image.path),
+                                  fit: BoxFit.cover,
+                                  width:
+                                  MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width,
+                                )),
+                      )
+                          .toList(),
+                    )
                         : ColorFiltered(
-                            colorFilter: ColorFilter.mode(
-                                Colors.black.withOpacity(0.15),
-                                BlendMode.darken),
-                            child: Image.asset(
-                              "assets/placeholder.png",
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                              height: 250,
-                            )),
+                        colorFilter: ColorFilter.mode(
+                            Colors.black.withOpacity(0.15),
+                            BlendMode.darken),
+                        child: Image.asset(
+                          "assets/placeholder.png",
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          height: 250,
+                        )),
                     InkWell(
                       onTap: () {
                         Util.popBack(context);
@@ -433,9 +445,22 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
                   color: Color(0XFFF5F5F5),
                   height: 4,
                 ),
-                // Container(
-                //   margin: EdgeInsets.all(15),
-                //   child: Text.rich(
+
+                Container(
+                    margin: EdgeInsets.all(15),
+                    child: ListView.builder(
+                        primary: false,
+                        shrinkWrap: true,
+                        itemCount: availableHotel.rooms.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          var room = availableHotel.rooms[index];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: getRooms(availableHotel.rooms[index].name,
+                                availableHotel.rooms[index].rates),
+                          );
+                        })),
                 //     TextSpan(
                 //         text: "\$456.00 ",
                 //         style: TextStyle(
@@ -553,9 +578,9 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
   getWifi(List<HotelFacilities> facilities) {
     try {
       facilities.firstWhere((HotelFacilities facility) =>
-          facility.description.content
-              .toLowerCase()
-              .contains("Wi-fi".toLowerCase()) ||
+      facility.description.content
+          .toLowerCase()
+          .contains("Wi-fi".toLowerCase()) ||
           facility.description.content
               .toLowerCase()
               .contains("wifi".toLowerCase()) ||
@@ -581,9 +606,9 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
   getAc(List<HotelFacilities> facilities) {
     try {
       facilities.firstWhere((HotelFacilities facility) =>
-          facility.description.content
-              .toLowerCase()
-              .contains("Air conditioning".toLowerCase()) ||
+      facility.description.content
+          .toLowerCase()
+          .contains("Air conditioning".toLowerCase()) ||
           facility.description.content
               .toLowerCase()
               .contains("ac".toLowerCase()));
@@ -607,10 +632,11 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
 
   getTv(List<HotelFacilities> facilities) {
     try {
-      facilities.firstWhere((HotelFacilities facility) => facility
-          .description.content
-          .toLowerCase()
-          .contains("tv".toLowerCase()));
+      facilities.firstWhere((HotelFacilities facility) =>
+          facility
+              .description.content
+              .toLowerCase()
+              .contains("tv".toLowerCase()));
       return Column(
         children: [
           SvgPicture.asset("assets/ic_tv.svg"),
@@ -631,10 +657,11 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
 
   getBreakfast(List<HotelFacilities> facilities) {
     try {
-      facilities.firstWhere((HotelFacilities facility) => facility
-          .description.content
-          .toLowerCase()
-          .contains("breakfast".toLowerCase()));
+      facilities.firstWhere((HotelFacilities facility) =>
+          facility
+              .description.content
+              .toLowerCase()
+              .contains("breakfast".toLowerCase()));
       return Column(
         children: [
           SvgPicture.asset("assets/ic_breakfast.svg"),
@@ -655,10 +682,11 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
 
   getLaundry(List<HotelFacilities> facilities) {
     try {
-      facilities.firstWhere((HotelFacilities facility) => facility
-          .description.content
-          .toLowerCase()
-          .contains("Laundry".toLowerCase()));
+      facilities.firstWhere((HotelFacilities facility) =>
+          facility
+              .description.content
+              .toLowerCase()
+              .contains("Laundry".toLowerCase()));
       return Column(
         children: [
           SvgPicture.asset("assets/ic_laundry.svg"),
@@ -692,5 +720,41 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
     if (!(breakfast is Container)) list.add(breakfast);
     if (!(laundry is Container)) list.add(laundry);
     return list;
+  }
+
+  getRooms(String name, List<Rates> rates) {
+    print("rates size ${rates.length}");
+    List<Widget> widgets = [];
+    widgets.add(Text(name));
+    rates.forEachIndexed((index, element) {
+      print("index "+index.toString());
+
+        widgets.add(
+
+            RadioListTile(
+            title: Text('${availableHotel.currency} ${element.net}'),
+            value: element.rateKey,
+            groupValue: id,
+            onChanged: (val) {
+
+              setState(() {
+                id = element.rateKey;
+              });
+            })
+        );
+    });
+    // rates.mapIndexed((index, element){
+    //   print("rate map");
+    //   widgets.add(RadioListTile(
+    //       title: Text('${availableHotel.currency} ${rates[index].net}'),
+    //       value: index,
+    //       groupValue: id,
+    //       onChanged: (val) {})
+    //   );
+    // }
+    //
+    // );
+    return
+    widgets;
   }
 }
