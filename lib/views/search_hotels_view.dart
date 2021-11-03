@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sould_food_guide/app/app_routes.dart';
 import 'package:sould_food_guide/util/Util.dart';
-
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 class SearchHotelScreen extends StatefulWidget {
   @override
   _SearchHotelScreenState createState() => _SearchHotelScreenState();
@@ -51,6 +52,10 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
 
   TabController tabController;
   String children;
+
+  double userLat;
+  double userLong;
+  static final kInitialPosition = LatLng( 40.7557338, -73.9713348);
 
   @override
   void initState() {
@@ -117,33 +122,64 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
                           fontWeight: FontWeight.w400),
                     ),
                   ),
-                  Container(
-                      margin: EdgeInsets.only(left: 15),
-                      child: Text(
-                        "Where are you going?",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                            color: Color(0XFFB5B5B5)),
-                      )),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Icon(
-                            Icons.location_on_rounded,
-                            color: Color(0XFFFF8106),
-                            size: 15,
-                          )),
-                      Text(
-                        "HOU - Houston, USA",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400),
-                      )
-                    ],
+                  TextButton(
+                    onPressed: (){
+                      print("clicked");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PlacePicker(
+                              apiKey:"AIzaSyC7Wz5UbwX5GB5Ik47elusNa1WoCz9RQuQ",
+                              // Put YOUR OWN KEY here.
+                              onPlacePicked: (result) {
+                                Navigator.of(context).pop();
+                                setState(() {
+                                  userLat = result.geometry.location.lat;
+                                  userLong = result.geometry.location.lng;
+                                  print("lat $userLat & Long $userLong");
+                                });
+                              },
+                              initialPosition: kInitialPosition,
+                              useCurrentLocation: true,
+                            ),
+                          )
+                      );
+                    },
+                    child: Column(
+
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(left: 15),
+                            child: Text(
+                              "Where are you going?",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 12,
+                                  color: Color(0XFFB5B5B5)),
+                            )),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                                margin: EdgeInsets.only(right: 5),
+                                child: Icon(
+                                  Icons.location_on_rounded,
+                                  color: Color(0XFFFF8106),
+                                  size: 15,
+                                )),
+                            Text(
+                              "HOU - Houston, USA",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 5, right: 5),
@@ -537,8 +573,18 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
       bottomNavigationBar: InkWell(
         onTap: () {
           // Util.popBack(context);
-
-          Navigator.pushNamed(context, AppRoutes.APP_HOTELS);
+          String checkIn = "${checkInDate.year}-${checkInDate.month}-${checkInDate.day}";
+          String checkOut = "${checkOutDate.year}-${checkOutDate.month}-${checkOutDate.day}";
+          Map map = {
+            'lat':userLat??"",
+            'lng':userLong??"",
+            'checkIn':checkIn??"",
+            'checkOut':checkOut??"",
+            'guest':adultControlller.text??"",
+            'child':childrenControlller.text??"",
+            'rooms':roomController.text??"",
+          };
+          Navigator.pushNamed(context, AppRoutes.APP_HOTELS,arguments: map);
         },
         child: Container(
           height: 55,

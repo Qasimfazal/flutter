@@ -331,55 +331,71 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        children: [
-                          Container(
-                            width: 54,
-                            height: 54,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0XFFF5F5F5)),
-                            child: SvgPicture.asset(
-                              "assets/ic_location.svg",
-                              width: 16,
-                              height: 26,
-                              fit: BoxFit.scaleDown,
+                      TextButton(
+                        onPressed: (){
+
+                          Navigator.pushNamed(
+                              context, AppRoutes.APP_HOTEL_LOCATION,
+                              arguments: contentHotel);
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 54,
+                              height: 54,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color(0XFFF5F5F5)),
+                              child: SvgPicture.asset(
+                                "assets/ic_location.svg",
+                                width: 16,
+                                height: 26,
+                                fit: BoxFit.scaleDown,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "Location",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
+                            Text(
+                              "Location",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                      Column(
-                        children: [
-                          Container(
-                            width: 54,
-                            height: 54,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0XFFF5F5F5)),
-                            child: SvgPicture.asset(
-                              "assets/ic_star.svg",
-                              width: 16,
-                              height: 26,
-                              fit: BoxFit.scaleDown,
+                      TextButton(
+                        onPressed: (){
+
+                          Navigator.pushNamed(
+                              context, AppRoutes.APP_HOTEL_REVIEW,
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 54,
+                              height: 54,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Color(0XFFF5F5F5)),
+                              child: SvgPicture.asset(
+                                "assets/ic_star.svg",
+                                width: 16,
+                                height: 26,
+                                fit: BoxFit.scaleDown,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "Reviews",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500,
+                            Text(
+                              "Reviews",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       InkWell(
                         onTap: () {

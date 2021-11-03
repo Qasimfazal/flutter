@@ -18,6 +18,10 @@ import 'package:sould_food_guide/views/hotels/hotel_viewmodel.dart';
 import 'package:sould_food_guide/views/search_hotels_view.dart';
 
 class HotelScreen extends StatefulWidget {
+  final Map map;
+
+  HotelScreen(this.map);
+
   @override
   _HotelScreenState createState() => _HotelScreenState();
 }
@@ -40,6 +44,7 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    print("map ${widget.map.toString()}");
     // _availabilityController =
     //     new StreamController<RepositoryResponse>.broadcast();
     _hotelController = new StreamController<bool>.broadcast();
@@ -50,8 +55,14 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
     //
     // });
 
+/*
     _hoteViewModel.getHotelRepository().getHotelsAvailability(
         "2021-12-15", "2021-12-16", 1, 1, 0, 40.7557338, -73.9713348, 50, "km");
+*/
+    _hoteViewModel.getHotelRepository().getHotelsAvailability(
+        widget.map['checkIn'],  widget.map['checkOut'], int.tryParse(widget.map['rooms']), int.tryParse(widget.map['guest']),
+        int.tryParse(widget.map['child'],), widget.map['lat'],widget.map['lng'], 50, "km");
+
     // ("2021-12-15", "2021-12-16", 1, 1, 0, 51.5287352, -0.3817868, 5, "km");
 
     WidgetsBinding.instance.addObserver(this);
@@ -80,7 +91,7 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
         if (response.data is AvailabilityHotelResponse) {
           AvailabilityHotelResponse hotelResponse = response.data;
           if (response.success) {
-            if (hotelResponse.hotels.hotels.isEmpty) {
+            if (hotelResponse.hotels.hotels==null || hotelResponse.hotels.hotels.isEmpty) {
               // return Center(
               //   child: Text("0 Hotel Found"),
               // );
@@ -292,40 +303,49 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
                                       // ),
                                     ),
                                   ),
-                                  Text(
-                                    hotel.name.content,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 9,
-                                        color: Colors.black),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 10,right: 10),
+
+                                    child: Text(
+                                      hotel.name.content,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 9,
+                                          color: Colors.black),
+                                    ),
                                   ),
-                                  // Row(
-                                  //   mainAxisAlignment:
-                                  //       MainAxisAlignment.spaceBetween,
-                                  //   children: [
-                                  //     Text(
-                                  //       "Thailand Package",
-                                  //       style: TextStyle(
-                                  //           fontWeight: FontWeight.w500,
-                                  //           fontSize: 9,
-                                  //           color: Colors.black),
-                                  //     ),
-                                  //     Text(
-                                  //       "\$456.00",
-                                  //       style: TextStyle(
-                                  //           fontWeight: FontWeight.w500,
-                                  //           fontSize: 9,
-                                  //           color: Color(0XFFFF8106)),
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  // Text(
-                                  //   "3 Days Nights",
-                                  //   style: TextStyle(
-                                  //       fontWeight: FontWeight.w400,
-                                  //       fontSize: 8,
-                                  //       color: Color(0XFF828282)),
-                                  // ),
+                                 /* Container(
+                                    margin: EdgeInsets.only(left: 10,right: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+*//*
+                                        Text(
+                                          "Thailand Package",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 9,
+                                              color: Colors.black),
+                                        ),
+*//*Text(
+                                          "3 Days Nights",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 8,
+                                              color: Color(0XFF828282)),
+                                        ),
+                                        Text(
+                                          "\$456.00",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 9,
+                                              color: Color(0XFFFF8106)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),*/
+
                                 ],
                               ),
                             ),

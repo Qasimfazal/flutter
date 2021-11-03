@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sould_food_guide/views/hotel_detail_view.dart';
 import 'package:sould_food_guide/views/hotel_images.dart';
+import 'package:sould_food_guide/views/hotel_location_view.dart';
+import 'package:sould_food_guide/views/hotel_review_view.dart';
 import 'package:sould_food_guide/views/hotels/hotel_view.dart';
 import 'package:sould_food_guide/views/search_hotels_view.dart';
 import 'package:sould_food_guide/views/splash_view.dart';
@@ -18,6 +20,8 @@ class AppRoutes {
   static const String APP_HOTELS = "/hotels";
   static const String APP_HOTEL_DETAIL = "/hotel_detail";
   static const String APP_HOTEL_PHOTOS = "/hotel_images";
+  static const String APP_HOTEL_LOCATION = "/hotel_location";
+  static const String APP_HOTEL_REVIEW = "/hotel_review";
 
   //--------------------------------------------------------------- Methods --------------------------------------------------------------------------
 
@@ -65,7 +69,14 @@ class AppRoutes {
         {
           return MaterialPageRoute<void>(
             settings: routeSettings,
-            builder: (BuildContext context) => HotelScreen(),
+            builder: (BuildContext context) => HotelScreen(routeSettings.arguments),
+          );
+        }
+      case APP_HOTEL_REVIEW:
+        {
+          return MaterialPageRoute<void>(
+            settings: routeSettings,
+            builder: (BuildContext context) => HotelReviewScreen(),
           );
         }
         case APP_HOTEL_DETAIL :
@@ -80,6 +91,13 @@ class AppRoutes {
           return MaterialPageRoute<void>(
             settings: routeSettings,
             builder: (BuildContext context) => HotelImages(routeSettings.arguments),
+          );
+        }
+        case APP_HOTEL_LOCATION :
+        {
+          return MaterialPageRoute<void>(
+            settings: routeSettings,
+            builder: (BuildContext context) => HotelLocationView(routeSettings.arguments),
           );
         }
 

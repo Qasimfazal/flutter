@@ -235,7 +235,6 @@ class Util {
 
   static getHotelImagePath(String path) {
     var photo = NetworkEndpoints.BASE_HOTEL_IMAGE + path;
-    print("photo $photo");
     return photo;
   }
 //
