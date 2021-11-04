@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:sould_food_guide/core/public_service.dart';
+import 'package:sould_food_guide/model/repoResponse_model.dart';
+import 'package:sould_food_guide/network/nao/network_nao.dart';
 import 'package:sould_food_guide/util/Util.dart';
 import 'package:sould_food_guide/views/hotel_booked_view.dart';
 
@@ -8,8 +12,10 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+  PublicService publicService;
   @override
   Widget build(BuildContext context) {
+    publicService = context.watch();
     final body = ListView(
       children: [
         Util.getBack(context),
@@ -233,7 +239,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             fontWeight: FontWeight.w400,
                             color: Color(0XFF707070)),
                       ),
-
                       Text(
                         "10/02/2024",
                         style: TextStyle(
@@ -245,7 +250,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                 ),
               ),
-              SizedBox(width: 15,),
+              SizedBox(
+                width: 15,
+              ),
               Flexible(
                 flex: 1,
                 fit: FlexFit.loose,
@@ -281,19 +288,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),
-
       ],
     );
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: InkWell(
-        onTap: () {
-          Util.open(context, HotelRoomBookedScreen());
+        onTap: () async {
+          RepositoryResponse res = await NetworkNAO.bookings(
+              Util.getSignature().toString(),
+              ratekey: publicService.rateKey.toString());
+          print(res.data);
 
+          if (res.success) {
+            Util.open(context, HotelRoomBookedScreen());
+          }
         },
         child: Container(
           height: 55,
@@ -301,7 +312,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           decoration: Util.getPrimaryButtonDecoration(),
           child: Center(
             child: Text(
-              "pay \$175.00",
+              "pay ${publicService.currency} ${publicService.rate}",
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
           ),

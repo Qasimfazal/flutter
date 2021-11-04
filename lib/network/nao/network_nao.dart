@@ -93,13 +93,45 @@ class NetworkNAO {
         // 'Accept': "application/json",
       }, body: {
         'stay': {'checkIn': checkIn, 'checkOut': checkout},
-        'occupancies': [{'rooms': rooms, 'adults': adults, 'children': children}],
+        'occupancies': [
+          {'rooms': rooms, 'adults': adults, 'children': children}
+        ],
         'geolocation': {
           'latitude': latitude,
           'longitude': longitude,
           'radius': radius,
           'unit': unit
         }
+      }).then((RepositoryResponse response) {
+        return response;
+      });
+
+  static Future<RepositoryResponse> bookings(String signature,
+          {String ratekey}) =>
+      NetworkUtil()
+          .postHotel(url: NetworkEndpoints.HOTELS, headers: <String, String>{
+        'Api-key': NetworkConfig.HOTEL_API_KEY,
+        'X-Signature': signature,
+        'Content-Type': "application/json",
+        // 'Accept': "application/json",
+      }, body: {
+        "holder": {"name": "HolderFirstName", "surname": "HolderLastName"},
+        "rooms": [
+          {
+            "rateKey": ratekey,
+            "paxes": [
+              {
+                "roomId": 1,
+                "type": "AD",
+                "name": "First Adult Name",
+                "surname": "Surname"
+              }
+            ]
+          }
+        ],
+        "clientReference": "IntegrationAgency",
+        "remark": "Booking remarks are to be written here.",
+        "tolerance": 2
       }).then((RepositoryResponse response) {
         return response;
       });

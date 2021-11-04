@@ -15,9 +15,14 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: App(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<PublicService>(create: (_) => PublicService()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: App(),
+      ),
     );
   }
 }

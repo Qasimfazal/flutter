@@ -4,8 +4,10 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/src/provider.dart';
 import 'package:sould_food_guide/app/app.dart';
 import 'package:sould_food_guide/app/app_routes.dart';
+import 'package:sould_food_guide/core/public_service.dart';
 import 'package:sould_food_guide/model/hotels/availability/AvailabilityHotelResponse.dart';
 import 'package:sould_food_guide/model/hotels/availability/Hotel.dart';
 import 'package:sould_food_guide/model/hotels/content/ContentHotelResponse.dart';
@@ -34,10 +36,11 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
   StreamSubscription streamSubscription;
   List<Hotel> availableHotelList = [];
   HashMap<String, Hotel> availabilityHotels = HashMap();
+  PublicService publicService;
 
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
 
-    RepositoryResponse _response;
+  RepositoryResponse _response;
 
   int count = 0;
 
@@ -60,8 +63,17 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
         "2021-12-15", "2021-12-16", 1, 1, 0, 40.7557338, -73.9713348, 50, "km");
 */
     _hoteViewModel.getHotelRepository().getHotelsAvailability(
-        widget.map['checkIn'],  widget.map['checkOut'], int.tryParse(widget.map['rooms']), int.tryParse(widget.map['guest']),
-        int.tryParse(widget.map['child'],), widget.map['lat'],widget.map['lng'], 50, "km");
+        widget.map['checkIn'],
+        widget.map['checkOut'],
+        int.tryParse(widget.map['rooms']),
+        int.tryParse(widget.map['guest']),
+        int.tryParse(
+          widget.map['child'],
+        ),
+        widget.map['lat'],
+        widget.map['lng'],
+        50,
+        "km");
 
     // ("2021-12-15", "2021-12-16", 1, 1, 0, 51.5287352, -0.3817868, 5, "km");
 
@@ -91,7 +103,8 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
         if (response.data is AvailabilityHotelResponse) {
           AvailabilityHotelResponse hotelResponse = response.data;
           if (response.success) {
-            if (hotelResponse.hotels.hotels==null || hotelResponse.hotels.hotels.isEmpty) {
+            if (hotelResponse.hotels.hotels == null ||
+                hotelResponse.hotels.hotels.isEmpty) {
               // return Center(
               //   child: Text("0 Hotel Found"),
               // );
@@ -123,8 +136,7 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
             _response = repositoryResponse;
             _hotelController.sink.add(true);
           }
-        }
-        else if (response.data is ContentHotelResponse) {
+        } else if (response.data is ContentHotelResponse) {
           ContentHotelResponse contentHotelResponse = response.data;
           if (response.success) {
             _response = response;
@@ -145,7 +157,6 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
             _hotelController.sink.add(true);
           }
         }
-
       } else {
         if (mounted) ToastUtil.showToast(context, response.msg);
       }
@@ -171,6 +182,7 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    publicService = context.watch();
     final body = StreamBuilder<bool>(
       stream: _hotelController.stream,
       builder: (context, snapshot) {
@@ -190,7 +202,9 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
               print("hotel length ${hotels.length}");
               hotels.forEach((Hotels hotel) {
                 try {
-                  var hotelFound = availableHotelList.firstWhere((Hotel availableHotel) => availableHotel.code == hotel.code);
+                  var hotelFound = availableHotelList.firstWhere(
+                      (Hotel availableHotel) =>
+                          availableHotel.code == hotel.code);
                   availabilityHotels[hotelFound.code.toString()] = hotelFound;
                 } catch (e) {}
               });
@@ -236,7 +250,7 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
                                       color: Colors.white, fontSize: 22),
                                 )),
                             Text(
-                              "Check In 23 July  |  Check Out 28 July  |  2 Guests",
+                              "Check In ${publicService.checkIn}  |  Check Out ${publicService.checkOut}  |  ${publicService.guests} Guests",
                               style: TextStyle(
                                   color: Color(0XFFB5B5B5),
                                   fontSize: 12,
@@ -258,14 +272,20 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
                         itemBuilder: (context, index) {
                           var hotel = hotels[index];
                           return InkWell(
-                            onTap: (){
+                            onTap: () {
                               print("ontap hote click");
-                              Navigator.pushNamed(context, AppRoutes.APP_HOTEL_DETAIL,arguments: {"contentHotel":hotel,"availableHotel":availabilityHotels[hotel.code.toString()]});
+                              Navigator.pushNamed(
+                                  context, AppRoutes.APP_HOTEL_DETAIL,
+                                  arguments: {
+                                    "contentHotel": hotel,
+                                    "availableHotel": availabilityHotels[
+                                        hotel.code.toString()]
+                                  });
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width,
-                              margin:
-                                  EdgeInsets.only(right: 10, left: 10, bottom: 5),
+                              margin: EdgeInsets.only(
+                                  right: 10, left: 10, bottom: 5),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -279,13 +299,14 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
                                           ? FadeInImage.assetNetwork(
                                               placeholder:
                                                   "assets/placeholder.png",
-                                              imageErrorBuilder:(context,error,stacktrace){
+                                              imageErrorBuilder:
+                                                  (context, error, stacktrace) {
                                                 return Image.asset(
                                                   "assets/placeholder.png",
                                                   height: 140,
                                                   fit: BoxFit.cover,
                                                 );
-                                              } ,
+                                              },
                                               image: Util.getHotelImagePath(
                                                   hotel.images[0].path),
                                               height: 140,
@@ -304,8 +325,8 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(left: 10,right: 10),
-
+                                    margin:
+                                        EdgeInsets.only(left: 10, right: 10),
                                     child: Text(
                                       hotel.name.content,
                                       style: TextStyle(
@@ -314,13 +335,13 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
                                           color: Colors.black),
                                     ),
                                   ),
-                                 /* Container(
+                                  /* Container(
                                     margin: EdgeInsets.only(left: 10,right: 10),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-*//*
+*/ /*
                                         Text(
                                           "Thailand Package",
                                           style: TextStyle(
@@ -328,7 +349,7 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
                                               fontSize: 9,
                                               color: Colors.black),
                                         ),
-*//*Text(
+*/ /*Text(
                                           "3 Days Nights",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w400,
@@ -345,7 +366,6 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
                                       ],
                                     ),
                                   ),*/
-
                                 ],
                               ),
                             ),

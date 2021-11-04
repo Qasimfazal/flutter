@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
+import 'package:sould_food_guide/core/public_service.dart';
 import 'package:sould_food_guide/util/Util.dart';
 import 'package:sould_food_guide/views/checkout_view.dart';
 
 class HotelConfirmBookingScreen extends StatefulWidget {
   @override
-  _HotelConfirmBookingScreenState createState() => _HotelConfirmBookingScreenState();
+  _HotelConfirmBookingScreenState createState() =>
+      _HotelConfirmBookingScreenState();
 }
 
 class _HotelConfirmBookingScreenState extends State<HotelConfirmBookingScreen> {
+  PublicService publicService;
   @override
   Widget build(BuildContext context) {
+    publicService = context.watch();
     final body = ListView(
       primary: true,
       children: [
@@ -38,7 +43,7 @@ class _HotelConfirmBookingScreenState extends State<HotelConfirmBookingScreen> {
             right: 15,
           ),
           child: Text(
-            "City Park, Manhattan",
+            "${publicService.address ?? "NA"}",
             style: TextStyle(
                 fontSize: 18, color: Colors.black, fontWeight: FontWeight.w600),
           ),
@@ -71,14 +76,14 @@ class _HotelConfirmBookingScreenState extends State<HotelConfirmBookingScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "23 Jun, 12:35 am",
+                "${publicService.checkIn ?? "NA"}",
                 style: TextStyle(
                     fontSize: 16,
                     color: Colors.black,
                     fontWeight: FontWeight.w600),
               ),
               Text(
-                "24 Jun, 12:35 am",
+                "${publicService.checkOut ?? "NA"}",
                 style: TextStyle(
                     fontSize: 16,
                     color: Colors.black,
@@ -110,7 +115,7 @@ class _HotelConfirmBookingScreenState extends State<HotelConfirmBookingScreen> {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(left: 15, right: 15,bottom: 10),
+          margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -122,7 +127,7 @@ class _HotelConfirmBookingScreenState extends State<HotelConfirmBookingScreen> {
                     fontWeight: FontWeight.w600),
               ),
               Text(
-                "02",
+                "${publicService.guests ?? "NA"}",
                 style: TextStyle(
                     fontSize: 16,
                     color: Colors.black,
@@ -162,7 +167,7 @@ class _HotelConfirmBookingScreenState extends State<HotelConfirmBookingScreen> {
                       ),
                     ),
                     Text(
-                      "\$ 100.00",
+                      "${publicService.currency} ${publicService.rate}",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
@@ -184,7 +189,7 @@ class _HotelConfirmBookingScreenState extends State<HotelConfirmBookingScreen> {
                       ),
                     ),
                     Text(
-                      "\$ 10.00",
+                      "${publicService.currency} 10.00",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
@@ -206,7 +211,7 @@ class _HotelConfirmBookingScreenState extends State<HotelConfirmBookingScreen> {
                       ),
                     ),
                     Text(
-                      "\$ 5.00",
+                      "${publicService.currency} 5.00",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
@@ -216,10 +221,10 @@ class _HotelConfirmBookingScreenState extends State<HotelConfirmBookingScreen> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 15,bottom: 5),
+                margin: EdgeInsets.only(top: 15, bottom: 5),
                 height: 2,
-                  width: double.infinity,
-                  color: Color(0XFFE5E5E5),
+                width: double.infinity,
+                color: Color(0XFFE5E5E5),
               ),
               Container(
                 margin: EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -234,7 +239,7 @@ class _HotelConfirmBookingScreenState extends State<HotelConfirmBookingScreen> {
                       ),
                     ),
                     Text(
-                      "\$ 175.00",
+                      "${publicService.currency} ${publicService.rate}",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
@@ -249,12 +254,16 @@ class _HotelConfirmBookingScreenState extends State<HotelConfirmBookingScreen> {
                 },
                 child: Container(
                   height: 55,
-                  margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 15),
+                  margin:
+                      EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 15),
                   decoration: Util.getPrimaryButtonDecoration(),
                   child: Center(
                     child: Text(
                       "continue to pay".toUpperCase(),
-                      style: TextStyle(color: Colors.white, fontSize: 16,fontWeight: FontWeight.w600),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ),

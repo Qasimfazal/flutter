@@ -4,13 +4,16 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/src/provider.dart';
 import 'package:sould_food_guide/app/app.dart';
 import 'package:sould_food_guide/app/app_routes.dart';
+import 'package:sould_food_guide/core/public_service.dart';
 import 'package:sould_food_guide/model/hotels/availability/Hotel.dart';
 import 'package:sould_food_guide/model/hotels/availability/Rates.dart';
 import 'package:sould_food_guide/model/hotels/availability/Rooms.dart';
 import 'package:sould_food_guide/model/hotels/content/Hotels.dart';
 import 'package:sould_food_guide/model/hotels/detail/HotelDetailResponse.dart';
+import 'package:sould_food_guide/model/hotels/detail/Hotel_detail_model.dart';
 import 'package:sould_food_guide/model/repoResponse_model.dart';
 import 'package:sould_food_guide/util/ToastUtil.dart';
 import 'package:sould_food_guide/util/Util.dart';
@@ -29,7 +32,7 @@ class HotelDetailScreen extends StatefulWidget {
 class _HotelDetailScreenState extends State<HotelDetailScreen>
     with WidgetsBindingObserver {
   // Group Value for Radio Button.
-  String id="1";
+  String id = "1";
 
   HotelViewModel _hoteViewModel;
 
@@ -39,6 +42,10 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
   Hotels contentHotel;
   Hotel availableHotel;
   RepositoryResponse _response;
+  HotelDetailModelHotel hotelDetail;
+  PublicService publicService;
+
+  String rate;
 
   @override
   void initState() {
@@ -55,7 +62,6 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
     if (widget.arguments != null) {
       contentHotel = widget.arguments["contentHotel"];
       availableHotel = widget.arguments["availableHotel"];
-
     }
     _hoteViewModel.getHotelRepository().getHotelDetail(
         contentHotel.code.toString(), Util.getSignature().toString());
@@ -68,22 +74,26 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
         .getRepositoryResponse()
         .listen((response) {
       if (response.code == null) {
-        if (response.data is HotelDetailResponse) {
-          HotelDetailResponse hotelDetailResponse = response.data;
+        if (response.data is HotelDetailModel) {
+          // print("changes");
+          //   HotelDetailModel hotelDetailResponse = response.data;
           if (response.success) {
+            //_response = response;
+            // print("changes1");
+            // print(response.data);
+            hotelDetail = response.data.hotel;
             _response = response;
             _hotelController.sink.add(true);
+          }
+        } else {
+          RepositoryResponse repositoryResponse = RepositoryResponse();
+          repositoryResponse.success = false;
+          if (response.msg == null) {
+            repositoryResponse.msg =
+                response.msg == null ? "Unable to get hotels" : response.msg;
           } else {
-            RepositoryResponse repositoryResponse = RepositoryResponse();
-            repositoryResponse.success = false;
-            if (hotelDetailResponse.error == null)
-              repositoryResponse.msg = hotelDetailResponse.errorMsg == null
-                  ? "Unable to get hotels"
-                  : hotelDetailResponse.errorMsg;
-            else
-              repositoryResponse.msg = hotelDetailResponse.error.message == null
-                  ? "Unable to get hotels"
-                  : hotelDetailResponse.error.message;
+            repositoryResponse.msg =
+                response.msg == null ? "Unable to get hotels" : response.msg;
             _response = repositoryResponse;
             _hotelController.sink.add(true);
           }
@@ -96,6 +106,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
 
   @override
   Widget build(BuildContext context) {
+    publicService = context.watch();
     final body = StreamBuilder<bool>(
         stream: _hotelController.stream,
         builder: (context, snapshot) {
@@ -106,58 +117,53 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
                 Stack(
                   children: [
                     (contentHotel.images != null &&
-                        contentHotel.images.isNotEmpty)
+                            contentHotel.images.isNotEmpty)
                         ? CarouselSlider(
-                      options: CarouselOptions(
-                        height: 250,
+                            options: CarouselOptions(
+                              height: 250,
 
-                        viewportFraction: 1.0,
-                        enlargeCenterPage: false,
+                              viewportFraction: 1.0,
+                              enlargeCenterPage: false,
 
-                        // autoPlay: false,
-                      ),
-                      items: contentHotel.images
-                          .map(
-                            (image) =>
-                            ColorFiltered(
-                                colorFilter: ColorFilter.mode(
-                                    Colors.black.withOpacity(0.15),
-                                    BlendMode.darken),
-                                child: FadeInImage.assetNetwork(
-                                  placeholder: "assets/placeholder.png",
-                                  imageErrorBuilder:
-                                      (context, error, stacktrace) {
-                                    return Image.asset(
-                                      "assets/placeholder.png",
-                                      fit: BoxFit.cover,
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width,
-                                    );
-                                  },
-                                  image:
-                                  Util.getHotelImagePath(image.path),
-                                  fit: BoxFit.cover,
-                                  width:
-                                  MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width,
-                                )),
-                      )
-                          .toList(),
-                    )
+                              // autoPlay: false,
+                            ),
+                            items: contentHotel.images
+                                .map(
+                                  (image) => ColorFiltered(
+                                      colorFilter: ColorFilter.mode(
+                                          Colors.black.withOpacity(0.15),
+                                          BlendMode.darken),
+                                      child: FadeInImage.assetNetwork(
+                                        placeholder: "assets/placeholder.png",
+                                        imageErrorBuilder:
+                                            (context, error, stacktrace) {
+                                          return Image.asset(
+                                            "assets/placeholder.png",
+                                            fit: BoxFit.cover,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                          );
+                                        },
+                                        image:
+                                            Util.getHotelImagePath(image.path),
+                                        fit: BoxFit.cover,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                      )),
+                                )
+                                .toList(),
+                          )
                         : ColorFiltered(
-                        colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.15),
-                            BlendMode.darken),
-                        child: Image.asset(
-                          "assets/placeholder.png",
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                          height: 250,
-                        )),
+                            colorFilter: ColorFilter.mode(
+                                Colors.black.withOpacity(0.15),
+                                BlendMode.darken),
+                            child: Image.asset(
+                              "assets/placeholder.png",
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                              height: 250,
+                            )),
                     InkWell(
                       onTap: () {
                         Util.popBack(context);
@@ -332,8 +338,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextButton(
-                        onPressed: (){
-
+                        onPressed: () {
                           Navigator.pushNamed(
                               context, AppRoutes.APP_HOTEL_LOCATION,
                               arguments: contentHotel);
@@ -365,10 +370,10 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
                         ),
                       ),
                       TextButton(
-                        onPressed: (){
-
+                        onPressed: () {
                           Navigator.pushNamed(
-                              context, AppRoutes.APP_HOTEL_REVIEW,
+                            context,
+                            AppRoutes.APP_HOTEL_REVIEW,
                           );
                         },
                         child: Column(
@@ -471,6 +476,9 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           var room = availableHotel.rooms[index];
+                          print("room -> ${availableHotel.rooms[0].code}");
+                          print("room -> ${hotelDetail.rooms.length}");
+
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: getRooms(availableHotel.rooms[index].name,
@@ -507,7 +515,14 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
             if (snapshot.hasData)
               return InkWell(
                 onTap: () {
-                  Util.open(context, HotelConfirmBookingScreen());
+                  if (id != "1") {
+                    {
+                      publicService.setKeys(id, hotelDetail.address.content,
+                          availableHotel.currency, rate);
+                      Util.open(context, HotelConfirmBookingScreen());
+                    }
+                  } else
+                    ToastUtil.showToast(context, "Please select any room");
                 },
                 child: Container(
                   height: 50,
@@ -542,14 +557,14 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
 
   getAmentiesLabel(RepositoryResponse response) {
     if (response.success) {
-      HotelDetailResponse hotelDetailResponse = response.data;
-      if (hotelDetailResponse.hotel != null &&
-          hotelDetailResponse.hotel.facilities != null &&
-          hotelDetailResponse.hotel.facilities.isNotEmpty)
+      // HotelDetailResponse hotelDetailResponse = response.data;
+      if (hotelDetail != null &&
+          hotelDetail.facilities != null &&
+          hotelDetail.facilities.isNotEmpty)
         return Container(
           margin: EdgeInsets.all(15),
           child: Text(
-            "Amenities",
+            "Facilities",
             style: TextStyle(
                 color: Colors.black, fontSize: 18, fontWeight: FontWeight.w600),
           ),
@@ -568,15 +583,15 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
 
   getAmenities(RepositoryResponse response) {
     if (response.success) {
-      HotelDetailResponse hotelDetailResponse = response.data;
-      if (hotelDetailResponse.hotel != null &&
-          hotelDetailResponse.hotel.facilities != null &&
-          hotelDetailResponse.hotel.facilities.isNotEmpty)
+      //  HotelDetailResponse hotelDetailResponse = response.data;
+      if (hotelDetail != null &&
+          hotelDetail.facilities != null &&
+          hotelDetail.facilities.isNotEmpty)
         return Container(
           margin: EdgeInsets.only(left: 15, right: 15, bottom: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: getAmentiesView(hotelDetailResponse),
+            children: getAmentiesView(),
           ),
         );
       else
@@ -591,12 +606,12 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
       );
   }
 
-  getWifi(List<HotelFacilities> facilities) {
+  getWifi(List<HotelDetailModelHotelFacilities> facilities) {
     try {
-      facilities.firstWhere((HotelFacilities facility) =>
-      facility.description.content
-          .toLowerCase()
-          .contains("Wi-fi".toLowerCase()) ||
+      facilities.firstWhere((HotelDetailModelHotelFacilities facility) =>
+          facility.description.content
+              .toLowerCase()
+              .contains("Wi-fi".toLowerCase()) ||
           facility.description.content
               .toLowerCase()
               .contains("wifi".toLowerCase()) ||
@@ -619,12 +634,12 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
     }
   }
 
-  getAc(List<HotelFacilities> facilities) {
+  getAc(List<HotelDetailModelHotelFacilities> facilities) {
     try {
-      facilities.firstWhere((HotelFacilities facility) =>
-      facility.description.content
-          .toLowerCase()
-          .contains("Air conditioning".toLowerCase()) ||
+      facilities.firstWhere((HotelDetailModelHotelFacilities facility) =>
+          facility.description.content
+              .toLowerCase()
+              .contains("Air conditioning".toLowerCase()) ||
           facility.description.content
               .toLowerCase()
               .contains("ac".toLowerCase()));
@@ -646,11 +661,10 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
     }
   }
 
-  getTv(List<HotelFacilities> facilities) {
+  getTv(List<HotelDetailModelHotelFacilities> facilities) {
     try {
-      facilities.firstWhere((HotelFacilities facility) =>
-          facility
-              .description.content
+      facilities.firstWhere((HotelDetailModelHotelFacilities facility) =>
+          facility.description.content
               .toLowerCase()
               .contains("tv".toLowerCase()));
       return Column(
@@ -671,11 +685,10 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
     }
   }
 
-  getBreakfast(List<HotelFacilities> facilities) {
+  getBreakfast(List<HotelDetailModelHotelFacilities> facilities) {
     try {
-      facilities.firstWhere((HotelFacilities facility) =>
-          facility
-              .description.content
+      facilities.firstWhere((HotelDetailModelHotelFacilities facility) =>
+          facility.description.content
               .toLowerCase()
               .contains("breakfast".toLowerCase()));
       return Column(
@@ -696,11 +709,10 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
     }
   }
 
-  getLaundry(List<HotelFacilities> facilities) {
+  getLaundry(List<HotelDetailModelHotelFacilities> facilities) {
     try {
-      facilities.firstWhere((HotelFacilities facility) =>
-          facility
-              .description.content
+      facilities.firstWhere((HotelDetailModelHotelFacilities facility) =>
+          facility.description.content
               .toLowerCase()
               .contains("Laundry".toLowerCase()));
       return Column(
@@ -721,13 +733,13 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
     }
   }
 
-  getAmentiesView(HotelDetailResponse hotelDetailResponse) {
+  getAmentiesView() {
     List<Widget> list = [];
-    var wifi = getWifi(hotelDetailResponse.hotel.facilities);
-    var ac = getAc(hotelDetailResponse.hotel.facilities);
-    var tv = getTv(hotelDetailResponse.hotel.facilities);
-    var breakfast = getBreakfast(hotelDetailResponse.hotel.facilities);
-    var laundry = getLaundry(hotelDetailResponse.hotel.facilities);
+    var wifi = getWifi(hotelDetail.facilities);
+    var ac = getAc(hotelDetail.facilities);
+    var tv = getTv(hotelDetail.facilities);
+    var breakfast = getBreakfast(hotelDetail.facilities);
+    var laundry = getLaundry(hotelDetail.facilities);
     if (!(wifi is Container)) list.add(wifi);
     if (!(ac is Container)) list.add(ac);
 
@@ -743,21 +755,19 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
     List<Widget> widgets = [];
     widgets.add(Text(name));
     rates.forEachIndexed((index, element) {
-      print("index "+index.toString());
+      print("index " + index.toString());
 
-        widgets.add(
-
-            RadioListTile(
-            title: Text('${availableHotel.currency} ${element.net}'),
-            value: element.rateKey,
-            groupValue: id,
-            onChanged: (val) {
-
-              setState(() {
-                id = element.rateKey;
-              });
-            })
-        );
+      widgets.add(RadioListTile(
+          title: Text('${availableHotel.currency} ${element.net}'),
+          value: element.rateKey,
+          groupValue: id,
+          onChanged: (val) {
+            //print("====>>>${element.rateKey}");
+            setState(() {
+              rate = element.net;
+              id = element.rateKey;
+            });
+          }));
     });
     // rates.mapIndexed((index, element){
     //   print("rate map");
@@ -770,7 +780,6 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
     // }
     //
     // );
-    return
-    widgets;
+    return widgets;
   }
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:sould_food_guide/model/hotels/availability/AvailabilityHotelResponse.dart';
 import 'package:sould_food_guide/model/hotels/content/ContentHotelResponse.dart';
 import 'package:sould_food_guide/model/hotels/detail/HotelDetailResponse.dart';
+import 'package:sould_food_guide/model/hotels/detail/Hotel_detail_model.dart';
 import 'package:sould_food_guide/model/repoResponse_model.dart';
 import 'package:sould_food_guide/network/nao/network_nao.dart';
 import 'package:sould_food_guide/preference/app_preferences.dart';
@@ -26,10 +27,12 @@ class HotelRepository {
     RepositoryResponse response =
         await NetworkNAO.getHotelDetail(code, signature);
     try {
-      HotelDetailResponse hotelDetailResponse =
-          HotelDetailResponse.fromJson(response.data);
+      // HotelDetailResponse hotelDetailResponse =
+      //     HotelDetailResponse.fromJson(response.data);
+
+      HotelDetailModel pojo = HotelDetailModel.fromJson(response.data);
       if (response.success) {
-        response.data = hotelDetailResponse;
+        response.data = pojo;
         _repositoryResponse.add(response);
       } else {
         _repositoryResponse.add(response);
@@ -92,8 +95,9 @@ class HotelRepository {
         Util.getSignature().toString());
     print("getHotelsAvailability response returned");
     // RepositoryResponse response = await NetworkNAO.login(email, password);
-    response.data = AvailabilityHotelResponse.fromJson(response.data);
     if (response.success) {
+      response.data = AvailabilityHotelResponse.fromJson(response.data);
+
       _repositoryResponse.add(response);
     } else {
       _repositoryResponse.add(response);

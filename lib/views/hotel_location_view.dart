@@ -23,32 +23,33 @@ class _MyAppState extends State<HotelLocationView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _mainLocation =  LatLng(widget.data.coordinates.latitude, widget.data.coordinates.longitude);
+    _mainLocation = LatLng(
+        widget.data.coordinates.latitude, widget.data.coordinates.longitude);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              child: GoogleMap(
-
-                initialCameraPosition: CameraPosition(
-                  target: _mainLocation,
-                  zoom: 10.0,
-                ),
-                markers: this.myMarker(),
-                mapType: MapType.none,
-                onMapCreated: (controller) {
-                  setState(() {
-                    myMapController = controller;
-                  });
-                },
-              ),
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Expanded(
+          child: GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: _mainLocation,
+              zoom: 10.0,
             ),
-          ],
-        ));
+            markers: this.myMarker(),
+            mapType: MapType.none,
+            onMapCreated: (controller) {
+              setState(() {
+                myMapController = controller;
+              });
+            },
+          ),
+        ),
+      ],
+    ));
   }
 
   Set<Marker> myMarker() {
@@ -57,8 +58,7 @@ class _MyAppState extends State<HotelLocationView> {
         // This marker id can be anything that uniquely identifies each marker.
         markerId: MarkerId(_mainLocation.toString()),
         position: _mainLocation,
-        infoWindow: InfoWindow(
-        ),
+        infoWindow: InfoWindow(),
         icon: BitmapDescriptor.defaultMarker,
       ));
     });

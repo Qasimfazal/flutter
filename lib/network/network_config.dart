@@ -1,5 +1,4 @@
 class NetworkConfig {
-
   //osama keys
   // static const String HOTEL_API_KEY ="a6a483800853a2b9619f2f5363ecd978";
   // static const String HOTEL_SECRET ="cb162bac46";
@@ -7,8 +6,13 @@ class NetworkConfig {
   // static const String HOTEL_API_KEY ="8e2b03d35d256ea20d0c721e27dcc566";
   // static const String HOTEL_SECRET ="690074ddf2";
   // other keys
-  static const String HOTEL_API_KEY ="b1bdecfc3026ca05b4e9b11d8807d828";
-  static const String HOTEL_SECRET ="720005688c";
+
+  // static const String HOTEL_API_KEY ="b1bdecfc3026ca05b4e9b11d8807d828";
+  // static const String HOTEL_SECRET ="720005688c";
+
+  static const String HOTEL_API_KEY = "2e92775fbf305a7e07e5afb411b89b42";
+  static const String HOTEL_SECRET = "118c4d9445";
+
   /// Login API PARAMS
   static const String PARAM_EMAIL = "email";
   static const String PARAM_PASSWORD = "password";

@@ -2,10 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/src/provider.dart';
 import 'package:sould_food_guide/app/app_routes.dart';
+import 'package:sould_food_guide/core/public_service.dart';
+import 'package:sould_food_guide/util/ToastUtil.dart';
 import 'package:sould_food_guide/util/Util.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker/google_maps_place_picker.dart';
+
 class SearchHotelScreen extends StatefulWidget {
   @override
   _SearchHotelScreenState createState() => _SearchHotelScreenState();
@@ -55,7 +60,8 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
 
   double userLat;
   double userLong;
-  static final kInitialPosition = LatLng( 40.7557338, -73.9713348);
+  static final kInitialPosition = LatLng(40.7557338, -73.9713348);
+  PublicService publicService;
 
   @override
   void initState() {
@@ -76,7 +82,7 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
 
   @override
   Widget build(BuildContext context) {
-    // _publicService = context.watch();
+    publicService = context.watch();
 
     final body = ListView(
       // crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,13 +129,13 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
                     ),
                   ),
                   TextButton(
-                    onPressed: (){
+                    onPressed: () {
                       print("clicked");
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => PlacePicker(
-                              apiKey:"AIzaSyC7Wz5UbwX5GB5Ik47elusNa1WoCz9RQuQ",
+                              apiKey: "AIzaSyC7Wz5UbwX5GB5Ik47elusNa1WoCz9RQuQ",
                               // Put YOUR OWN KEY here.
                               onPlacePicked: (result) {
                                 Navigator.of(context).pop();
@@ -142,11 +148,9 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
                               initialPosition: kInitialPosition,
                               useCurrentLocation: true,
                             ),
-                          )
-                      );
+                          ));
                     },
                     child: Column(
-
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -218,7 +222,6 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
                       builder: (context, snapshot) {
                         return InkWell(
                           onTap: () {
-
                             _pickCheckInDate(context);
                           },
                           child: Row(
@@ -274,50 +277,49 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
                     ),
                   ),
                   StreamBuilder<bool>(
-                    stream: checkOutController.stream,
-                    builder: (context, snapshot) {
-                      return InkWell(
-                        onTap: (){
-                          _pickCheckOutDate(context);
-                        },
-                        child: Row(
-                          children: [
-                            Text(
-                              checkOutDate.day.toString(),
-                              style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.black),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 5),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    MONTHS[checkInDate.month - 1]
-                                        .toUpperCase() +
-                                        " " +
-                                        checkInDate.year.toString(),
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  Text(
-                                    DAYS[checkOutDate.weekday - 1],
-                                    style: TextStyle(
-                                        color: Color(0XFF828282),
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ],
+                      stream: checkOutController.stream,
+                      builder: (context, snapshot) {
+                        return InkWell(
+                          onTap: () {
+                            _pickCheckOutDate(context);
+                          },
+                          child: Row(
+                            children: [
+                              Text(
+                                checkOutDate.day.toString(),
+                                style: TextStyle(
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  )
+                              Container(
+                                margin: EdgeInsets.only(left: 5),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      MONTHS[checkInDate.month - 1]
+                                              .toUpperCase() +
+                                          " " +
+                                          checkInDate.year.toString(),
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    Text(
+                                      DAYS[checkOutDate.weekday - 1],
+                                      style: TextStyle(
+                                          color: Color(0XFF828282),
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      })
                 ],
               ),
             ],
@@ -573,18 +575,31 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
       bottomNavigationBar: InkWell(
         onTap: () {
           // Util.popBack(context);
-          String checkIn = "${checkInDate.year}-${checkInDate.month}-${checkInDate.day}";
-          String checkOut = "${checkOutDate.year}-${checkOutDate.month}-${checkOutDate.day}";
-          Map map = {
-            'lat':userLat??"",
-            'lng':userLong??"",
-            'checkIn':checkIn??"",
-            'checkOut':checkOut??"",
-            'guest':adultControlller.text??"",
-            'child':childrenControlller.text??"",
-            'rooms':roomController.text??"",
-          };
-          Navigator.pushNamed(context, AppRoutes.APP_HOTELS,arguments: map);
+          String checkIn =
+              "${checkInDate.year}-${checkInDate.month}-${checkInDate.day}";
+          String checkOut =
+              "${checkOutDate.year}-${checkOutDate.month}-${checkOutDate.day}";
+          if (userLat != null &&
+              userLong != null &&
+              checkIn.isNotEmpty &&
+              checkOut.isNotEmpty &&
+              adultControlller.text.isNotEmpty &&
+              childrenControlller.text.isNotEmpty &&
+              roomController.text.isNotEmpty) {
+            Map map = {
+              'lat': userLat ?? "",
+              'lng': userLong ?? "",
+              'checkIn': checkIn ?? "",
+              'checkOut': checkOut ?? "",
+              'guest': adultControlller.text ?? "",
+              'child': childrenControlller.text ?? "",
+              'rooms': roomController.text ?? "",
+            };
+            publicService.searchedField(data: map);
+            Navigator.pushNamed(context, AppRoutes.APP_HOTELS, arguments: map);
+          } else {
+            ToastUtil.showToast(context, "Please fill all fields");
+          }
         },
         child: Container(
           height: 55,
@@ -603,15 +618,15 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
       ),
     );
   }
+
   @override
   void dispose() {
     checkOutController.close();
     checkInController.close();
     childrenStreamController.close();
     super.dispose();
-
-
   }
+
   Future<void> _displayTextInputDialog(BuildContext context) async {
     return showDialog(
         context: context,
@@ -656,11 +671,10 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
   }
 
   _pickCheckInDate(BuildContext context) {
-    
     _selectDate(context, checkInDate, "checkin");
   }
-  _pickCheckOutDate(BuildContext context) {
 
+  _pickCheckOutDate(BuildContext context) {
     _selectDate(context, checkOutDate, "checkout");
   }
 
@@ -672,11 +686,10 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
       lastDate: DateTime(2025),
     );
     if (picked != null && picked != selectedDate) {
-
-      if(type =="checkin"){
+      if (type == "checkin") {
         checkInDate = picked;
         checkInController.sink.add(true);
-      }else if(type =="checkout"){
+      } else if (type == "checkout") {
         checkOutDate = picked;
         checkOutController.sink.add(true);
       }

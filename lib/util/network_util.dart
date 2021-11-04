@@ -153,7 +153,7 @@ class NetworkUtil {
 
     print('******* Post request *********');
     print('******* url $url');
-    print('******* body ' + body.toString());
+    print('******* body ' + jsonEncode(body));
     print('******* headers ' + headers.toString());
     // var res;
     try {
@@ -227,7 +227,6 @@ class NetworkUtil {
         print("statusCode " + response.statusCode.toString());
         repositoryResponse.success = false;
         repositoryResponse.data = data;
-
       }
 
       return repositoryResponse;
