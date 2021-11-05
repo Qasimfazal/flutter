@@ -12,7 +12,7 @@ import '../../app/app_routes.dart';
 import '../../util/ToastUtil.dart';
 import 'login_viewmodel.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -35,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _loginViewModel = new LoginViewModel(App());
     observeViewModel();
   }
+
   void observeViewModel() {
     _loginViewModel
         .getUserRepository()
@@ -58,7 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ToastUtil.showToast(context, response.msg);
       }
 
-
       // print(response);
     });
   }
@@ -79,6 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     _loginViewModel.login(emailController.text.trim(), passwordController.text);
   }
+
   @override
   Widget build(BuildContext context) {
     // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("My amazing message! O.o")));
@@ -87,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: [
         // Util.getBack(context),
         Container(
-          margin: EdgeInsets.only(left: 15, right: 15,top:20),
+          margin: EdgeInsets.only(left: 15, right: 15, top: 20),
           child: Text(
             "welcome to soul food guid".toUpperCase(),
             style: TextStyle(
@@ -134,7 +135,10 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Center(
               child: Text(
                 "login now".toUpperCase(),
-                style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600, fontSize: 16),
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16),
               ),
             ),
           ),
@@ -177,21 +181,38 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: Colors.black,
                     fontSize: 14,
                     fontWeight: FontWeight.w500))),
-        Container(
-          height: 55,
-          margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 15),
-          decoration: BoxDecoration(
-              color: Color(0XFF3B5998),
-              borderRadius: BorderRadius.all(Radius.circular(25))),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset("assets/ic_fb.svg"),
-              Text(
-                " | LOGIN WITH FACEBOOK",
-                style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600),
-              ),
-            ],
+        InkWell(
+          onTap: () async {
+            FacebookAuth.instance.login(permissions: [
+              'public_profile',
+              'email',
+            ]).then((value) {
+              FacebookAuth.instance.getUserData().then((userData) {
+                print("userData -> $userData");
+              }).onError((error, stackTrace) {
+                print("error inner  -> $error");
+              });
+            }).onError((error, stackTrace) {
+              print("error outer -> $error");
+            });
+          },
+          child: Container(
+            height: 55,
+            margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 15),
+            decoration: BoxDecoration(
+                color: Color(0XFF3B5998),
+                borderRadius: BorderRadius.all(Radius.circular(25))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset("assets/ic_fb.svg"),
+                Text(
+                  " | LOGIN WITH FACEBOOK",
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
           ),
         ),
         Container(
@@ -206,7 +227,8 @@ class _LoginScreenState extends State<LoginScreen> {
               SvgPicture.asset("assets/ic_google.svg"),
               Text(
                 " | Login With Google+".toUpperCase(),
-                style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
               ),
             ],
           ),
@@ -240,8 +262,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
-          inAsyncCall: _showLoader,
-          child: SafeArea(child: body)),
+          inAsyncCall: _showLoader, child: SafeArea(child: body)),
     );
   }
 
