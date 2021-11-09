@@ -15,7 +15,6 @@ import 'package:sould_food_guide/model/hotels/content/Hotels.dart';
 import 'package:sould_food_guide/model/repoResponse_model.dart';
 import 'package:sould_food_guide/util/ToastUtil.dart';
 import 'package:sould_food_guide/util/Util.dart';
-import 'package:sould_food_guide/views/hotel_detail_view.dart';
 import 'package:sould_food_guide/views/hotels/hotel_viewmodel.dart';
 import 'package:sould_food_guide/views/search_hotels_view.dart';
 

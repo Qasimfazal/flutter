@@ -9,7 +9,7 @@ class NetworkConfig {
 
   // static const String HOTEL_API_KEY ="b1bdecfc3026ca05b4e9b11d8807d828";
   // static const String HOTEL_SECRET ="720005688c";
-
+static const String EVENT_API_KEY="dQOiBtAPW6ksiI4i37VODSjou8HD4V3O";
   static const String HOTEL_API_KEY = "2e92775fbf305a7e07e5afb411b89b42";
   static const String HOTEL_SECRET = "118c4d9445";
 

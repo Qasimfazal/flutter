@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sould_food_guide/app/app_routes.dart';
 import 'package:sould_food_guide/util/Util.dart';
-import 'package:sould_food_guide/views/events_view.dart';
+import 'package:sould_food_guide/views/event/events_view.dart';
 import 'package:sould_food_guide/views/hotel_detail_view.dart';
 import 'package:sould_food_guide/views/hotels/hotel_view.dart';
 import 'package:sould_food_guide/views/restuarants_view.dart';
@@ -178,7 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   InkWell(
                     onTap: (){
-                      Util.open(context, EventsScreen());
+                      Navigator.pushNamed(context, AppRoutes.APP_EVENT);
                     },
                     child: Container(
                       width: 75,

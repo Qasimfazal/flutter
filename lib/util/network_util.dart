@@ -203,6 +203,52 @@ class NetworkUtil {
     }
   }
 
+  Future<RepositoryResponse> getEvents({String url}) async {
+    RepositoryResponse repositoryResponse = new RepositoryResponse();
+    repositoryResponse.success = false;
+    repositoryResponse.data = null;
+    try {
+      var response = await _client.get(Uri.parse(url));
+      final String res = response.body;
+      var data = _decoder.convert(res);
+      print("Response $data}");
+      if (response.statusCode >= 200 && response.statusCode <= 299) {
+        repositoryResponse.msg = "Hotels fetched successfully.";
+
+        repositoryResponse.success = true;
+        repositoryResponse.data = data;
+      } else {
+        print("statusCode " + response.statusCode.toString());
+        repositoryResponse.success = false;
+        repositoryResponse.data = data;
+      }
+
+      return repositoryResponse;
+    } on SocketException {
+      print("********Socket Exception ");
+      repositoryResponse.code = 1;
+      repositoryResponse.msg =
+      "No Internet Available.\nPlease check your internet connection & Try Again!";
+      return repositoryResponse;
+    } on FormatException {
+      print("********Format Exception ");
+      repositoryResponse.code = 2;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } on HttpException {
+      print("********Http Exception ");
+      repositoryResponse.code = 3;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } catch (e) {
+      print("********Unknown Exception ${e.toString()}");
+      repositoryResponse.code = 4;
+      repositoryResponse.msg =
+      "Something went wrong, Our team has been notified";
+      return repositoryResponse;
+    }
+  }
+
   Future<RepositoryResponse> getHotel({String url, Map headers}) async {
     Dio dio = Dio();
     RepositoryResponse repositoryResponse = new RepositoryResponse();

@@ -48,6 +48,20 @@ class NetworkNAO {
   // "unit": "km"
   // }
   // }
+  static Future<RepositoryResponse> getEvents(String city, int page) =>
+      NetworkUtil()
+          .getEvents(
+              url: NetworkEndpoints.EVENTS +
+                  '?' +
+                  Uri(queryParameters: {
+                    "apikey": NetworkConfig.EVENT_API_KEY,
+                    "city": city.toString(),
+                    "page": page.toString()
+                  }).query)
+          .then((RepositoryResponse response) {
+        return response;
+      });
+
   static Future<RepositoryResponse> getHotels(String codes, String signature) =>
       NetworkUtil().getHotel(
           url: NetworkEndpoints.HOTEL_CONTENT + "?codes=" + codes,

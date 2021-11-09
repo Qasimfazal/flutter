@@ -11,6 +11,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sould_food_guide/model/event/EventResponse.dart';
 import 'package:sould_food_guide/network/network_config.dart';
 import 'package:sould_food_guide/network/network_endpoints.dart';
 
@@ -76,20 +77,21 @@ class Util {
             borderSide: const BorderSide(color: Color(0xffF1F1F1), width: 1.0),
             borderRadius: BorderRadius.all(Radius.circular(0.0))));
   }
+
   static getDecorationForFilter(String hint) {
     return InputDecoration(
-        hintText: '$hint',
-        hintStyle: TextStyle(color: Color(0xFF9E9E9E)),
-        enabledBorder:InputBorder.none,
-        contentPadding: EdgeInsets.only(bottom: 15),
+      hintText: '$hint',
+      hintStyle: TextStyle(color: Color(0xFF9E9E9E)),
+      enabledBorder: InputBorder.none,
+      contentPadding: EdgeInsets.only(bottom: 15),
 
-        // OutlineInputBorder(
-        //     borderSide: BorderSide(color: Color(0xffF1F1F1), width: 1.0),
-        //     borderRadius: BorderRadius.all(Radius.circular(0.0))),
-         border:InputBorder.none,
-        // border:OutlineInputBorder(
-        //     borderSide: const BorderSide(color: Color(0xffF1F1F1), width: 0.5),
-        //     borderRadius: BorderRadius.all(Radius.circular(0.0)))
+      // OutlineInputBorder(
+      //     borderSide: BorderSide(color: Color(0xffF1F1F1), width: 1.0),
+      //     borderRadius: BorderRadius.all(Radius.circular(0.0))),
+      border: InputBorder.none,
+      // border:OutlineInputBorder(
+      //     borderSide: const BorderSide(color: Color(0xffF1F1F1), width: 0.5),
+      //     borderRadius: BorderRadius.all(Radius.circular(0.0)))
     );
   }
 
@@ -236,6 +238,25 @@ class Util {
   static getHotelImagePath(String path) {
     var photo = NetworkEndpoints.BASE_HOTEL_IMAGE + path;
     return photo;
+  }
+
+  static getEventAddress(Events event) {
+    if (event.eEmbedded == null ||
+        event.eEmbedded.venues == null ||
+        event.eEmbedded.venues.isEmpty) {
+      return "";
+    } else {
+      var venue = event.eEmbedded.venues[0];
+      return "${venue.address.line1} ${venue.city.name} ${venue.state.name} ${venue.country.name}";
+    }
+  }
+
+  static getEventImage(Events event) {
+    var images = event.images;
+    images.sort((a,b)=>b.width.compareTo(a.width));
+    var url =images.first.url;
+    print("url $url");
+    return url;
   }
 //
 //   static getProductSearchInput(BuildContext context) {

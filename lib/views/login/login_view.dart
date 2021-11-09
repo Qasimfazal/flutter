@@ -193,6 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 print("error inner  -> $error");
               });
             }).onError((error, stackTrace) {
+              print(stackTrace.toString());
               print("error outer -> $error");
             });
           },

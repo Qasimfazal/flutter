@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sould_food_guide/views/event/events_view.dart';
+import 'package:sould_food_guide/views/event_detail_view.dart';
 import 'package:sould_food_guide/views/hotel_detail_view.dart';
 import 'package:sould_food_guide/views/hotel_images.dart';
 import 'package:sould_food_guide/views/hotel_location_view.dart';
@@ -22,6 +24,8 @@ class AppRoutes {
   static const String APP_HOTEL_PHOTOS = "/hotel_images";
   static const String APP_HOTEL_LOCATION = "/hotel_location";
   static const String APP_HOTEL_REVIEW = "/hotel_review";
+  static const String APP_EVENT = "/event";
+  static const String APP_EVENT_DETAIL = "/event_detail";
 
   //--------------------------------------------------------------- Methods --------------------------------------------------------------------------
 
@@ -100,6 +104,21 @@ class AppRoutes {
             builder: (BuildContext context) => HotelLocationView(routeSettings.arguments),
           );
         }
+      case APP_EVENT:{
+        return MaterialPageRoute<void>(
+          settings: routeSettings,
+          builder: (BuildContext context)=>EventsScreen(),
+
+        );
+      }
+      case APP_EVENT_DETAIL:{
+        return MaterialPageRoute<void>(
+          settings: routeSettings,
+          builder: (BuildContext context)=>EventDetailScreen(routeSettings.arguments),
+
+        );
+      }
+
 
       //   case APP_ROUTE_HOME:
       //     {

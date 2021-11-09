@@ -11,6 +11,7 @@ class NetworkEndpoints {
       "https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels/{hotelCode}/details?language=ENG";
   static const String HOTEL_BOOKINGS =
       "https://api.test.hotelbeds.com/hotel-api/1.0/bookings";
+  static const String EVENTS ="https://app.ticketmaster.com/discovery/v2/events.json";
 
   static const String API_LOGIN = BASE_URL + "login";
   static const String API_SIGN_UP = BASE_URL + "register";
