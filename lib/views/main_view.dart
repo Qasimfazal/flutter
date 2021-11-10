@@ -3,7 +3,7 @@ import 'package:sould_food_guide/views/favourite_view.dart';
 import 'package:sould_food_guide/views/home_view.dart';
 import 'package:sould_food_guide/views/hotel_menu_view.dart';
 import 'package:sould_food_guide/views/hotels/hotel_view.dart';
-import 'package:sould_food_guide/views/user_view.dart';
+import 'package:sould_food_guide/views/profile/user_view.dart';
 
 class  MainScreen extends StatefulWidget {
   @override

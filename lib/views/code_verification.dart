@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sould_food_guide/util/Util.dart';
-import 'package:sould_food_guide/views/reset_password_view.dart';
+import 'package:sould_food_guide/views/reset_password/reset_password_view.dart';
 
 class CodeVerificationScreen extends StatefulWidget {
   @override

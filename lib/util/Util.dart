@@ -107,6 +107,10 @@ class Util {
       enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Color(0XFFF1F1F1), width: 1),
           borderRadius: BorderRadius.all(Radius.circular(25))),
+      focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Color(0XFFF1F1F1), width: 1),
+          borderRadius: BorderRadius.all(Radius.circular(25))),
+
     );
   }
 

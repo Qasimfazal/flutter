@@ -10,19 +10,20 @@ import 'package:sould_food_guide/util/Util.dart';
 import 'package:sould_food_guide/views/main_view.dart';
 import 'package:sould_food_guide/views/signup/signup_viewmodel.dart';
 
-class SignupScreen extends StatefulWidget {
+class EditProfileScreen extends StatefulWidget {
   @override
-  _SignupScreenState createState() => _SignupScreenState();
+  _EditProfileScreenState createState() => _EditProfileScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class _EditProfileScreenState extends State<EditProfileScreen> {
   SignupViewModel _signupViewModel;
   StreamController _signupController;
   bool _showLoader = false;
   final nameController = TextEditingController();
-  final emailController = TextEditingController();
+  // final emailController = TextEditingController();
   final phoneController = TextEditingController();
-  final passwordController = TextEditingController();
+  // final passwordController = TextEditingController();
+  final addressController = TextEditingController();
 
   @override
   void initState() {
@@ -67,16 +68,8 @@ class _SignupScreenState extends State<SignupScreen> {
       ToastUtil.showToast(context, "Full Name can't be blank.");
       return;
     }
-    if (emailController.text.trim().isEmpty) {
-      ToastUtil.showToast(context, "Email can't be blank.");
-      return;
-    }
     if (phoneController.text.trim().isEmpty) {
       ToastUtil.showToast(context, "Phone can't be blank.");
-      return;
-    }
-    if (passwordController.text.trim().isEmpty) {
-      ToastUtil.showToast(context, "Password can't be blank.");
       return;
     }
 
@@ -85,11 +78,11 @@ class _SignupScreenState extends State<SignupScreen> {
         _showLoader = true;
       });
 
-    _signupViewModel.signup(
-        nameController.text.trim(),
-        emailController.text.trim(),
-        phoneController.text.trim(),
-        passwordController.text);
+    // _signupViewModel.signup(
+    //     nameController.text.trim(),
+    //     emailController.text.trim(),
+    //     phoneController.text.trim(),
+    //     passwordController.text);
   }
 
   @override
@@ -100,7 +93,7 @@ class _SignupScreenState extends State<SignupScreen> {
         Container(
           margin: EdgeInsets.only(left: 15, right: 15),
           child: Text(
-            "Create Account".toUpperCase(),
+            "Edit Profile".toUpperCase(),
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
           ),
@@ -154,7 +147,8 @@ class _SignupScreenState extends State<SignupScreen> {
           height: 40,
           margin: EdgeInsets.only(left: 15, right: 15, top: 15),
           child: TextField(
-            controller: emailController,
+            readOnly: true,
+            enableInteractiveSelection: true,
             keyboardType: TextInputType.emailAddress,
             decoration: Util.getFormDecoration("Email Address"),
           ),
@@ -172,10 +166,20 @@ class _SignupScreenState extends State<SignupScreen> {
           height: 40,
           margin: EdgeInsets.only(left: 15, right: 15, top: 15),
           child: TextField(
-            controller: passwordController,
-            obscureText: true,
-            keyboardType: TextInputType.visiblePassword,
-            decoration: Util.getFormDecoration("Password"),
+            readOnly: true,
+            enableInteractiveSelection: true,
+
+
+            decoration: Util.getFormDecoration("DOB"),
+          ),
+        ),
+        Container(
+          height: 40,
+          margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+          child: TextField(
+            controller: addressController,
+            keyboardType: TextInputType.text,
+            decoration: Util.getFormDecoration("Address"),
           ),
         ),
         InkWell(
@@ -234,9 +238,10 @@ class _SignupScreenState extends State<SignupScreen> {
   void dispose() {
     print("login dispose");
     nameController.dispose();
-    emailController.dispose();
+    // emailController.dispose();
     phoneController.dispose();
-    passwordController.dispose();
+    addressController.dispose();
+    // passwordController.dispose();
     super.dispose();
   }
 }

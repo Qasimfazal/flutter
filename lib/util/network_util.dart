@@ -13,7 +13,6 @@ class NetworkUtil {
   static NetworkUtil _instance = new NetworkUtil.internal();
 
   http.Client _client = new http.Client();
-
   // http.Client get client => _client;
   //
   // set client(http.Client value) {
@@ -56,7 +55,14 @@ class NetworkUtil {
     print(headers.toString());
 
     try {
-      var response = await _client.get(Uri.parse(url), headers: headers);
+      var response = await _client.get(Uri.parse(url), headers: headers).timeout(
+        const Duration(seconds: 15),
+        onTimeout: () {
+          // Time has run out, do what you wanted to do.
+          return http.Response('Slow Internet Connection',
+              500); // Replace 500 with your http code.
+        },
+      );
       final String res = response.body;
       var data = _decoder.convert(res);
 
@@ -107,7 +113,14 @@ class NetworkUtil {
     print('******* Post request *********');
     try {
       var response = await _client.post(Uri.parse(url),
-          body: body, headers: headers, encoding: encoding);
+          body: body, headers: headers, encoding: encoding).timeout(
+        const Duration(seconds: 15),
+        onTimeout: () {
+          // Time has run out, do what you wanted to do.
+          return http.Response('Slow Internet Connection',
+              500); // Replace 500 with your http code.
+        },
+      );
       //var response = await http.post(url,body: body,headers: headers,encoding: encoding);
       final String res = response.body;
       var data = _decoder.convert(res);
@@ -157,8 +170,18 @@ class NetworkUtil {
     print('******* headers ' + headers.toString());
     // var res;
     try {
-      var response = await _client.post(Uri.parse(url),
-          body: jsonEncode(body), headers: headers, encoding: encoding);
+
+      http.Response response = await _client
+          .post((Uri.parse(url)),
+          body: jsonEncode(body), headers: headers, encoding: encoding)
+          .timeout(
+        const Duration(seconds: 15),
+        onTimeout: () {
+          // Time has run out, do what you wanted to do.
+          return http.Response('Slow Internet Connection',
+              500); // Replace 500 with your http code.
+        },
+      );
       //var response = await http.post(url,body: body,headers: headers,encoding: encoding);
 
       final String res = response.body;
@@ -208,7 +231,14 @@ class NetworkUtil {
     repositoryResponse.success = false;
     repositoryResponse.data = null;
     try {
-      var response = await _client.get(Uri.parse(url));
+      var response = await _client.get(Uri.parse(url)).timeout(
+        const Duration(seconds: 15),
+        onTimeout: () {
+          // Time has run out, do what you wanted to do.
+          return http.Response('Slow Internet Connection',
+              500); // Replace 500 with your http code.
+        },
+      );
       final String res = response.body;
       var data = _decoder.convert(res);
       print("Response $data}");
@@ -260,7 +290,14 @@ class NetworkUtil {
     print('******* headers ' + headers.toString());
     // var res;
     try {
-      var response = await _client.get(Uri.parse(url), headers: headers);
+      var response = await _client.get(Uri.parse(url), headers: headers).timeout(
+        const Duration(seconds: 15),
+        onTimeout: () {
+          // Time has run out, do what you wanted to do.
+          return http.Response('Slow Internet Connection',
+              500); // Replace 500 with your http code.
+        },
+      );
       final String res = response.body;
       var data = _decoder.convert(res);
       print("Response $data}");
@@ -317,7 +354,14 @@ class NetworkUtil {
     print('******* Put request *********');
     try {
       var response = await _client.put(Uri.parse(url),
-          headers: headers, body: body, encoding: encoding);
+          headers: headers, body: body, encoding: encoding).timeout(
+        const Duration(seconds: 15),
+        onTimeout: () {
+          // Time has run out, do what you wanted to do.
+          return http.Response('Slow Internet Connection',
+              500); // Replace 500 with your http code.
+        },
+      );
       final String res = response.body;
       var data = _decoder.convert(res);
 
@@ -362,7 +406,14 @@ class NetworkUtil {
 
     print('******* Delete request *********');
     try {
-      var response = await _client.delete(Uri.parse(url), headers: headers);
+      var response = await _client.delete(Uri.parse(url), headers: headers).timeout(
+        const Duration(seconds: 15),
+        onTimeout: () {
+          // Time has run out, do what you wanted to do.
+          return http.Response('Slow Internet Connection',
+              500); // Replace 500 with your http code.
+        },
+      );
       final String res = response.body;
       var data = _decoder.convert(res);
 

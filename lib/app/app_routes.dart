@@ -6,6 +6,9 @@ import 'package:sould_food_guide/views/hotel_images.dart';
 import 'package:sould_food_guide/views/hotel_location_view.dart';
 import 'package:sould_food_guide/views/hotel_review_view.dart';
 import 'package:sould_food_guide/views/hotels/hotel_view.dart';
+import 'package:sould_food_guide/views/profile/edit_profile_view.dart';
+import 'package:sould_food_guide/views/reset_password/forgot_password_view.dart';
+import 'package:sould_food_guide/views/reset_password/reset_password_view.dart';
 import 'package:sould_food_guide/views/search_hotels_view.dart';
 import 'package:sould_food_guide/views/splash_view.dart';
 
@@ -26,6 +29,11 @@ class AppRoutes {
   static const String APP_HOTEL_REVIEW = "/hotel_review";
   static const String APP_EVENT = "/event";
   static const String APP_EVENT_DETAIL = "/event_detail";
+  static const String APP_FORGOT = "/forgot";
+
+  // static const String APP_CODE_VERIFY = "/verify_code";
+  static const String APP_RESET_PASSWORD = "/reset_password";
+  static const String APP_EDIT_PROFILE = "/edit_profile";
 
   //--------------------------------------------------------------- Methods --------------------------------------------------------------------------
 
@@ -73,7 +81,8 @@ class AppRoutes {
         {
           return MaterialPageRoute<void>(
             settings: routeSettings,
-            builder: (BuildContext context) => HotelScreen(routeSettings.arguments),
+            builder: (BuildContext context) =>
+                HotelScreen(routeSettings.arguments),
           );
         }
       case APP_HOTEL_REVIEW:
@@ -83,267 +92,67 @@ class AppRoutes {
             builder: (BuildContext context) => HotelReviewScreen(),
           );
         }
-        case APP_HOTEL_DETAIL :
+      case APP_HOTEL_DETAIL:
         {
           return MaterialPageRoute<void>(
             settings: routeSettings,
-            builder: (BuildContext context) => HotelDetailScreen(routeSettings.arguments),
+            builder: (BuildContext context) =>
+                HotelDetailScreen(routeSettings.arguments),
           );
         }
-        case APP_HOTEL_PHOTOS :
+      case APP_HOTEL_PHOTOS:
         {
           return MaterialPageRoute<void>(
             settings: routeSettings,
-            builder: (BuildContext context) => HotelImages(routeSettings.arguments),
+            builder: (BuildContext context) =>
+                HotelImages(routeSettings.arguments),
           );
         }
-        case APP_HOTEL_LOCATION :
+      case APP_HOTEL_LOCATION:
         {
           return MaterialPageRoute<void>(
             settings: routeSettings,
-            builder: (BuildContext context) => HotelLocationView(routeSettings.arguments),
+            builder: (BuildContext context) =>
+                HotelLocationView(routeSettings.arguments),
           );
         }
-      case APP_EVENT:{
-        return MaterialPageRoute<void>(
-          settings: routeSettings,
-          builder: (BuildContext context)=>EventsScreen(),
+      case APP_EVENT:
+        {
+          return MaterialPageRoute<void>(
+            settings: routeSettings,
+            builder: (BuildContext context) => EventsScreen(),
+          );
+        }
+      case APP_EVENT_DETAIL:
+        {
+          return MaterialPageRoute<void>(
+            settings: routeSettings,
+            builder: (BuildContext context) =>
+                EventDetailScreen(routeSettings.arguments),
+          );
+        }
+      case APP_FORGOT:
+        {
+          return MaterialPageRoute<void>(
+            settings: routeSettings,
+            builder: (BuildContext context) => ForgotPasswordScreen(),
+          );
+        }
+      case APP_RESET_PASSWORD:
+        {
+          return MaterialPageRoute<void>(
+            settings: routeSettings,
+            builder: (BuildContext context) => ResetPasswordScreen(),
+          );
+        }
+        case APP_EDIT_PROFILE :
+        {
+          return MaterialPageRoute<void>(
+            settings: routeSettings,
+            builder: (BuildContext context) => EditProfileScreen(),
+          );
+        }
 
-        );
-      }
-      case APP_EVENT_DETAIL:{
-        return MaterialPageRoute<void>(
-          settings: routeSettings,
-          builder: (BuildContext context)=>EventDetailScreen(routeSettings.arguments),
-
-        );
-      }
-
-
-      //   case APP_ROUTE_HOME:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             HomeScreen(),
-      //       );
-      //     }
-      //   case APP_ROUTE_STORE_SCREEN:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) => SelectStoreScreen(),
-      //       );
-      //     }
-      //
-      //   case APP_ROUTE_SELECT_AGE:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             AgeSelectionScreen(),
-      //       );
-      //     }
-      //   case APP_ROUTE_FOOD_TYPE:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             SelectFoodTypeScreen(routeSettings.arguments),
-      //       );
-      //     }
-      //   case APP_ROUTE_SELECT_GENDER:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             GenderSelectionScreen(routeSettings.arguments),
-      //       );
-      //     }
-      //   case APP_ROUTE_TERMS:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             TermsAndConditionsScreen(routeSettings.arguments),
-      //       );
-      //     }
-      //
-      //     //Step 1
-      //   case APP_ROUTE_STEP1_ADD_PACKAGING:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             Step1AddPackagingView(routeSettings.arguments),
-      //       );
-      //     }
-      //   case APP_ROUTE_STEP1_CONFIRMED:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             Step1ConfirmCapturedImageView(routeSettings.arguments),
-      //       );
-      //     }
-      //     //Step 1 Ends
-      //
-      //   //Step 2
-      //   case APP_ROUTE_STEP2_CAPTURE_NUTRITIONS_FACTS: //1
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) => Step2AddNutritionsImageView(),
-      //       );
-      //     }
-      //
-      //   case APP_ROUTE_STEP2_CONFIRMED_CAPTURED: //2
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             Step2ConfirmCapturedImageView(routeSettings.arguments),
-      //       );
-      //     }
-      //
-      //   case APP_ROUTES_STEP2_CONFIRM_VIEW: //3
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             Step2ConfirmNutritionFactsView(routeSettings.arguments),
-      //       );
-      //     }
-      //
-      //   case APP_ROUTES_STEP2_CROP_VIEW: //3 Step2_NutritionsImageCropView
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             Step2NutritionsImageCropView(routeSettings.arguments),
-      //       );
-      //     }
-      //
-      //     //Step 3
-      //
-      //   case APP_ROUTE_STEP3_CAPTURE_INGREDIENTS_LIST: //1 Ingredients_ImageCropView
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             Step3AddIngredientsImageView(),
-      //       );
-      //     }
-      //
-      //   case APP_ROUTE_STEP3_CONFIRMED_CAPTURED: //2
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             Step3ConfirmCapturedImageView(routeSettings.arguments),
-      //       );
-      //     }
-      //
-      //   case APP_ROUTES_STEP3_CONFIRM_VIEW: //3
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             Step3ConfirmIngridientsListView(routeSettings.arguments),
-      //       );
-      //     }
-      //
-      //   case APP_ROUTES_STEP3_CROP_VIEW: //3
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             IngredientsImageCropView(routeSettings.arguments),
-      //       );
-      //     }
-      //
-      //
-      // //step 4
-      //   case APP_ROUTE_STEP4_SELECT_TAG:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) => Step4SelectTagView(),
-      //       );
-      //     }
-      //
-      //   case APP_ROUTE_STEP4_ANOTHER_REASON:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) => StepAnotherReasonSelectTag(routeSettings.arguments),
-      //       );
-      //     }
-      //
-      //     //Step 5
-      //   case APP_ROUTE_STEP5:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) => Step5Publish(),
-      //       );
-      //     }
-      //
-      //   case APP_ROUTE_ON_BOARDING:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) => OnboardingScreen(),
-      //       );
-      //     }
-      //   case APP_ROUTES_INPORGRESS:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             InProgressScreen(routeSettings.arguments),
-      //       );
-      //     }
-      //   case APP_ROUTE_CREATE_STORE_SCREEN:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) => CreateStoreScreen(),
-      //       );
-      //     }
-      //   case APP_ROUTE_CATEGORY_SCREEN:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             SelectCategoryScreen(routeSettings.arguments),
-      //       );
-      //     }
-      //   case APP_ROUTE_STEP3_INGRIDIENT_LIST:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) => Step3AddIngredientsImageView(),
-      //       );
-      //     }
-      //   case APP_ROUTE_STEP4_ANOTHER_REASON:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             StepAnotherReasonSelectTag(routeSettings.arguments),
-      //       );
-      //     }
-      //
-      //   case APP_ROUTE_STEP3_INGRIDIENT_CONFIRM:
-      //     {
-      //       return MaterialPageRoute<void>(
-      //         settings: routeSettings,
-      //         builder: (BuildContext context) =>
-      //             Step3ConfirmIngridientsListView(routeSettings.arguments),
-      //       );
-      //     }
-      //
       default:
         {
           return MaterialPageRoute<void>(

@@ -13,7 +13,21 @@ class UserScreen extends StatefulWidget {
   _UserScreenState createState() => _UserScreenState();
 }
 
+
+
+
 class _UserScreenState extends State<UserScreen> {
+  String name ="";
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+
+    getUserData();
+  }
   @override
   Widget build(BuildContext context) {
     final body = ListView(
@@ -61,18 +75,23 @@ class _UserScreenState extends State<UserScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "John Smith",
+                          name,
                           style: TextStyle(
                               fontWeight: FontWeight.w600,
                               color: Colors.black,
                               fontSize: 16),
                         ),
-                        Text(
-                          "View Profile",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: Color(0XFF828282),
-                              fontSize: 12),
+                        InkWell(
+                          onTap: (){
+                            Navigator.pushNamed(context, AppRoutes.APP_EDIT_PROFILE);
+                          },
+                          child: Text(
+                            "View Profile",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: Color(0XFF828282),
+                                fontSize: 12),
+                          ),
                         ),
                       ],
                     )
@@ -264,6 +283,18 @@ class _UserScreenState extends State<UserScreen> {
         child: body,
       ),
     );
+  }
+
+  void getUserData() {
+
+    App().getAppPreferences().isPreferenceReady;
+    App().getAppPreferences().getUserData().then((value){
+      setState(() {
+        name = value.name;
+        // userName = value.firstname;
+      });
+    });
+
   }
 }
 

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:sould_food_guide/model/User.dart';
 import 'package:sould_food_guide/model/repoResponse_model.dart';
 import 'package:sould_food_guide/network/nao/network_nao.dart';
 import 'package:sould_food_guide/preference/app_preferences.dart';
@@ -20,8 +22,8 @@ class UserRepository {
     RepositoryResponse response = await NetworkNAO.login(email, password);
     if (response.success) {
       _appPreferences.setUserToken(userToken: response.data["token"]);
-      // _appPreferences.setUserData(
-      //     data: jsonEncode(User.fromJson(response.data["user"])));
+      _appPreferences.setUserData(
+          data: jsonEncode(User.fromJson(response.data)));
 
       _repositoryResponse.add(response);
     } else {

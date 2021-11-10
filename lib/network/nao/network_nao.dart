@@ -18,6 +18,21 @@ class NetworkNAO {
         return response; // Map json response to UserModel object
       });
 
+  static Future<RepositoryResponse> forgotPassword(String email) =>
+      NetworkUtil().post(url: NetworkEndpoints.API_FORGOT, body: {
+        NetworkConfig.PARAM_EMAIL: email
+      }).then((RepositoryResponse response) {
+        return response;
+      });
+static Future<RepositoryResponse> resetPassword(String code, String password, String confirmPassword )=>
+NetworkUtil().post(url: NetworkEndpoints.API_RESET_PASSWORD,body: {
+  NetworkConfig.PARAM_CODE: code,
+  NetworkConfig.PARAM_PASSWORD:password,
+  NetworkConfig.PARAM_CONFIRM_PASSWORD:confirmPassword,
+
+}).then((RepositoryResponse response) {
+  return response;
+} );
   static Future<RepositoryResponse> signUp(
           String name, String email, String password, String phone) =>
       NetworkUtil().post(url: NetworkEndpoints.API_SIGN_UP, body: {

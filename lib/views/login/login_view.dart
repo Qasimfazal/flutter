@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sould_food_guide/util/Util.dart';
-import 'package:sould_food_guide/views/forgot_password_view.dart';
+import 'package:sould_food_guide/views/reset_password/forgot_password_view.dart';
 import 'package:sould_food_guide/views/main_view.dart';
 import 'package:sould_food_guide/views/signup/signup_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         InkWell(
           onTap: () {
-            Util.open(context, ForgotPasswordScreen());
+            Navigator.pushNamed(context, AppRoutes.APP_FORGOT);
           },
           child: Center(
             child: Text.rich(TextSpan(

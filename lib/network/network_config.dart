@@ -16,7 +16,10 @@ static const String EVENT_API_KEY="dQOiBtAPW6ksiI4i37VODSjou8HD4V3O";
   /// Login API PARAMS
   static const String PARAM_EMAIL = "email";
   static const String PARAM_PASSWORD = "password";
+  static const String PARAM_CONFIRM_PASSWORD = "password_confirmation";
 //
   static const String PARAM_NAME = "name";
   static const String PARAM_PHONE = "phone";
+  static const String PARAM_CODE ="code";
+
 }

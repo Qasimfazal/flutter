@@ -17,7 +17,7 @@ class SignupViewModel {
   }
 
   void signup(String name,String email, String phone,String password) {
-    _userRepository.signUp(name,email, phone,password);
+    _userRepository.signUp(name,email, password,phone);
   }
 
   UserRepository getUserRepository() => _userRepository;
