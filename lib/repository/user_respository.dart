@@ -32,11 +32,11 @@ class UserRepository {
   }
 
   Future<void> signUp(
-      String name, String email, String password, String phone) async {
+      String name, String email, String password, String phone,path) async {
     RepositoryResponse repositoryResponse = new RepositoryResponse();
     repositoryResponse.success = false;
     RepositoryResponse response =
-        await NetworkNAO.signUp(name, email, password, phone);
+        await NetworkNAO.signUp(name, email, password, phone,path);
     if (response.success)
       _repositoryResponse.add(response);
     else

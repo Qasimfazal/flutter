@@ -14,6 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sould_food_guide/model/event/EventResponse.dart';
 import 'package:sould_food_guide/network/network_config.dart';
 import 'package:sould_food_guide/network/network_endpoints.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class Util {
   static getSignature() {
@@ -23,6 +24,31 @@ class Util {
         time.toString());
     var encoded = utf8.encode(assemble);
     return sha256.convert(encoded);
+  }
+  static Future<bool> getPermission(perm) async {
+    Permission permission = await Permission.byValue(perm);
+    PermissionStatus pStatus = await permission.request();
+    return statusPermission(pStatus, permission);
+  }
+
+  static Future<bool> statusPermission(
+      perStatus, Permission permissionObj) async {
+    if (perStatus == PermissionStatus.granted) {
+      return true;
+    } else if (perStatus == PermissionStatus.undetermined) {
+      PermissionStatus status = await permissionObj.request();
+      return statusPermission(status, permissionObj);
+    } else if (perStatus == PermissionStatus.denied) {
+      PermissionStatus status = await permissionObj.request();
+      return statusPermission(status, permissionObj);
+    } else if (perStatus == PermissionStatus.restricted) {
+      // showAlert(context, "Open settings to enable permissions");
+    } else if (perStatus == PermissionStatus.permanentlyDenied) {
+      // showAlert(context, "Open settings to enable permissions");
+    } else {
+      // showAlert(context, "Open settings to enable permissions");
+      return false;
+    }
   }
 
   static getPrimaryButtonDecoration() {

@@ -24,23 +24,56 @@ class NetworkNAO {
       }).then((RepositoryResponse response) {
         return response;
       });
-static Future<RepositoryResponse> resetPassword(String code, String password, String confirmPassword )=>
-NetworkUtil().post(url: NetworkEndpoints.API_RESET_PASSWORD,body: {
-  NetworkConfig.PARAM_CODE: code,
-  NetworkConfig.PARAM_PASSWORD:password,
-  NetworkConfig.PARAM_CONFIRM_PASSWORD:confirmPassword,
 
-}).then((RepositoryResponse response) {
-  return response;
-} );
-  static Future<RepositoryResponse> signUp(
-          String name, String email, String password, String phone) =>
-      NetworkUtil().post(url: NetworkEndpoints.API_SIGN_UP, body: {
-        NetworkConfig.PARAM_NAME: name,
-        NetworkConfig.PARAM_EMAIL: email,
+  static Future<RepositoryResponse> resetPassword(
+          String code, String password, String confirmPassword) =>
+      NetworkUtil().post(url: NetworkEndpoints.API_RESET_PASSWORD, body: {
+        NetworkConfig.PARAM_CODE: code,
         NetworkConfig.PARAM_PASSWORD: password,
-        NetworkConfig.PARAM_PHONE: phone,
+        NetworkConfig.PARAM_CONFIRM_PASSWORD: confirmPassword,
       }).then((RepositoryResponse response) {
+        return response;
+      });
+  static Future<RepositoryResponse> updatePic(String imagePath, String token)=>
+  NetworkUtil().uploadMultiMedia(url: NetworkEndpoints.API_UPDATE_PROFILE_PIC,path: imagePath,param: "profile_picture",
+  headers: <String,String>{
+    'Authorization':'Bearer $token'
+  }
+  ).then((RepositoryResponse response){
+    return response;
+  });
+
+  static Future<RepositoryResponse> updateProfile(
+          String name, String phone, String dob, String address,String token) =>
+      NetworkUtil().post(url: NetworkEndpoints.API_UPDATE_PROFILE, headers:<String,String>{
+        'Authorization':'Bearer $token'
+
+      },body: {
+        NetworkConfig.PARAM_NAME: name,
+        NetworkConfig.PARAM_PHONE: phone,
+        NetworkConfig.PARAM_DOB: dob,
+        NetworkConfig.PARAM_ADDRESS: address,
+      }).then((RepositoryResponse response) {
+        return response;
+      });
+
+  static Future<RepositoryResponse> signUp(
+    String name,
+    String email,
+    String password,
+    String phone,
+    String path,
+  ) =>
+      NetworkUtil().uploadMultiMedia(
+          url: NetworkEndpoints.API_SIGN_UP,
+          path: path,
+          param: "profile_picture",
+          body: {
+            NetworkConfig.PARAM_NAME: name,
+            NetworkConfig.PARAM_EMAIL: email,
+            NetworkConfig.PARAM_PASSWORD: password,
+            NetworkConfig.PARAM_PHONE: phone,
+          }).then((RepositoryResponse response) {
         return response;
       });
 

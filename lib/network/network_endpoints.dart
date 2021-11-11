@@ -15,6 +15,8 @@ class NetworkEndpoints {
   static const String BASE_URL = "https://soulfood.thesupportonline.net/api/";
   static const String API_LOGIN = BASE_URL + "login";
   static const String API_SIGN_UP = BASE_URL + "register";
+  static const String API_UPDATE_PROFILE = BASE_URL + "update/profile_info";
+  static const String API_UPDATE_PROFILE_PIC = BASE_URL + "update/profile_picture";
   static const String API_FORGOT = BASE_URL + "forgot/email";
   static const String API_RESET_PASSWORD = BASE_URL + "reset/forgot/password";
 

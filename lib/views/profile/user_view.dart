@@ -13,21 +13,23 @@ class UserScreen extends StatefulWidget {
   _UserScreenState createState() => _UserScreenState();
 }
 
-
-
-
-class _UserScreenState extends State<UserScreen> {
-  String name ="";
-
+class _UserScreenState extends State<UserScreen> with WidgetsBindingObserver {
+  String name = "";
+  String photo;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
-
+    WidgetsBinding.instance.addObserver(this);
     getUserData();
   }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final body = ListView(
@@ -61,12 +63,41 @@ class _UserScreenState extends State<UserScreen> {
                       child: ClipOval(
                         child: Material(
                           color: Colors.transparent,
-                          child: Ink.image(
-                            image: AssetImage("assets/img_4.png"),
+                          child: photo == null
+                              ? Ink.image(
+                            image: AssetImage("assets/placeholder.png"),
                             fit: BoxFit.cover,
                             width: 80,
                             height: 80,
                             child: InkWell(onTap: () {}),
+                          )
+                              : Image.network(
+                            photo,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null)
+                                return child;
+                              else
+                                return Container(
+                                    width: 80,height: 80,
+                                    child: CircularProgressIndicator(
+                                      value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                          ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes
+                                          : null,
+                                    ));
+                            },
+                            errorBuilder: (context, error, strackTrace) {
+                              return Image.asset(
+                                "assets/placeholder.png",
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              );
+                            },
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),
@@ -82,8 +113,9 @@ class _UserScreenState extends State<UserScreen> {
                               fontSize: 16),
                         ),
                         InkWell(
-                          onTap: (){
-                            Navigator.pushNamed(context, AppRoutes.APP_EDIT_PROFILE);
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, AppRoutes.APP_EDIT_PROFILE).then((value) => {getUserData()});
                           },
                           child: Text(
                             "View Profile",
@@ -286,15 +318,14 @@ class _UserScreenState extends State<UserScreen> {
   }
 
   void getUserData() {
-
     App().getAppPreferences().isPreferenceReady;
-    App().getAppPreferences().getUserData().then((value){
+    App().getAppPreferences().getUserData().then((value) {
       setState(() {
         name = value.name;
+        photo = value.profilePicture;
         // userName = value.firstname;
       });
     });
-
   }
 }
 

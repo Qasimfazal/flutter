@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,8 +8,11 @@ import 'package:sould_food_guide/app/app.dart';
 import 'package:sould_food_guide/app/app_routes.dart';
 import 'package:sould_food_guide/util/ToastUtil.dart';
 import 'package:sould_food_guide/util/Util.dart';
+import 'package:sould_food_guide/util/constants.dart';
+import 'package:sould_food_guide/util/image_pickup.dart';
 import 'package:sould_food_guide/views/main_view.dart';
 import 'package:sould_food_guide/views/signup/signup_viewmodel.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignupScreen extends StatefulWidget {
   @override
@@ -18,11 +22,14 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   SignupViewModel _signupViewModel;
   StreamController _signupController;
+  BuildContext context;
   bool _showLoader = false;
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
+
+  String path=null;
 
   @override
   void initState() {
@@ -63,6 +70,10 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void callSignUpApi() {
+    if(path==null){
+      ToastUtil.showToast(context, "Please select profile pic.");
+      return;
+    }
     if (nameController.text.trim().isEmpty) {
       ToastUtil.showToast(context, "Full Name can't be blank.");
       return;
@@ -89,11 +100,53 @@ class _SignupScreenState extends State<SignupScreen> {
         nameController.text.trim(),
         emailController.text.trim(),
         phoneController.text.trim(),
-        passwordController.text);
+        passwordController.text,path);
   }
 
+  Future selectGallery(param) async {
+    var permissionStatus =
+    await Util.getPermission(Constants.galleryPermissionValue);
+    if (permissionStatus) {
+
+      var image = await ImagePicker().getImage(
+      // var image = await ImagePicker.pickImage(
+          source: ImageSource.gallery, imageQuality: 40);
+
+      setState(() {
+        if (image != null) {
+          path = image.path;
+          // List<int> imageBytes = image.readAsBytesSync();
+          // if (param == 'shop') {
+          //   shopImage = base64Encode(imageBytes);
+          //   qParams['shop_image'] = 'data:image/jpeg;base64,' + shopImage;
+          // } else if (param == 'bill') {
+          //   billImage = base64Encode(imageBytes);
+          //   qParams['bill_image'] = 'data:image/jpeg;base64,' + billImage;
+          // } else if (param == 'invoice') {
+          //   invoiceImage = base64Encode(imageBytes);
+          //   qParams['invoice_image'] = 'data:image/jpeg;base64,' + invoiceImage;
+          // }
+        }
+      });
+    }
+  }
+
+  Future selectCamera(param) async {
+    var permissionStatus =
+    await Util.getPermission(Constants.cameraPermissionValue);
+    if (permissionStatus) {
+      var image = await ImagePicker().getImage(
+          source: ImageSource.camera, imageQuality: 40);
+      setState(() {
+        if (image != null) {
+          path = image.path;
+        }
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     final body = ListView(
       children: [
         Util.getBack(context),
@@ -114,26 +167,35 @@ class _SignupScreenState extends State<SignupScreen> {
                 ClipOval(
                   child: Material(
                     color: Colors.transparent,
-                    child: Ink.image(
-                      image: AssetImage("assets/img_1.png"),
+                    child: path==null ?Ink.image(
+                      image: AssetImage("assets/placeholder.png"),
                       fit: BoxFit.cover,
                       width: 80,
                       height: 80,
-                      child: InkWell(onTap: () {}),
-                    ),
+                      child: InkWell(onTap: () {
+
+
+
+                      }),
+                    ):Image.file(File(path),width: 80,height: 80,fit: BoxFit.cover,),
                   ),
                 ),
                 Positioned(
                   bottom: 0,
                   right: 0,
-                  child: ClipOval(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: Util.getPrimaryBtnGradient(),
+                  child: InkWell(
+                    onTap: (){
+                      getImage(context: context,selectCamera: selectCamera,selectGallery: selectGallery);
+                    },
+                    child: ClipOval(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: Util.getPrimaryBtnGradient(),
+                        ),
+                        padding: EdgeInsets.all(6),
+                        child: SvgPicture.asset("assets/ic_camera.svg"),
                       ),
-                      padding: EdgeInsets.all(6),
-                      child: SvgPicture.asset("assets/ic_camera.svg"),
                     ),
                   ),
                 ),

@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:mime/mime.dart';
 
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:sould_food_guide/model/repoResponse_model.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:sould_food_guide/network/network_config.dart';
+import 'package:sould_food_guide/network/network_endpoints.dart';
 
 /// Network Util Class -> A utility class for handling network operations
 class NetworkUtil {
@@ -112,6 +116,7 @@ class NetworkUtil {
 
     print('******* Post request *********');
     try {
+
       var response = await _client.post(Uri.parse(url),
           body: body, headers: headers, encoding: encoding).timeout(
         const Duration(seconds: 15),
@@ -121,6 +126,7 @@ class NetworkUtil {
               500); // Replace 500 with your http code.
         },
       );
+      print("request ${response.request.toString()}");
       //var response = await http.post(url,body: body,headers: headers,encoding: encoding);
       final String res = response.body;
       var data = _decoder.convert(res);
@@ -138,8 +144,8 @@ class NetworkUtil {
       repositoryResponse.msg =
           "No Internet Available.\nPlease check your internet connection & Try Again!";
       return repositoryResponse;
-    } on FormatException {
-      print("********Format Exception ");
+    } on FormatException catch(e){
+      print("********Format Exception ${e.toString()}");
       repositoryResponse.code = 2;
       repositoryResponse.msg = "Something went wrong, Please try again.";
       return repositoryResponse;
@@ -153,6 +159,65 @@ class NetworkUtil {
       repositoryResponse.code = 4;
       repositoryResponse.msg =
           "Something went wrong, Our team has been notified";
+      return repositoryResponse;
+    }
+  }
+
+  Future<RepositoryResponse> uploadMultiMedia( {String url,String path,String param,body,Map headers}) async {
+    var uri = Uri.parse(url);
+    final mimeTypeData = lookupMimeType(path, headerBytes: [0xFF, 0xD8]).split('/');
+
+    // Intilize the multipart request
+    final imageUploadRequest = http.MultipartRequest('POST', uri);
+if(body!=null)
+    imageUploadRequest.fields.addAll(body);
+if(headers!=null)
+  imageUploadRequest.headers.addAll(headers);
+    // Attach the file in the request
+    final file = await http.MultipartFile.fromPath(param, path,
+        contentType: MediaType(mimeTypeData[0], mimeTypeData[1]));
+    imageUploadRequest.files.add(file);
+
+    // add headers if needed
+    //imageUploadRequest.headers.addAll(<some-headers>);
+    RepositoryResponse repositoryResponse = new RepositoryResponse();
+    repositoryResponse.success = false;
+    repositoryResponse.data = null;
+    try {
+      final streamedResponse = await imageUploadRequest.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      final String res = response.body;
+      var data = _decoder.convert(res);
+
+      print("Response $data}");
+      repositoryResponse.msg = data["message"];
+
+      repositoryResponse.success = data["success"];
+      repositoryResponse.data = data["data"];
+
+      return repositoryResponse;
+    } on SocketException {
+      print("********Socket Exception ");
+      repositoryResponse.code = 1;
+      repositoryResponse.msg =
+      "No Internet Available.\nPlease check your internet connection & Try Again!";
+      return repositoryResponse;
+    } on FormatException catch(e){
+print(e);
+      print("********Format Exception ${e.toString()}");
+      repositoryResponse.code = 2;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } on HttpException {
+      print("********Http Exception ");
+      repositoryResponse.code = 3;
+      repositoryResponse.msg = "Something went wrong, Please try again.";
+      return repositoryResponse;
+    } catch (e) {
+      print("********Unknown Exception ${e.toString()}");
+      repositoryResponse.code = 4;
+      repositoryResponse.msg =
+      "Something went wrong, Our team has been notified";
       return repositoryResponse;
     }
   }

@@ -25,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _showLoader = false;
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  BuildContext context;
   @override
   void initState() {
     // TODO: implement initState
@@ -82,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    this.context   =context;
     // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("My amazing message! O.o")));
     final body = ListView(
       shrinkWrap: true,

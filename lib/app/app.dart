@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sould_food_guide/preference/app_preferences.dart';
 import 'package:sould_food_guide/repository/event_respository.dart';
 import 'package:sould_food_guide/repository/hotel_respository.dart';
+import 'package:sould_food_guide/repository/profile_respository.dart';
 import 'package:sould_food_guide/repository/reset_respository.dart';
 import 'package:sould_food_guide/repository/user_respository.dart';
 
@@ -57,6 +58,9 @@ class App extends StatelessWidget {
   }
 ResetRepository getResetRepository(AppPreferences appPreferences){
     return ResetRepository(appPreferences:  appPreferences);
+}
+ProfileRepository getProfileRepository(AppPreferences appPreferences){
+    return ProfileRepository(appPreferences: appPreferences);
 }
   HotelRepository getHotelRepository(AppPreferences appPreferences) {
     return HotelRepository(appPreferences: appPreferences);

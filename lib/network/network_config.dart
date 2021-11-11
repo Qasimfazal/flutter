@@ -9,7 +9,7 @@ class NetworkConfig {
 
   // static const String HOTEL_API_KEY ="b1bdecfc3026ca05b4e9b11d8807d828";
   // static const String HOTEL_SECRET ="720005688c";
-static const String EVENT_API_KEY="dQOiBtAPW6ksiI4i37VODSjou8HD4V3O";
+  static const String EVENT_API_KEY = "dQOiBtAPW6ksiI4i37VODSjou8HD4V3O";
   static const String HOTEL_API_KEY = "2e92775fbf305a7e07e5afb411b89b42";
   static const String HOTEL_SECRET = "118c4d9445";
 
@@ -17,9 +17,13 @@ static const String EVENT_API_KEY="dQOiBtAPW6ksiI4i37VODSjou8HD4V3O";
   static const String PARAM_EMAIL = "email";
   static const String PARAM_PASSWORD = "password";
   static const String PARAM_CONFIRM_PASSWORD = "password_confirmation";
+
 //
   static const String PARAM_NAME = "name";
   static const String PARAM_PHONE = "phone";
-  static const String PARAM_CODE ="code";
+  static const String PARAM_CODE = "code";
+  static const String PARAM_DOB = "dob";
+  static const String PARAM_ADDRESS = "address";
+  static const String PARAM_PROFILE_PICTURE = "profile_picture";
 
 }
