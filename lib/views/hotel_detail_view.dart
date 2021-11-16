@@ -517,7 +517,7 @@ class _HotelDetailScreenState extends State<HotelDetailScreen>
                 onTap: () {
                   if (id != "1") {
                     {
-                      publicService.setKeys(id, hotelDetail.address.content,
+                      publicService.setKeys(id,hotelDetail.name.content, hotelDetail.address.content,
                           availableHotel.currency, rate);
                       Util.open(context, HotelConfirmBookingScreen());
                     }

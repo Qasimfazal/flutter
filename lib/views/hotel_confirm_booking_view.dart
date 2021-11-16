@@ -176,50 +176,50 @@ class _HotelConfirmBookingScreenState extends State<HotelConfirmBookingScreen> {
                   ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.only(left: 15, right: 15, top: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Convenience Charges",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Text(
-                      "${publicService.currency} 10.00",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 15, right: 15, top: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Cancelletion Charges",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Text(
-                      "${publicService.currency} 5.00",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // Container(
+              //   margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text(
+              //         "Convenience Charges",
+              //         style: TextStyle(
+              //           fontWeight: FontWeight.w600,
+              //           color: Colors.black,
+              //         ),
+              //       ),
+              //       Text(
+              //         "${publicService.currency} 10.00",
+              //         style: TextStyle(
+              //           fontWeight: FontWeight.w600,
+              //           color: Colors.black,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // Container(
+              //   margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text(
+              //         "Cancelletion Charges",
+              //         style: TextStyle(
+              //           fontWeight: FontWeight.w600,
+              //           color: Colors.black,
+              //         ),
+              //       ),
+              //       Text(
+              //         "${publicService.currency} 5.00",
+              //         style: TextStyle(
+              //           fontWeight: FontWeight.w600,
+              //           color: Colors.black,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Container(
                 margin: EdgeInsets.only(top: 15, bottom: 5),
                 height: 2,

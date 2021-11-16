@@ -109,6 +109,7 @@ class Util {
       hintText: '$hint',
       hintStyle: TextStyle(color: Color(0xFF9E9E9E)),
       enabledBorder: InputBorder.none,
+      counterText: '',
       contentPadding: EdgeInsets.only(bottom: 15),
 
       // OutlineInputBorder(

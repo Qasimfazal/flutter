@@ -579,8 +579,9 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
               "${checkInDate.year}-${checkInDate.month}-${checkInDate.day}";
           String checkOut =
               "${checkOutDate.year}-${checkOutDate.month}-${checkOutDate.day}";
-          if (userLat != null &&
-              userLong != null &&
+          if (
+          // userLat != null &&
+          //     userLong != null &&
               checkIn.isNotEmpty &&
               checkOut.isNotEmpty &&
               adultControlller.text.isNotEmpty &&

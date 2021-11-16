@@ -11,6 +11,7 @@ class PublicService extends ChangeNotifier {
   dynamic _long;
   dynamic _rateKey;
   dynamic _address;
+  dynamic _name;
   var _currency;
 
   var _rate;
@@ -24,6 +25,7 @@ class PublicService extends ChangeNotifier {
   get long => _long;
   get rateKey => _rateKey;
   get address => _address;
+  get name => _name;
   get currency => _currency;
   get rate => _rate;
 
@@ -39,8 +41,9 @@ class PublicService extends ChangeNotifier {
     notifyListeners();
   }
 
-  setKeys(data, address, currency, rate) {
+  setKeys(data, name,address, currency, rate) {
     _rateKey = data;
+    _name = name;
     _address = address;
     _currency = currency;
     _rate = rate;

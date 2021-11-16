@@ -2,6 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>locaiton needed</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>location needed</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>microphone permission needed</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>location needed</string>
+	<key>NSCameraUsageDescription</key>
+	<string>camera permission needed for profile pic </string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>photo permission is needed for profile picture</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

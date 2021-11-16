@@ -310,9 +310,10 @@ _profileViewModel.updateProfile(nameController.text.trim(), phoneController.text
 
   _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
+      initialEntryMode: DatePickerEntryMode.calendar,
       context: context,
       initialDate: selectedDate, // Refer step 1
-      firstDate: selectedDate,
+      firstDate: DateTime(1900),
       lastDate: DateTime(2025),
     );
     if (picked != null && picked != selectedDate) {

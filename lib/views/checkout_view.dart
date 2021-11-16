@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/src/provider.dart';
 import 'package:sould_food_guide/core/public_service.dart';
+import 'package:sould_food_guide/model/hotels/booking/HotelBookingResponse.dart';
 import 'package:sould_food_guide/model/repoResponse_model.dart';
 import 'package:sould_food_guide/network/nao/network_nao.dart';
 import 'package:sould_food_guide/util/Util.dart';
@@ -13,6 +15,16 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   PublicService publicService;
+  bool _showLoader = false;
+  final nameController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nameController.text = "John Smith";
+  }
+
   @override
   Widget build(BuildContext context) {
     publicService = context.watch();
@@ -168,12 +180,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     fontWeight: FontWeight.w400,
                     color: Color(0XFF707070)),
               ),
-              Text(
-                "John Smith",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black),
+              Container(
+                width: MediaQuery.of(context).size.width / 3,
+                // height:50,
+                // height: MediaQuery.of(context).size.width * 0.14,
+                child: TextField(
+                  textAlignVertical: TextAlignVertical.center,
+                  keyboardType: TextInputType.text,
+                  controller: nameController,
+                  decoration: Util.getDecorationForFilter("Name"),
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black),
+                ),
               ),
             ],
           ),
@@ -199,18 +219,24 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     fontWeight: FontWeight.w400,
                     color: Color(0XFF707070)),
               ),
-              Text(
-                "1234 5678 9012 3456",
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black),
+              Container(
+                width: MediaQuery.of(context).size.width / 2.2,
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  maxLength: 16,
+                  decoration:
+                      Util.getDecorationForFilter("1234 5678 9012 3456"),
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black),
+                ),
               ),
             ],
           ),
         ),
         Container(
-          margin: EdgeInsets.only(left: 15, right: 15, top: 15),
+          margin: EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.min,
@@ -296,15 +322,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       bottomNavigationBar: InkWell(
-        onTap: () async {
-          RepositoryResponse res = await NetworkNAO.bookings(
-              Util.getSignature().toString(),
-              ratekey: publicService.rateKey.toString());
-          print(res.data);
-
-          if (res.success) {
-            Util.open(context, HotelRoomBookedScreen());
-          }
+        onTap: () {
+          // Util.open(context, HotelRoomBookedScreen());
+          // return;
+          if (mounted)
+            setState(() {
+              _showLoader = true;
+            });
+          callBookingApi();
         },
         child: Container(
           height: 55,
@@ -319,8 +344,32 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         ),
       ),
       body: SafeArea(
-        child: body,
+        child: ModalProgressHUD(inAsyncCall: _showLoader, child: body),
       ),
     );
+  }
+
+  Future<void> callBookingApi() async {
+    var rateKey = publicService.rateKey.toString();
+    print("rateKey {$rateKey}");
+    RepositoryResponse res = await NetworkNAO.bookings(
+        Util.getSignature().toString(),
+        ratekey: rateKey);
+    if (mounted)
+      setState(() {
+        _showLoader = false;
+      });
+    print(res.data);
+
+    if (res.success) {
+      HotelBookingResponse hotelBookingResponse = HotelBookingResponse.fromJson(res.data);
+
+      if(hotelBookingResponse.booking!=null){
+        Util.open(context, HotelRoomBookedScreen(hotelBookingResponse.booking));
+
+      }
+
+
+    } else {}
   }
 }

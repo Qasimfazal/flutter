@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:sould_food_guide/core/public_service.dart';
+import 'package:sould_food_guide/model/hotels/booking/HotelBookingResponse.dart';
 import 'package:sould_food_guide/util/Util.dart';
-
+import 'package:provider/src/provider.dart';
 class HotelRoomBookedScreen extends StatefulWidget {
+  final Booking booking;
+  HotelRoomBookedScreen(this.booking);
+
   @override
   _HotelRoomBookedScreenState createState() => _HotelRoomBookedScreenState();
 }
 
 class _HotelRoomBookedScreenState extends State<HotelRoomBookedScreen> {
+  PublicService publicService;
+
   @override
   Widget build(BuildContext context) {
+    publicService = context.watch();
     final body = ListView(
       children: [
         Util.getBack(context),
@@ -32,15 +40,17 @@ class _HotelRoomBookedScreenState extends State<HotelRoomBookedScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Manhattan Hotel",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                        color: Colors.black),
+                  Expanded(
+                    child: Text(
+                      "${publicService.name}",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                          color: Colors.black),
+                    ),
                   ),
                   Text(
-                    "\$456.00",
+                    "${publicService.currency} ${publicService.rate}",
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -49,34 +59,34 @@ class _HotelRoomBookedScreenState extends State<HotelRoomBookedScreen> {
                 ],
               ),
               Text(
-                "City Park, Manhattan",
+                "${publicService.address}",
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 11,
                     color: Color(0XFF828282)),
               ),
-              Container(
-                margin: EdgeInsets.only(top: 10),
-                height: 140,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 4,
-                    itemBuilder: (context, index) => Container(
-
-                          width: MediaQuery.of(context).size.width * 0.7,
-                          margin: EdgeInsets.only(right: 10),
-                          child: ClipRRect(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25)),
-                            child: Image.asset(
-                              "assets/img_13.png",
-                              height: 140,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        )),
-              ),
+              // Container(
+              //   margin: EdgeInsets.only(top: 10),
+              //   height: 140,
+              //   child: ListView.builder(
+              //       shrinkWrap: true,
+              //       scrollDirection: Axis.horizontal,
+              //       itemCount: 4,
+              //       itemBuilder: (context, index) => Container(
+              //
+              //             width: MediaQuery.of(context).size.width * 0.7,
+              //             margin: EdgeInsets.only(right: 10),
+              //             child: ClipRRect(
+              //               borderRadius:
+              //                   BorderRadius.all(Radius.circular(25)),
+              //               child: Image.asset(
+              //                 "assets/img_13.png",
+              //                 height: 140,
+              //                 fit: BoxFit.cover,
+              //               ),
+              //             ),
+              //           )),
+              // ),
               Container(
                 margin: EdgeInsets.only( top: 10),
                 child: Row(
@@ -105,14 +115,14 @@ class _HotelRoomBookedScreenState extends State<HotelRoomBookedScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "23 Jun, 12:35 am",
+                      widget.booking.hotel.checkIn,
                       style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
                           fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      "24 Jun, 12:35 am",
+                      widget.booking.hotel.checkOut,
                       style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
@@ -149,14 +159,14 @@ class _HotelRoomBookedScreenState extends State<HotelRoomBookedScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "B112",
+                      widget.booking.hotel.rooms[0].code,
                       style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
                           fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      "02",
+                      "${publicService.guests ?? "NA"}",
                       style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
@@ -177,20 +187,20 @@ class _HotelRoomBookedScreenState extends State<HotelRoomBookedScreen> {
                           color: Color(0XFF828282),
                           fontWeight: FontWeight.w400),
                     ),
-                    Text(
-                      "Age",
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0XFF828282),
-                          fontWeight: FontWeight.w400),
-                    ),
-                    Text(
-                      "Gender",
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0XFF828282),
-                          fontWeight: FontWeight.w400),
-                    ),
+                    // Text(
+                    //   "Age",
+                    //   style: TextStyle(
+                    //       fontSize: 14,
+                    //       color: Color(0XFF828282),
+                    //       fontWeight: FontWeight.w400),
+                    // ),
+                    // Text(
+                    //   "Gender",
+                    //   style: TextStyle(
+                    //       fontSize: 14,
+                    //       color: Color(0XFF828282),
+                    //       fontWeight: FontWeight.w400),
+                    // ),
                   ],
                 ),
               ),
@@ -200,26 +210,26 @@ class _HotelRoomBookedScreenState extends State<HotelRoomBookedScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "John Smith",
+                      "${widget.booking.holder.name} ${widget.booking.holder.surname} ",
                       style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,
                           fontWeight: FontWeight.w600),
                     ),
-                    Text(
-                      "25",
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600),
-                    ),
-                    Text(
-                      "Male",
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600),
-                    ),
+                    // Text(
+                    //   "25",
+                    //   style: TextStyle(
+                    //       fontSize: 16,
+                    //       color: Colors.black,
+                    //       fontWeight: FontWeight.w600),
+                    // ),
+                    // Text(
+                    //   "Male",
+                    //   style: TextStyle(
+                    //       fontSize: 16,
+                    //       color: Colors.black,
+                    //       fontWeight: FontWeight.w600),
+                    // ),
                   ],
                 ),
               ),

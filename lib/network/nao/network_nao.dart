@@ -34,26 +34,31 @@ class NetworkNAO {
       }).then((RepositoryResponse response) {
         return response;
       });
-  static Future<RepositoryResponse> updatePic(String imagePath, String token)=>
-  NetworkUtil().uploadMultiMedia(url: NetworkEndpoints.API_UPDATE_PROFILE_PIC,path: imagePath,param: "profile_picture",
-  headers: <String,String>{
-    'Authorization':'Bearer $token'
-  }
-  ).then((RepositoryResponse response){
-    return response;
-  });
 
-  static Future<RepositoryResponse> updateProfile(
-          String name, String phone, String dob, String address,String token) =>
-      NetworkUtil().post(url: NetworkEndpoints.API_UPDATE_PROFILE, headers:<String,String>{
-        'Authorization':'Bearer $token'
+  static Future<RepositoryResponse> updatePic(String imagePath, String token) =>
+      NetworkUtil().uploadMultiMedia(
+          url: NetworkEndpoints.API_UPDATE_PROFILE_PIC,
+          path: imagePath,
+          param: "profile_picture",
+          headers: <String, String>{
+            'Authorization': 'Bearer $token'
+          }).then((RepositoryResponse response) {
+        return response;
+      });
 
-      },body: {
-        NetworkConfig.PARAM_NAME: name,
-        NetworkConfig.PARAM_PHONE: phone,
-        NetworkConfig.PARAM_DOB: dob,
-        NetworkConfig.PARAM_ADDRESS: address,
-      }).then((RepositoryResponse response) {
+  static Future<RepositoryResponse> updateProfile(String name, String phone,
+          String dob, String address, String token) =>
+      NetworkUtil().post(
+          url: NetworkEndpoints.API_UPDATE_PROFILE,
+          headers: <String, String>{
+            'Authorization': 'Bearer $token'
+          },
+          body: {
+            NetworkConfig.PARAM_NAME: name,
+            NetworkConfig.PARAM_PHONE: phone,
+            NetworkConfig.PARAM_DOB: dob,
+            NetworkConfig.PARAM_ADDRESS: address,
+          }).then((RepositoryResponse response) {
         return response;
       });
 
@@ -170,31 +175,34 @@ class NetworkNAO {
 
   static Future<RepositoryResponse> bookings(String signature,
           {String ratekey}) =>
-      NetworkUtil()
-          .postHotel(url: NetworkEndpoints.HOTELS, headers: <String, String>{
-        'Api-key': NetworkConfig.HOTEL_API_KEY,
-        'X-Signature': signature,
-        'Content-Type': "application/json",
-        // 'Accept': "application/json",
-      }, body: {
-        "holder": {"name": "HolderFirstName", "surname": "HolderLastName"},
-        "rooms": [
-          {
-            "rateKey": ratekey,
-            "paxes": [
+
+      NetworkUtil().postHotel(
+          url: NetworkEndpoints.HOTEL_BOOKINGS,
+          headers: <String, String>{
+            'Api-key': NetworkConfig.HOTEL_API_KEY,
+            'X-Signature': signature,
+            'Content-Type': "application/json",
+            // 'Accept': "application/json",
+          },
+          body: {
+            "holder": {"name": "John", "surname": "Smith"},
+            "rooms": [
               {
-                "roomId": 1,
-                "type": "AD",
-                "name": "First Adult Name",
-                "surname": "Surname"
+                "rateKey": ratekey,
+                "paxes": [
+                  {
+                    "roomId": 1,
+                    "type": "AD",
+                    "name": "First Adult Name",
+                    "surname": "Surname"
+                  }
+                ]
               }
-            ]
-          }
-        ],
-        "clientReference": "IntegrationAgency",
-        "remark": "Booking remarks are to be written here.",
-        "tolerance": 2
-      }).then((RepositoryResponse response) {
+            ],
+            "clientReference": "IntegrationAgency",
+            "remark": "Booking remarks are to be written here.",
+            "tolerance": 2
+          }).then((RepositoryResponse response) {
         return response;
       });
 }

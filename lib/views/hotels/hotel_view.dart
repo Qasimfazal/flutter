@@ -69,8 +69,10 @@ class _HotelScreenState extends State<HotelScreen> with WidgetsBindingObserver {
         int.tryParse(
           widget.map['child'],
         ),
-        widget.map['lat'],
-        widget.map['lng'],
+        // widget.map['lat'],
+        40.7557338,
+        -73.9713348,
+        // widget.map['lng'],
         50,
         "km");
 

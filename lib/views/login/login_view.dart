@@ -184,21 +184,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontSize: 14,
                     fontWeight: FontWeight.w500))),
         InkWell(
-          onTap: () async {
-            FacebookAuth.instance.login(permissions: [
-              'public_profile',
-              'email',
-            ]).then((value) {
-              FacebookAuth.instance.getUserData().then((userData) {
-                print("userData -> $userData");
-              }).onError((error, stackTrace) {
-                print("error inner  -> $error");
-              });
-            }).onError((error, stackTrace) {
-              print(stackTrace.toString());
-              print("error outer -> $error");
-            });
-          },
+          // onTap: () async {
+          //   FacebookAuth.instance.login(permissions: [
+          //     'public_profile',
+          //     'email',
+          //   ]).then((value) {
+          //     FacebookAuth.instance.getUserData().then((userData) {
+          //       print("userData -> $userData");
+          //     }).onError((error, stackTrace) {
+          //       print("error inner  -> ${error.toString()}");
+          //     });
+          //   }).onError((error, stackTrace) {
+          //     print(stackTrace.toString());
+          //     print("error outer -> ${error.message}");
+          //   });
+          // },
           child: Container(
             height: 55,
             margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 15),
