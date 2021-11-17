@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -351,7 +352,7 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
                     child: TextField(
                       controller: adultControlller,
                       textAlignVertical: TextAlignVertical.center,
-                      keyboardType: TextInputType.number,
+                      keyboardType: Util.getNumberInputType(),
                       style: TextStyle(
                           // fontSize: 25,
                           fontSize: MediaQuery.of(context).size.width * 0.075,
@@ -376,7 +377,7 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.08,
+                    width: MediaQuery.of(context).size.width * 0.14,
                     // height:50,
                     height: MediaQuery.of(context).size.width * 0.14,
 
@@ -487,7 +488,7 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
                           ),
                           TextField(
                             controller: getChildAgeController(index),
-                            keyboardType: TextInputType.number,
+                            keyboardType: Util.getNumberInputType(),
                             decoration: Util.getFormDecoration("Child Age"),
                           ),
                         ],
@@ -535,14 +536,14 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.08,
+                    width: MediaQuery.of(context).size.width * 0.10,
                     // height:50,
                     height: MediaQuery.of(context).size.width * 0.14,
 
                     child: TextField(
                       controller: roomController,
                       textAlignVertical: TextAlignVertical.center,
-                      keyboardType: TextInputType.number,
+                      keyboardType: Util.getNumberInputType(),
                       style: TextStyle(
                           // fontSize: 25,
                           fontSize: MediaQuery.of(context).size.width * 0.075,
@@ -635,7 +636,7 @@ class _SearchHotelScreenState extends State<SearchHotelScreen>
           return AlertDialog(
             title: Text('Children'),
             content: TextField(
-              keyboardType: TextInputType.number,
+              keyboardType:Util.getNumberInputType(),
               onChanged: (value) {
                 children = value == "" ? "0" : value;
               },

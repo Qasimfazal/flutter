@@ -1,18 +1,21 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sould_food_guide/util/Util.dart';
-import 'package:sould_food_guide/views/reset_password/forgot_password_view.dart';
-import 'package:sould_food_guide/views/main_view.dart';
-import 'package:sould_food_guide/views/signup/signup_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:sould_food_guide/util/Util.dart';
+import 'package:sould_food_guide/views/signup/signup_view.dart';
+
 import '../../app/app.dart';
 import '../../app/app_routes.dart';
 import '../../util/ToastUtil.dart';
 import 'login_viewmodel.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+
+GoogleSignIn _googleSignIn = GoogleSignIn();
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -26,11 +29,61 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   BuildContext context;
+
+  void listenGoogleSignIn() {
+    _googleSignIn.onCurrentUserChanged.listen((googleSignInAccount) {
+      _showLoader = false;
+      // controlSignIn(googleSignInAccount);
+      print(
+          "Name: ${googleSignInAccount.displayName}\nEmail:${googleSignInAccount.email}\nPic: ${googleSignInAccount.photoUrl}\nID: ${googleSignInAccount.id}");
+      // this.checkSocialLogin(account: googleSignInAccount, isGoogle: true);
+    }, onError: (googleError) {
+      print("Google Error: $googleError");
+      showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+                title: Text('Error Google'),
+                content: Text('Error ${googleError}'),
+              ));
+    });
+  }
+
+
+  void googleSignIn() async {
+    try {
+      final googleSignInAccount = await _googleSignIn.signIn();
+      // controlSignIn(googleSignInAccount);
+      if (googleSignInAccount != null) {
+        googleSignInAccount.authentication.then(
+            (GoogleSignInAuthentication authentication) {
+              print("google access token ${authentication.accessToken}");
+              callLoginWithGoogleApi(authentication.accessToken);
+            }
+                );
+        print(
+            "Name: ${googleSignInAccount.displayName}\nEmail:${googleSignInAccount.email}\nPic: ${googleSignInAccount.photoUrl}\nID: ${googleSignInAccount.id}");
+
+      } else {
+        print("account is null");
+        ToastUtil.showToast(context, "Unable to get account detail");
+      }
+
+      // this.checkSocialLogin(account: googleSignInAccount, isGoogle: true);
+    } on PlatformException catch (e) {
+      // User not signed in yet. Do something appropriate.
+      print("The user is not signed in yet. Asking to sign in. ${e.message}");
+      ToastUtil.showToast(context, e.message);
+      // _googleSignIn.signIn();
+    } on Exception catch (e) {
+      print(e.toString());
+      ToastUtil.showToast(context, e.toString());
+    }
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
+    // this.listenGoogleSignIn();
     _loginController = new StreamController<bool>.broadcast();
     _loginController.sink.add(false);
     _loginViewModel = new LoginViewModel(App());
@@ -81,9 +134,16 @@ class _LoginScreenState extends State<LoginScreen> {
     _loginViewModel.login(emailController.text.trim(), passwordController.text);
   }
 
+  void callLoginWithGoogleApi(String accessToken){
+    if (mounted)
+      setState(() {
+        _showLoader = true;
+      });
+    _loginViewModel.googleLogin(accessToken);
+  }
   @override
   Widget build(BuildContext context) {
-    this.context   =context;
+    this.context = context;
     // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("My amazing message! O.o")));
     final body = ListView(
       shrinkWrap: true,
@@ -218,22 +278,30 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-        Container(
-          height: 55,
-          margin: EdgeInsets.only(left: 15, right: 15, bottom: 15),
-          decoration: BoxDecoration(
-              color: Color(0XFFF63324),
-              borderRadius: BorderRadius.all(Radius.circular(25))),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset("assets/ic_google.svg"),
-              Text(
-                " | Login With Google+".toUpperCase(),
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-              ),
-            ],
+        InkWell(
+          onTap: () {
+            // _showLoader= true;
+            // _googleSignIn =GoogleSignIn();
+            if(Platform.isAndroid)
+            googleSignIn();
+          },
+          child: Container(
+            height: 55,
+            margin: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+            decoration: BoxDecoration(
+                color: Color(0XFFF63324),
+                borderRadius: BorderRadius.all(Radius.circular(25))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset("assets/ic_google.svg"),
+                Text(
+                  " | Login With Google+".toUpperCase(),
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w600),
+                ),
+              ],
+            ),
           ),
         ),
         InkWell(

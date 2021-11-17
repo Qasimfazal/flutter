@@ -29,6 +29,20 @@ class UserRepository {
     } else {
       _repositoryResponse.add(response);
     }
+  }Future<void> loginWithGoogle(String googleAccessToken) async {
+    RepositoryResponse repositoryResponse = new RepositoryResponse();
+    repositoryResponse.success = false;
+
+    RepositoryResponse response = await NetworkNAO.loginWithGoogle(googleAccessToken);
+    if (response.success) {
+      _appPreferences.setUserToken(userToken: response.data["token"]);
+      _appPreferences.setUserData(
+          data: jsonEncode(User.fromJson(response.data)));
+
+      _repositoryResponse.add(response);
+    } else {
+      _repositoryResponse.add(response);
+    }
   }
 
   Future<void> signUp(

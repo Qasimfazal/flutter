@@ -19,6 +19,9 @@ class LoginViewModel {
   void login(String email, String password) {
     _userRepository.login(email, password);
   }
+  void googleLogin(String googleAccessToken){
+    _userRepository.loginWithGoogle(googleAccessToken);
+  }
 
   UserRepository getUserRepository() => _userRepository;
 }

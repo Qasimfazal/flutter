@@ -6,6 +6,7 @@
 // import 'package:fluttertoast/fluttertoast.dart';
 //
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
@@ -288,6 +289,12 @@ class Util {
     var url =images.first.url;
     print("url $url");
     return url;
+  }
+
+  static getNumberInputType() {
+    return Platform.isIOS?
+    TextInputType.numberWithOptions(signed: true, decimal: true)
+        : TextInputType.number;
   }
 //
 //   static getProductSearchInput(BuildContext context) {

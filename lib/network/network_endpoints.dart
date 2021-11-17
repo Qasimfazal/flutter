@@ -19,5 +19,7 @@ class NetworkEndpoints {
   static const String API_UPDATE_PROFILE_PIC = BASE_URL + "update/profile_picture";
   static const String API_FORGOT = BASE_URL + "forgot/email";
   static const String API_RESET_PASSWORD = BASE_URL + "reset/forgot/password";
+  static const String API_GOOGLE_LOGIN = BASE_URL + "loginWithGoogle";
+
 
 }

@@ -15,6 +15,7 @@ class NetworkConfig {
 
   /// Login API PARAMS
   static const String PARAM_EMAIL = "email";
+  static const String PARAM_GOOGLE_ACCESS_TOKEN = "googleAccessToken";
   static const String PARAM_PASSWORD = "password";
   static const String PARAM_CONFIRM_PASSWORD = "password_confirmation";
 

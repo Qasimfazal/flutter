@@ -222,7 +222,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               Container(
                 width: MediaQuery.of(context).size.width / 2.2,
                 child: TextField(
-                  keyboardType: TextInputType.number,
+                   keyboardType: Util.getNumberInputType(),
                   maxLength: 16,
                   decoration:
                       Util.getDecorationForFilter("1234 5678 9012 3456"),

@@ -17,6 +17,16 @@ class NetworkNAO {
           }).then((RepositoryResponse response) {
         return response; // Map json response to UserModel object
       });
+  static Future<RepositoryResponse> loginWithGoogle(String googleAccessToken) =>
+      NetworkUtil().post(
+          // HTTP-POST request
+          url: NetworkEndpoints.API_GOOGLE_LOGIN,
+          body: {
+            // Request body
+            NetworkConfig.PARAM_GOOGLE_ACCESS_TOKEN: googleAccessToken,
+          }).then((RepositoryResponse response) {
+        return response; // Map json response to UserModel object
+      });
 
   static Future<RepositoryResponse> forgotPassword(String email) =>
       NetworkUtil().post(url: NetworkEndpoints.API_FORGOT, body: {

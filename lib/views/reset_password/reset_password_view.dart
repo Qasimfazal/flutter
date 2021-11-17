@@ -81,7 +81,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           margin: EdgeInsets.only(left: 15, right: 15, top: 15),
           child: TextField(
             controller: codeController,
-            keyboardType: TextInputType.number,
+            keyboardType:Util.getNumberInputType(),
             decoration:
                 Util.getFormDecoration("Enter Your 6-Digit Confirmation Code"),
           ),

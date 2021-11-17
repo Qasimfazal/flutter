@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "274420900233",
+    "project_id": "soul-food-38f9a",
+    "storage_bucket": "soul-food-38f9a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274420900233:android:cd3aaaef05bdeb9546c158",
+        "android_client_info": {
+          "package_name": "com.sould.food.sould_food_guide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274420900233-fpt13t5dp04tpdq2cjk5i57kvm8fu8r1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sould.food.sould_food_guide",
+            "certificate_hash": "d755fa995e9d3cec0ccef6bda92bcc3029473d31"
+          }
+        },
+        {
+          "client_id": "274420900233-njdad4o15j8ql26mg4ltl0b4anek1ras.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sould.food.sould_food_guide",
+            "certificate_hash": "a4e751bbf9e5328e493395d1b8fed6140108d796"
+          }
+        },
+        {
+          "client_id": "274420900233-ps7iof2bpu0v5p87ags8e76pg734bgn0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCd2EbA5fynYkZG1ikkaSu2EiZ-5fsC_TI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274420900233-ps7iof2bpu0v5p87ags8e76pg734bgn0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
