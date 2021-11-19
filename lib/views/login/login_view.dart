@@ -9,7 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:sould_food_guide/util/Util.dart';
 import 'package:sould_food_guide/views/signup/signup_view.dart';
-
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import '../../app/app.dart';
 import '../../app/app_routes.dart';
 import '../../util/ToastUtil.dart';
@@ -244,21 +244,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontSize: 14,
                     fontWeight: FontWeight.w500))),
         InkWell(
-          // onTap: () async {
-          //   FacebookAuth.instance.login(permissions: [
-          //     'public_profile',
-          //     'email',
-          //   ]).then((value) {
-          //     FacebookAuth.instance.getUserData().then((userData) {
-          //       print("userData -> $userData");
-          //     }).onError((error, stackTrace) {
-          //       print("error inner  -> ${error.toString()}");
-          //     });
-          //   }).onError((error, stackTrace) {
-          //     print(stackTrace.toString());
-          //     print("error outer -> ${error.message}");
-          //   });
-          // },
+          onTap: () async {
+            FacebookAuth.instance.login(permissions: [
+              'public_profile',
+              'email',
+            ]).then((value) {
+              FacebookAuth.instance.getUserData().then((userData) {
+                print("userData -> $userData");
+              }).onError((error, stackTrace) {
+                print("error inner  -> ${error.toString()}");
+              });
+            }).onError((error, stackTrace) {
+              print(stackTrace.toString());
+              print("error outer -> ${error.message}");
+            });
+          },
           child: Container(
             height: 55,
             margin: EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 15),
